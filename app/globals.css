@@ -1,26 +1,266 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------------------------------------------ */
+/*  Jasmine Ha Giang — Design tokens (see DESIGN_SYSTEM.md)            */
+/*  Warm earth palette: ivory, forest green, terracotta. No cold blue. */
+/* ------------------------------------------------------------------ */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base */
+  --background: #f7f4ef;
+  --surface: #fbf9f5;
+  --surface-white: #ffffff;
+  --border: #e7e1d7;
+
+  /* Text */
+  --foreground: #1f2421;
+  --muted-foreground: #5c635d;
+
+  /* Brand */
+  --primary: #2d5842;
+  --primary-hover: #234432;
+  --accent: #c4612f;
+  --accent-hover: #a94e22;
+  --accent-tint: #f2e3d6;
+
+  /* Dark sections */
+  --dark-bg: #1f2421;
+  --dark-text: #f7f4ef;
+  --dark-muted: #b8b3a8;
+
+  /* Semantic */
+  --success: #2d5842;
+  --warning: #c4612f;
+  --error: #b33a3a;
+
+  /* Card */
+  --card: #ffffff;
+  --card-foreground: #1f2421;
+  --popover: #ffffff;
+  --popover-foreground: #1f2421;
+  --secondary: #f0e5d5;
+  --secondary-foreground: #1f2421;
+  --muted: #efe7dc;
+  --input: rgba(31, 36, 33, 0.08);
+  --ring: rgba(45, 88, 66, 0.4);
+  --radius: 0.75rem;
+
+  /* Shadows — warm, subtle */
+  --shadow-sm: 0 1px 2px 0 rgba(31, 36, 33, 0.05);
+  --shadow-md:
+    0 4px 6px -1px rgba(31, 36, 33, 0.08), 0 2px 4px -1px rgba(31, 36, 33, 0.04);
+  --shadow-lg:
+    0 10px 15px -3px rgba(31, 36, 33, 0.08),
+    0 4px 6px -2px rgba(31, 36, 33, 0.04);
+  --shadow-xl:
+    0 20px 25px -5px rgba(31, 36, 33, 0.08),
+    0 10px 10px -5px rgba(31, 36, 33, 0.04);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-inter), "Segoe UI", system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), Georgia, "Times New Roman", serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: #f7f4ef;
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: #ffffff;
+  --color-accent-tint: var(--accent-tint);
+  --color-destructive: var(--error);
+  --color-dark-bg: var(--dark-bg);
+  --color-dark-text: var(--dark-text);
+  --color-dark-muted: var(--dark-muted);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
+  --radius-full: 9999px;
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+
+  --animate-ken-burns: ken-burns 18s ease-in-out infinite alternate;
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes ken-burns {
+    0% {
+      transform: scale(1) translate(0, 0);
+    }
+    100% {
+      transform: scale(1.12) translate(-1.5%, -1%);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
+  min-height: 100vh;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* One italic accent word inside a serif heading */
+.accent-word {
+  font-style: italic;
+  color: var(--accent);
+}
+
+::selection {
+  background: var(--accent-tint);
+  color: var(--accent-hover);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Custom focus ring — warm, visible */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Editorial prose for blog articles */
+.prose-jasmine {
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  color: #454b46;
+  font-weight: 300;
+}
+
+.prose-jasmine p {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.prose-jasmine h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+}
+
+.prose-jasmine h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+}
+
+.prose-jasmine blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  line-height: 1.5;
+  color: var(--foreground);
+  font-style: italic;
+}
+
+.prose-jasmine ul,
+.prose-jasmine ol {
+  margin: 1.5em 0;
+  padding-left: 1.5em;
+  list-style: disc;
+}
+
+.prose-jasmine ol {
+  list-style: decimal;
+}
+
+.prose-jasmine li {
+  margin: 0.5em 0;
+}
+
+.prose-jasmine a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose-jasmine strong {
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.prose-jasmine em {
+  font-style: italic;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

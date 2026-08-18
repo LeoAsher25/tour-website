@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Reference site clone — not our code.
+    "jasminehagiang.com/**",
   ]),
 ]);
 
