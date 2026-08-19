@@ -4,7 +4,15 @@ import { and, desc, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { blogs, promoCodes, reviews, siteSettings } from "@/lib/db/schema";
 import { mapBlog, mapPromo, mapReview, mapSettings } from "@/lib/db/mappers";
-import type { BlogPost, PromoCode, Review, SiteSettings } from "@/types/domain";
+import { estimateReadingMinutes } from "@/lib/blogs/tiptap";
+import { publicUrlFor } from "@/lib/storage/media";
+import type {
+  BlogCardPost,
+  BlogPost,
+  PromoCode,
+  Review,
+  SiteSettings,
+} from "@/types/domain";
 
 /**
  * Postgres-backed blog repository (server-only).
@@ -29,6 +37,36 @@ export class BlogRepository {
       .orderBy(desc(blogs.publishedAt))
       .limit(limit);
     return rows.map(mapBlog);
+  }
+
+  /** Lightweight cards for homepage — no content_json/content_text transfer. */
+  async listLatestCards(limit = 3): Promise<BlogCardPost[]> {
+    const rows = await db
+      .select({
+        slug: blogs.slug,
+        title: blogs.title,
+        excerpt: blogs.excerpt,
+        coverImageKey: blogs.coverImageKey,
+        tags: blogs.tags,
+        publishedAt: blogs.publishedAt,
+        createdAt: blogs.createdAt,
+        contentText: blogs.contentText,
+      })
+      .from(blogs)
+      .where(eq(blogs.status, "published"))
+      .orderBy(desc(blogs.publishedAt))
+      .limit(limit);
+    return rows.map((row) => ({
+      slug: row.slug,
+      title: row.title,
+      excerpt: row.excerpt ?? "",
+      coverImage: row.coverImageKey ? publicUrlFor(row.coverImageKey) : "",
+      tags: row.tags ?? [],
+      publishedAt:
+        row.publishedAt?.toISOString() ??
+        (row.createdAt?.toISOString() ?? ""),
+      readingMinutes: estimateReadingMinutes(row.contentText ?? ""),
+    }));
   }
 
   async listLatest(limit = 3): Promise<BlogPost[]> {

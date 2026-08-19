@@ -1,6 +1,6 @@
 import "server-only";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { blogs } from "@/lib/db/schema";
@@ -153,6 +153,7 @@ export class BlogAdminRepository {
   }
 
   private revalidate() {
+    revalidateTag("public-blogs", "max");
     revalidatePath("/blogs", "page");
     revalidatePath("/blogs/[slug]", "page");
     revalidatePath("/admin/blogs", "page");

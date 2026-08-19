@@ -52,12 +52,77 @@ function dateToIso(value: Date | string | null | undefined): string {
   return `${String(value)}T00:00:00.000Z`;
 }
 
-type TourRow = typeof tours.$inferSelect;
-type VariantRow = typeof tourVariants.$inferSelect;
-type AddonRow = typeof tourAddons.$inferSelect;
-type ImageRow = typeof tourImages.$inferSelect;
-type DepartureRow = typeof departures.$inferSelect;
-type DestinationRow = typeof destinations.$inferSelect;
+// Projection row shapes — only the columns the mappers actually read.
+export type TourRow = Pick<
+  typeof tours.$inferSelect,
+  | "id"
+  | "slug"
+  | "title"
+  | "subtitle"
+  | "description"
+  | "overview"
+  | "destinationId"
+  | "startLocation"
+  | "endLocation"
+  | "durationDays"
+  | "durationNights"
+  | "difficulty"
+  | "groupSize"
+  | "vehicle"
+  | "suitableFor"
+  | "warnings"
+  | "rating"
+  | "reviewCount"
+  | "fromPrice"
+  | "heroImageKey"
+  | "highlights"
+  | "included"
+  | "excluded"
+  | "accommodation"
+  | "transportation"
+  | "meals"
+  | "itinerary"
+  | "faqs"
+  | "bookingMode"
+  | "status"
+  | "featured"
+  | "seoTitle"
+  | "seoDescription"
+>;
+export type VariantRow = Pick<
+  typeof tourVariants.$inferSelect,
+  | "id"
+  | "tourId"
+  | "name"
+  | "description"
+  | "priceType"
+  | "basePrice"
+  | "attrs"
+  | "maxGroupSize"
+  | "position"
+>;
+export type AddonRow = Pick<
+  typeof tourAddons.$inferSelect,
+  | "id"
+  | "tourId"
+  | "name"
+  | "description"
+  | "price"
+  | "perPerson"
+  | "position"
+>;
+export type ImageRow = Pick<
+  typeof tourImages.$inferSelect,
+  "id" | "tourId" | "storageKey" | "alt" | "position"
+>;
+export type DepartureRow = Pick<
+  typeof departures.$inferSelect,
+  "id" | "tourId" | "date" | "capacity" | "booked"
+>;
+export type DestinationRow = Pick<
+  typeof destinations.$inferSelect,
+  "id" | "slug" | "name" | "tagline" | "description" | "heroImageKey"
+>;
 
 export interface TourWithChildren {
   tour: TourRow;

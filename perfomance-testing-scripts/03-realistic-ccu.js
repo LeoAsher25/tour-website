@@ -8,7 +8,7 @@ import {
   randomThinkTime,
 } from "./lib/common.js";
 
-const CCU = Number(__ENV.CCU || 200);
+const CCU = Number(__ENV.CCU || 300);
 const DURATION = __ENV.DURATION || "3m";
 
 export const options = {

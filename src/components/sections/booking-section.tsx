@@ -9,13 +9,14 @@ import { Reveal } from "@/components/motion/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { formatVnd } from "@/lib/pricing";
 import { siteConfig } from "@/config/site";
-import type { Tour } from "@/types/domain";
+import type { HomepageTourSectionData } from "@/types/domain";
 
-export function BookingSection({ tours }: { tours: Tour[] }) {
+export function BookingSection({ data }: { data: HomepageTourSectionData }) {
+  const tours = data.booking;
   const tourOptions = useMemo(
     () =>
       tours
-        .filter((t) => t.published && t.variants.length > 0)
+        .filter((t) => t.variants.length > 0)
         .map((t) => ({ id: t.id, title: t.title, tour: t })),
     [tours],
   );

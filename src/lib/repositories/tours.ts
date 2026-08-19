@@ -11,7 +11,13 @@ import {
   tourVariants,
 } from "@/lib/db/schema";
 import { mapDestination, mapTour, type TourWithChildren } from "@/lib/db/mappers";
-import type { Destination, Tour } from "@/types/domain";
+import { publicUrlFor } from "@/lib/storage/media";
+import type {
+  Destination,
+  HomepageTour,
+  HomepageTourSectionData,
+  Tour,
+} from "@/types/domain";
 
 /**
  * Postgres-backed tour repository (server-only).
@@ -28,23 +34,63 @@ async function loadTourChildren(
 
   const [variants, addOns, images, deps, destRows] = await Promise.all([
     db
-      .select()
+      .select({
+        id: tourVariants.id,
+        tourId: tourVariants.tourId,
+        name: tourVariants.name,
+        description: tourVariants.description,
+        priceType: tourVariants.priceType,
+        basePrice: tourVariants.basePrice,
+        attrs: tourVariants.attrs,
+        maxGroupSize: tourVariants.maxGroupSize,
+        position: tourVariants.position,
+      })
       .from(tourVariants)
       .where(inArray(tourVariants.tourId, ids))
       .orderBy(tourVariants.position),
     db
-      .select()
+      .select({
+        id: tourAddons.id,
+        tourId: tourAddons.tourId,
+        name: tourAddons.name,
+        description: tourAddons.description,
+        price: tourAddons.price,
+        perPerson: tourAddons.perPerson,
+        position: tourAddons.position,
+      })
       .from(tourAddons)
       .where(inArray(tourAddons.tourId, ids))
       .orderBy(tourAddons.position),
     db
-      .select()
+      .select({
+        id: tourImages.id,
+        tourId: tourImages.tourId,
+        storageKey: tourImages.storageKey,
+        alt: tourImages.alt,
+        position: tourImages.position,
+      })
       .from(tourImages)
       .where(inArray(tourImages.tourId, ids))
       .orderBy(tourImages.position),
-    db.select().from(departures).where(inArray(departures.tourId, ids)),
     db
-      .select()
+      .select({
+        id: departures.id,
+        tourId: departures.tourId,
+        date: departures.date,
+        capacity: departures.capacity,
+        booked: departures.booked,
+      })
+      .from(departures)
+      .where(inArray(departures.tourId, ids)),
+    db
+      .select({
+        id: destinations.id,
+        slug: destinations.slug,
+        name: destinations.name,
+        tagline: destinations.tagline,
+        description: destinations.description,
+        heroImageKey: destinations.heroImageKey,
+      })
       .from(destinations)
       .where(
         inArray(
@@ -67,6 +113,129 @@ async function loadTourChildren(
 }
 
 export class TourRepository {
+  /** Published tours only (public site). */
+  async listHomepage(): Promise<HomepageTourSectionData> {
+    const rows = await db
+      .select({
+        id: tours.id,
+        slug: tours.slug,
+        title: tours.title,
+        subtitle: tours.subtitle,
+        description: tours.description,
+        durationDays: tours.durationDays,
+        durationNights: tours.durationNights,
+        fromPrice: tours.fromPrice,
+        heroImageKey: tours.heroImageKey,
+        rating: tours.rating,
+        featured: tours.featured,
+        destinationId: tours.destinationId,
+      })
+      .from(tours)
+      .where(eq(tours.status, "published"))
+      .orderBy(asc(tours.createdAt));
+
+    const destRows = await db
+      .select({ id: destinations.id, slug: destinations.slug, name: destinations.name })
+      .from(destinations)
+      .where(
+        inArray(
+          destinations.id,
+          [...new Set(rows.map((t) => t.destinationId))]
+        )
+      );
+    const destMap = new Map(destRows.map((d) => [d.id, d]));
+
+    const ids = rows.map((t) => t.id);
+    const [variantRows, addOnRows] = await Promise.all([
+      ids.length
+        ? db
+            .select({
+              id: tourVariants.id,
+              tourId: tourVariants.tourId,
+              name: tourVariants.name,
+              description: tourVariants.description,
+              priceType: tourVariants.priceType,
+              basePrice: tourVariants.basePrice,
+              attrs: tourVariants.attrs,
+              maxGroupSize: tourVariants.maxGroupSize,
+              position: tourVariants.position,
+            })
+            .from(tourVariants)
+            .where(inArray(tourVariants.tourId, ids))
+            .orderBy(tourVariants.position)
+        : Promise.resolve([]),
+      ids.length
+        ? db
+            .select({
+              id: tourAddons.id,
+              tourId: tourAddons.tourId,
+              name: tourAddons.name,
+              description: tourAddons.description,
+              price: tourAddons.price,
+              perPerson: tourAddons.perPerson,
+              position: tourAddons.position,
+            })
+            .from(tourAddons)
+            .where(inArray(tourAddons.tourId, ids))
+            .orderBy(tourAddons.position)
+        : Promise.resolve([]),
+    ]);
+
+    const variantsByTour = new Map<string, typeof variantRows>();
+    for (const v of variantRows) {
+      const list = variantsByTour.get(v.tourId) ?? [];
+      list.push(v);
+      variantsByTour.set(v.tourId, list);
+    }
+    const addOnsByTour = new Map<string, typeof addOnRows>();
+    for (const a of addOnRows) {
+      const list = addOnsByTour.get(a.tourId) ?? [];
+      list.push(a);
+      addOnsByTour.set(a.tourId, list);
+    }
+
+    const all: HomepageTourSectionData["booking"] = rows.map((row) => {
+      const destination = destMap.get(row.destinationId);
+      const base: HomepageTour = {
+        id: row.id,
+        slug: row.slug,
+        title: row.title,
+        subtitle: row.subtitle ?? "",
+        description: row.description ?? "",
+        durationDays: row.durationDays,
+        durationNights: row.durationNights,
+        fromPrice: row.fromPrice,
+        heroImage: row.heroImageKey ? publicUrlFor(row.heroImageKey) : "",
+        rating: row.rating,
+        featured: row.featured,
+        destination: destination?.name ?? "",
+        destinationSlug: destination?.slug ?? "",
+      };
+      const variants = (variantsByTour.get(row.id) ?? []).map((v) => ({
+        id: v.id,
+        name: v.name,
+        description: v.description ?? "",
+        priceType: v.priceType,
+        basePrice: v.basePrice,
+        attrs: v.attrs ?? undefined,
+        maxGroupSize: v.maxGroupSize ?? undefined,
+      }));
+      const addOns = (addOnsByTour.get(row.id) ?? []).map((a) => ({
+        id: a.id,
+        name: a.name,
+        description: a.description ?? "",
+        price: a.price,
+        perPerson: a.perPerson,
+      }));
+      return { ...base, variants, addOns };
+    });
+
+    return {
+      featured: all.filter((t) => t.featured),
+      booking: all,
+    };
+  }
+
   /** Published tours only (public site). */
   async listPublished(): Promise<Tour[]> {
     const rows = await db
@@ -140,13 +309,31 @@ export class TourRepository {
 
     const [variantRows, addOnRows] = await Promise.all([
       db
-        .select()
+        .select({
+          id: tourVariants.id,
+          tourId: tourVariants.tourId,
+          name: tourVariants.name,
+          description: tourVariants.description,
+          priceType: tourVariants.priceType,
+          basePrice: tourVariants.basePrice,
+          attrs: tourVariants.attrs,
+          maxGroupSize: tourVariants.maxGroupSize,
+          position: tourVariants.position,
+        })
         .from(tourVariants)
         .where(and(eq(tourVariants.tourId, tourId), eq(tourVariants.id, variantId)))
         .limit(1),
       addOnIds.length > 0
         ? db
-            .select()
+            .select({
+              id: tourAddons.id,
+              tourId: tourAddons.tourId,
+              name: tourAddons.name,
+              description: tourAddons.description,
+              price: tourAddons.price,
+              perPerson: tourAddons.perPerson,
+              position: tourAddons.position,
+            })
             .from(tourAddons)
             .where(and(eq(tourAddons.tourId, tourId), inArray(tourAddons.id, addOnIds)))
             .orderBy(tourAddons.position)
@@ -170,6 +357,70 @@ export class TourRepository {
       variant: tour.variants[0],
       addOns: tour.addOns,
     };
+  }
+
+  /** Tours in the same destination as `slug`, excluding it, limited by count. */
+  async getRelatedBySlug(slug: string, limit = 2): Promise<HomepageTour[]> {
+    const sourceRows = await db
+      .select({ id: tours.id, destinationId: tours.destinationId })
+      .from(tours)
+      .where(eq(tours.slug, slug))
+      .limit(1);
+    const source = sourceRows[0];
+    if (!source) return [];
+
+    const rows = await db
+      .select({
+        id: tours.id,
+        slug: tours.slug,
+        title: tours.title,
+        subtitle: tours.subtitle,
+        description: tours.description,
+        durationDays: tours.durationDays,
+        durationNights: tours.durationNights,
+        fromPrice: tours.fromPrice,
+        heroImageKey: tours.heroImageKey,
+        rating: tours.rating,
+        featured: tours.featured,
+        destinationId: tours.destinationId,
+      })
+      .from(tours)
+      .where(
+        and(
+          eq(tours.status, "published"),
+          eq(tours.destinationId, source.destinationId),
+          sql`${tours.slug} != ${slug}`
+        )
+      )
+      .orderBy(desc(tours.updatedAt))
+      .limit(limit);
+
+    const destRows = await db
+      .select({ slug: destinations.slug, name: destinations.name })
+      .from(destinations)
+      .where(
+        inArray(
+          destinations.id,
+          [...new Set(rows.map((t) => t.destinationId))]
+        )
+      );
+    const destMap = new Map(destRows.map((d) => [d.slug, d]));
+
+    return rows.map((row) => ({
+      id: row.id,
+      slug: row.slug,
+      title: row.title,
+      subtitle: row.subtitle ?? "",
+      description: row.description ?? "",
+      durationDays: row.durationDays,
+      durationNights: row.durationNights,
+      fromPrice: row.fromPrice,
+      heroImage: row.heroImageKey ? publicUrlFor(row.heroImageKey) : "",
+      rating: row.rating,
+      featured: row.featured,
+      destination: destMap.get(row.destinationId)?.name ?? "",
+      destinationSlug: destMap.get(row.destinationId)?.slug ?? "",
+    }));
   }
 
   async getByDestination(slug: string): Promise<Tour[]> {

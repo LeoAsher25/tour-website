@@ -95,7 +95,7 @@ export function Hero() {
               alt={slide.alt}
               fill
               priority={i === 0}
-              loading={i === 0 ? undefined : "eager"}
+              loading={i === 0 ? undefined : "lazy"}
               sizes="100vw"
               className={
                 reduce ? "object-cover" : "animate-ken-burns object-cover"

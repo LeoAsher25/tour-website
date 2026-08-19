@@ -129,6 +129,31 @@ export interface Tour {
   seoDescription?: string;
 }
 
+/** Lightweight tour shape used by homepage cards and booking form. */
+export interface HomepageTour {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  durationDays: number;
+  durationNights: number;
+  fromPrice: Money;
+  heroImage: string;
+  rating: number;
+  featured: boolean;
+  destination: string;
+  destinationSlug: string;
+}
+
+export interface HomepageTourSectionData {
+  featured: HomepageTour[];
+  booking: (HomepageTour & {
+    variants: TourVariant[];
+    addOns: AddOn[];
+  })[];
+}
+
 export interface PromoCode {
   code: string;
   discountType: "percent" | "fixed";
@@ -162,6 +187,17 @@ export interface TiptapNode {
 export interface TiptapDoc {
   type: "doc";
   content: TiptapNode[];
+}
+
+/** Lightweight blog card shape for homepage/blog list (no content payload). */
+export interface BlogCardPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  coverImage: string;
+  tags: string[];
+  publishedAt: string;
+  readingMinutes: number;
 }
 
 export interface BlogPost {

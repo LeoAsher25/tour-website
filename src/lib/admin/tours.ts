@@ -13,15 +13,9 @@ import {
 } from "@/lib/db/schema";
 import { mapTour, type TourWithChildren } from "@/lib/db/mappers";
 import { keyFromPublicUrl } from "@/lib/storage/media";
-import {
-  collectTourKeys,
-  removeOrphanedKeys,
-} from "@/lib/storage/media-keys";
+import { collectTourKeys, removeOrphanedKeys } from "@/lib/storage/media-keys";
 import type { Tour } from "@/types/domain";
-import {
-  tourInputSchema,
-  type TourInput,
-} from "./tour-schema";
+import { tourInputSchema, type TourInput } from "./tour-schema";
 
 /**
  * Admin tour repository + actions (server-only).
@@ -47,11 +41,7 @@ export class TourAdminRepository {
   }
 
   async getById(id: string): Promise<Tour | null> {
-    const rows = await db
-      .select()
-      .from(tours)
-      .where(eq(tours.id, id))
-      .limit(1);
+    const rows = await db.select().from(tours).where(eq(tours.id, id)).limit(1);
     if (rows.length === 0) return null;
     return mapTour((await this.loadChildren([rows[0]]))[0]);
   }
@@ -65,45 +55,43 @@ export class TourAdminRepository {
     const now = new Date();
     const norm = normalizeInput(input);
 
-    await db
-      .insert(tours)
-      .values({
-        id: tourId,
-        slug: norm.slug,
-        title: norm.title,
-        subtitle: norm.subtitle ?? null,
-        description: norm.description ?? null,
-        overview: norm.overview ?? null,
-        destinationId: norm.destinationId,
-        startLocation: norm.startLocation ?? null,
-        endLocation: norm.endLocation ?? null,
-        durationDays: norm.durationDays,
-        durationNights: norm.durationNights,
-        difficulty: norm.difficulty,
-        groupSize: norm.groupSize ?? null,
-        vehicle: norm.vehicle ?? null,
-        suitableFor: norm.suitableFor ?? null,
-        warnings: norm.warnings,
-        rating: norm.rating,
-        reviewCount: norm.reviewCount,
-        fromPrice: norm.fromPrice,
-        heroImageKey: norm.heroImageKey ?? null,
-        highlights: norm.highlights,
-        included: norm.included,
-        excluded: norm.excluded,
-        accommodation: norm.accommodation ?? null,
-        transportation: norm.transportation ?? null,
-        meals: norm.meals ?? null,
-        itinerary: norm.itinerary as typeof tours.$inferInsert["itinerary"],
-        faqs: norm.faqs as typeof tours.$inferInsert["faqs"],
-        bookingMode: norm.bookingMode,
-        status: norm.status,
-        featured: norm.featured,
-        seoTitle: norm.seoTitle ?? null,
-        seoDescription: norm.seoDescription ?? null,
-        createdAt: now,
-        updatedAt: now,
-      });
+    await db.insert(tours).values({
+      id: tourId,
+      slug: norm.slug,
+      title: norm.title,
+      subtitle: norm.subtitle ?? null,
+      description: norm.description ?? null,
+      overview: norm.overview ?? null,
+      destinationId: norm.destinationId,
+      startLocation: norm.startLocation ?? null,
+      endLocation: norm.endLocation ?? null,
+      durationDays: norm.durationDays,
+      durationNights: norm.durationNights,
+      difficulty: norm.difficulty,
+      groupSize: norm.groupSize ?? null,
+      vehicle: norm.vehicle ?? null,
+      suitableFor: norm.suitableFor ?? null,
+      warnings: norm.warnings,
+      rating: norm.rating,
+      reviewCount: norm.reviewCount,
+      fromPrice: norm.fromPrice,
+      heroImageKey: norm.heroImageKey ?? null,
+      highlights: norm.highlights,
+      included: norm.included,
+      excluded: norm.excluded,
+      accommodation: norm.accommodation ?? null,
+      transportation: norm.transportation ?? null,
+      meals: norm.meals ?? null,
+      itinerary: norm.itinerary as (typeof tours.$inferInsert)["itinerary"],
+      faqs: norm.faqs as (typeof tours.$inferInsert)["faqs"],
+      bookingMode: norm.bookingMode,
+      status: norm.status,
+      featured: norm.featured,
+      seoTitle: norm.seoTitle ?? null,
+      seoDescription: norm.seoDescription ?? null,
+      createdAt: now,
+      updatedAt: now,
+    });
 
     await this.replaceChildren(tourId, norm);
     this.revalidate();
@@ -142,8 +130,8 @@ export class TourAdminRepository {
         accommodation: norm.accommodation ?? null,
         transportation: norm.transportation ?? null,
         meals: norm.meals ?? null,
-        itinerary: norm.itinerary as typeof tours.$inferInsert["itinerary"],
-        faqs: norm.faqs as typeof tours.$inferInsert["faqs"],
+        itinerary: norm.itinerary as (typeof tours.$inferInsert)["itinerary"],
+        faqs: norm.faqs as (typeof tours.$inferInsert)["faqs"],
         bookingMode: norm.bookingMode,
         status: norm.status,
         featured: norm.featured,
@@ -227,7 +215,7 @@ export class TourAdminRepository {
   private async replaceChildren(
     tourId: string,
     input: TourInput,
-    beforeKeys?: string[]
+    beforeKeys?: string[],
   ) {
     // Collect keys in use BEFORE replacing so we can clean up removed files.
     const before = beforeKeys ?? (await collectTourKeys(tourId));
@@ -249,7 +237,7 @@ export class TourAdminRepository {
             attrs: (v.attrs ?? null) as Record<string, string> | null,
             maxGroupSize: v.maxGroupSize ?? null,
             position: i,
-          }))
+          })),
         );
       }
       if (input.addOns?.length) {
@@ -262,7 +250,7 @@ export class TourAdminRepository {
             price: a.price,
             perPerson: a.perPerson,
             position: i,
-          }))
+          })),
         );
       }
       if (input.images?.length) {
@@ -273,7 +261,7 @@ export class TourAdminRepository {
             storageKey: img.storageKey,
             alt: img.alt ?? null,
             position: i,
-          }))
+          })),
         );
       }
     });
@@ -295,7 +283,7 @@ export class TourAdminRepository {
   }
 
   private async loadChildren(
-    tourRows: (typeof tours.$inferSelect)[]
+    tourRows: (typeof tours.$inferSelect)[],
   ): Promise<TourWithChildren[]> {
     if (tourRows.length === 0) return [];
     const ids = tourRows.map((t) => t.id);
@@ -304,7 +292,14 @@ export class TourAdminRepository {
       db.select().from(tourAddons).where(inArray(tourAddons.tourId, ids)),
       db.select().from(tourImages).where(inArray(tourImages.tourId, ids)),
       db.select().from(departures).where(inArray(departures.tourId, ids)),
-      db.select().from(destinations).where(inArray(destinations.id, [...new Set(tourRows.map((t) => t.destinationId))])),
+      db
+        .select()
+        .from(destinations)
+        .where(
+          inArray(destinations.id, [
+            ...new Set(tourRows.map((t) => t.destinationId)),
+          ]),
+        ),
     ]);
     const destMap = new Map(destRows.map((d) => [d.id, d]));
     return tourRows.map((tour) => ({

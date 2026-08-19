@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/container";
 import { SectionHeader } from "@/components/section-header";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
-import { getLatestBlogPosts } from "@/lib/repository";
+import { getLatestBlogCards } from "@/lib/repository";
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
@@ -16,7 +16,7 @@ function formatDate(iso: string): string {
 }
 
 export async function BlogPreviewSection() {
-  const posts = await getLatestBlogPosts(3);
+  const posts = await getLatestBlogCards(3);
 
   if (posts.length === 0) return null;
 

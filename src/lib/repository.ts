@@ -11,8 +11,11 @@ import {
 } from "@/lib/repositories/tours";
 import type {
   AddOn,
+  BlogCardPost,
   BlogPost,
   Destination,
+  HomepageTour,
+  HomepageTourSectionData,
   PromoCode,
   Review,
   SiteSettings,
@@ -37,6 +40,11 @@ const promoRepo = new PromoRepository();
 const settingsRepo = new SettingsRepository();
 const reviewRepo = new ReviewRepository();
 
+const getHomepageToursPersistent = unstable_cache(
+  async () => tourRepo.listHomepage(),
+  ["homepage-tours"],
+  { revalidate: 60, tags: ["public-tours"] }
+);
 const getPublishedToursPersistent = unstable_cache(
   async () => tourRepo.listPublished(),
   ["published-tours"],
@@ -54,9 +62,14 @@ const getTourBySlugPersistent = (slug: string) =>
     { revalidate: 60, tags: ["public-tours", `public-tour:${slug}`] }
   )();
 
+const getHomepageToursCached = cache(async () => getHomepageToursPersistent());
 const getPublishedToursCached = cache(async () => getPublishedToursPersistent());
 const getFeaturedToursCached = cache(async () => getFeaturedToursPersistent());
 const getTourBySlugCached = cache(async (slug: string) => getTourBySlugPersistent(slug));
+
+export async function getHomepageTours(): Promise<HomepageTourSectionData> {
+  return getHomepageToursCached();
+}
 
 export async function getPublishedTours(): Promise<Tour[]> {
   return getPublishedToursCached();
@@ -77,15 +90,8 @@ export async function getTourById(id: string): Promise<Tour | null> {
 export async function getRelatedTours(
   slug: string,
   limit = 2
-): Promise<Tour[]> {
-  const source = await getPublishedTours();
-  const current = source.find((t) => t.slug === slug);
-  return source
-    .filter(
-      (t) =>
-        t.slug !== slug && t.destinationSlug === current?.destinationSlug
-    )
-    .slice(0, limit);
+): Promise<HomepageTour[]> {
+  return tourRepo.getRelatedBySlug(slug, limit);
 }
 
 export async function getDestinations(): Promise<Destination[]> {
@@ -106,6 +112,13 @@ export async function getReviews(): Promise<Review[]> {
   return reviewRepo.listPublished();
 }
 
+const getLatestBlogCardsPersistent = (limit: number) =>
+  unstable_cache(
+    async () => blogRepo.listLatestCards(limit),
+    ["latest-blog-cards", String(limit)],
+    { revalidate: 300, tags: ["public-blogs"] }
+  )();
+
 const getBlogPostsCached = cache(async () => blogRepo.listPublished());
 const getLatestBlogPostsCached = cache(async (limit: number) =>
   blogRepo.listLatest(limit)
@@ -116,6 +129,10 @@ const getFeaturedBlogPostsCached = cache(async (limit: number) =>
 const getBlogPostBySlugCached = cache(async (slug: string) =>
   blogRepo.getBySlug(slug)
 );
+
+export async function getLatestBlogCards(limit = 3): Promise<BlogCardPost[]> {
+  return getLatestBlogCardsPersistent(limit);
+}
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
   return getBlogPostsCached();

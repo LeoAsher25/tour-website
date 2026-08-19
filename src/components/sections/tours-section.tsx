@@ -5,10 +5,10 @@ import { Container } from "@/components/container";
 import { SectionHeader } from "@/components/section-header";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { TourCard } from "@/components/tour-card";
-import { getFeaturedTours } from "@/lib/repository";
+import { getHomepageTours } from "@/lib/repository";
 
 export async function ToursSection() {
-  const tours = await getFeaturedTours();
+  const { featured } = await getHomepageTours();
 
   return (
     <section id="tours" className="scroll-mt-24 py-24 lg:py-32">
@@ -33,7 +33,7 @@ export async function ToursSection() {
           gap={0.12}
           className="mt-14 grid gap-7 md:grid-cols-2 xl:grid-cols-3"
         >
-          {tours.map((tour) => (
+          {featured.map((tour) => (
             <StaggerItem key={tour.slug} scale>
               <TourCard
                 slug={tour.slug}
