@@ -14,16 +14,16 @@ import { ArrowDown, ChevronRight, MapPin } from "lucide-react";
 
 const slides = [
   {
-    src: "/images/hero/sua-web-1920-x-900-px-_1755682080.png.webp",
-    alt: "Riders descending a misty mountain road on the Ha Giang Loop",
+    src: "/images/hero/image-1.avif",
+    alt: "Motorbike tour group crossing a high mountain pass",
   },
   {
-    src: "/images/hero/slide_1_1678185059.jpg.webp",
+    src: "/images/hero/image-2.avif",
     alt: "Lush karst mountains and terraced valley in Ha Giang",
   },
   {
-    src: "/images/hero/sua-web-1920-x-900-px-3-_1755682629.png.jpg",
-    alt: "Motorbike tour group crossing a high mountain pass",
+    src: "/images/hero/image-3.avif",
+    alt: "Riders descending a misty mountain road on the Ha Giang Loop",
   },
 ];
 
@@ -80,8 +80,7 @@ export function Hero() {
     <section
       ref={sectionRef}
       className="relative flex min-h-[100svh] items-end overflow-hidden bg-dark-bg">
-      {/* Keep every slide mounted and eagerly request the non-first slides.
-          Crossfade directly between layers so there is never an empty frame. */}
+      {/* Keep every slide mounted and lazy-load non-first slides. */}
       <div className="absolute inset-0" aria-hidden="true">
         {slides.map((slide, i) => (
           <div
@@ -94,7 +93,7 @@ export function Hero() {
               src={slide.src}
               alt={slide.alt}
               fill
-              priority={i === 0}
+              preload={i === 0}
               loading={i === 0 ? undefined : "lazy"}
               sizes="100vw"
               className={

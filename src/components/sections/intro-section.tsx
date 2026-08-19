@@ -78,9 +78,9 @@ export function IntroSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: reduce ? 0 : 0.75, ease: EASE }}>
-            <div className="overflow-hidden rounded-[2rem] border border-border shadow-lg">
+            <div className="overflow-hidden rounded-[2rem] border border-border shadow-lg bg-black">
               <Image
-                src="/images/intro/6_optimized_1680112805.png.webp"
+                src="/images/intro/1.webp"
                 alt="Riders on the Ha Giang Loop with mountains behind"
                 width={880}
                 height={1100}
@@ -88,9 +88,9 @@ export function IntroSection() {
               />
             </div>
 
-            <div className="absolute -bottom-8 -right-4 hidden w-48 overflow-hidden rounded-3xl border-4 border-background shadow-xl sm:block lg:-right-8">
+            <div className="absolute -bottom-8 -right-4 hidden w-48 overflow-hidden rounded-3xl border-4 border-background shadow-xl sm:block lg:-right-8 bg-black">
               <Image
-                src="/images/intro/ha-giang-trekking-tours-copy_1680152175.png.webp"
+                src="/images/intro/2.webp"
                 alt="Terraced rice fields in Ha Giang"
                 width={480}
                 height={600}
