@@ -4,7 +4,7 @@ import type {
   Review,
   SiteSettings,
 } from "@/types/domain";
-import { siteConfig } from "@/src/config/site";
+import { siteConfig } from "@/config/site";
 
 export const siteSettings: SiteSettings = {
   depositPercent: 30,

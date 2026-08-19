@@ -358,6 +358,56 @@ async function seedAdmin() {
 // Main
 // ---------------------------------------------------------------------------
 
+/** Sync existing storage objects into the media table (idempotent). */
+async function seedMedia() {
+  console.log("Syncing media…");
+  const sb = getAdminClient();
+  const { error } = await sb.storage.from("media").list("", { limit: 1 });
+  if (error) {
+    console.warn("  [skip] cannot list storage:", error.message);
+    return;
+  }
+
+  // Storage layout is nested folders: <folder>/<subfolder>/.../<file>.
+  // Walk recursively until a level has no more subfolders; those entries are
+  // file keys. Object `id` is null for folders under Supabase list API.
+  const keys: string[] = [];
+  const { data: topLevels } = await sb.storage.from("media").list("", {
+    limit: 1000,
+  });
+
+  async function walk(prefix: string, entries: { name: string; id: string | null }[]) {
+    for (const entry of entries ?? []) {
+      const path = prefix ? `${prefix}/${entry.name}` : entry.name;
+      const { data: children } = await sb.storage.from("media").list(path, {
+        limit: 1000,
+      });
+      if ((children ?? []).length > 0 && children?.some((c) => c.id === null)) {
+        await walk(path, children);
+      } else {
+        // Leaf level — these are files (or empty folders).
+        for (const child of children ?? []) {
+          keys.push(`${path}/${child.name}`);
+        }
+      }
+    }
+  }
+
+  await walk("", topLevels ?? []);
+
+  // Remove previously-recorded keys that are actually folders (no extension).
+  await sql`delete from media where storage_key !~ '\\.[a-z0-9]+$'`;
+
+  for (const key of keys) {
+    await sql`
+      insert into media (storage_key, bucket, created_at)
+      values (${key}, 'media', now())
+      on conflict (storage_key) do nothing
+    `;
+  }
+  console.log(`  ✓ ${keys.length} media keys recorded`);
+}
+
 async function main() {
   console.log("== Jasmine Tours — Supabase seed ==");
   await ensureMediaBucket();
@@ -365,6 +415,7 @@ async function main() {
   await seedBlogs();
   await seedSettings();
   await seedAdmin();
+  await seedMedia();
 
   const counts = await sql`
     select
@@ -374,7 +425,8 @@ async function main() {
       (select count(*) from promo_codes) as promos,
       (select count(*) from reviews) as reviews,
       (select count(*) from departures) as departures,
-      (select count(*) from admin_users) as admins
+      (select count(*) from admin_users) as admins,
+      (select count(*) from media) as media
   `;
   console.log("\n== Seed summary ==");
   for (const [k, v] of Object.entries(counts[0])) console.log(`  ${k}: ${v}`);

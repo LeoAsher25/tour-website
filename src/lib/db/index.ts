@@ -29,7 +29,10 @@ function createRuntimeClient() {
     // Small pool for serverless/Next.js: enough for concurrent page renders
     // without exhausting Supavisor connections.
     max: 5,
-    idle_timeout: 20,
+    // Aggressive idle/lifetime cleanup so stale Supavisor connections never
+    // wedge the pool (the "admin page hangs, public site fine" symptom).
+    idle_timeout: 10,
+    max_lifetime: 300, // 5 min
     connect_timeout: 10,
     prepare: false,
   });
@@ -41,10 +44,8 @@ const globalForDb = globalThis as unknown as {
   __drizzle?: PostgresJsDatabase<typeof schema>;
 };
 
-export const pg = globalForDb.__pg ?? (globalForDb.__pg = createRuntimeClient());
+const pg = globalForDb.__pg ?? (globalForDb.__pg = createRuntimeClient());
 
 /** Drizzle ORM client (typed, server-only). */
 export const db: PostgresJsDatabase<typeof schema> =
   globalForDb.__drizzle ?? (globalForDb.__drizzle = drizzle(pg, { schema }));
-
-export { schema };

@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createServerClient } from "@supabase/ssr";
@@ -17,6 +18,10 @@ import type { AdminRole } from "@/types/domain";
  *   role. Only active admin_users rows can access the admin.
  * - No public admin registration: admin_users rows are created by the seed or
  *   by a super_admin.
+ *
+ * `getCurrentAdmin` is wrapped in React `cache()` so the layout + page within
+ * one request share a single Supabase getUser() + DB query instead of running
+ * them per component.
  */
 
 export async function getSession() {
@@ -49,8 +54,8 @@ export async function getSession() {
   return { supabase, user };
 }
 
-/** The admin_users row for the current session, or null. */
-export async function getCurrentAdmin() {
+/** The admin_users row for the current session, or null (cached per request). */
+export const getCurrentAdmin = cache(async () => {
   const { user } = await getSession();
   if (!user) return null;
 
@@ -62,7 +67,7 @@ export async function getCurrentAdmin() {
 
   if (rows.length === 0 || !rows[0].isActive) return null;
   return mapAdminUser(rows[0]);
-}
+});
 
 /** Server-side guard — redirects to /admin/login when unauthenticated. */
 export async function requireAdmin() {

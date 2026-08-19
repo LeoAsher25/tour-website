@@ -12,6 +12,7 @@ import type {
   TourImage,
 } from "@/types/domain";
 import type { TiptapDoc } from "@/types/domain";
+import { estimateReadingMinutes, textFromTiptap } from "@/lib/blogs/tiptap";
 import { publicUrlFor } from "@/lib/storage/media";
 
 import {
@@ -237,33 +238,6 @@ function normalizeTiptap(doc: DbTiptapDoc | null): TiptapDoc {
   return { type: "doc", content: [] };
 }
 
-/** Extract plain text from a Tiptap doc (for SEO/search/excerpt fallback). */
-export function textFromTiptap(doc: TiptapDoc | null): string {
-  if (!doc) return "";
-  const parts: string[] = [];
-  const walk = (nodes: TiptapDoc["content"]) => {
-    for (const node of nodes) {
-      if (node.type === "paragraph" || node.type === "heading") {
-        parts.push(collectText(node));
-      } else if (node.content) {
-        walk(node.content);
-      }
-    }
-  };
-  walk(doc.content);
-  return parts.join("\n\n").trim();
-}
-
-function collectText(node: { type: string; text?: string; content?: TiptapDoc["content"] }): string {
-  if (node.text) return node.text;
-  return (node.content ?? []).map(collectText).join("");
-}
-
-export function estimateReadingMinutes(text: string): number {
-  if (!text) return 1;
-  const words = text.trim().split(/\s+/).length;
-  return Math.max(1, Math.round(words / 200));
-}
 
 // ---- Bookings & payments ----
 

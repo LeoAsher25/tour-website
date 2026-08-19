@@ -1,6 +1,7 @@
 import "server-only";
 
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 
 import { BlogRepository } from "@/lib/repositories/blogs";
 import { PromoRepository, ReviewRepository, SettingsRepository } from "@/lib/repositories/blogs";
@@ -36,9 +37,26 @@ const promoRepo = new PromoRepository();
 const settingsRepo = new SettingsRepository();
 const reviewRepo = new ReviewRepository();
 
-const getPublishedToursCached = cache(async () => tourRepo.listPublished());
-const getFeaturedToursCached = cache(async () => tourRepo.listFeatured());
-const getTourBySlugCached = cache(async (slug: string) => tourRepo.getBySlug(slug));
+const getPublishedToursPersistent = unstable_cache(
+  async () => tourRepo.listPublished(),
+  ["published-tours"],
+  { revalidate: 60, tags: ["public-tours"] }
+);
+const getFeaturedToursPersistent = unstable_cache(
+  async () => tourRepo.listFeatured(),
+  ["featured-tours"],
+  { revalidate: 60, tags: ["public-tours"] }
+);
+const getTourBySlugPersistent = (slug: string) =>
+  unstable_cache(
+    async () => tourRepo.getBySlug(slug),
+    ["tour-by-slug", slug],
+    { revalidate: 60, tags: ["public-tours", `public-tour:${slug}`] }
+  )();
+
+const getPublishedToursCached = cache(async () => getPublishedToursPersistent());
+const getFeaturedToursCached = cache(async () => getFeaturedToursPersistent());
+const getTourBySlugCached = cache(async (slug: string) => getTourBySlugPersistent(slug));
 
 export async function getPublishedTours(): Promise<Tour[]> {
   return getPublishedToursCached();
@@ -129,10 +147,5 @@ export async function resolvePricingEntities(
   variantId: string,
   addOnIds: string[]
 ): Promise<{ tour: Tour; variant: TourVariant; addOns: AddOn[] } | null> {
-  const tour = await getTourById(tourId);
-  if (!tour) return null;
-  const variant = tour.variants.find((v) => v.id === variantId);
-  if (!variant) return null;
-  const addOns = tour.addOns.filter((a) => addOnIds.includes(a.id));
-  return { tour, variant, addOns };
+  return tourRepo.getPricingEntities(tourId, variantId, addOnIds);
 }

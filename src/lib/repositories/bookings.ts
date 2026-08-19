@@ -1,9 +1,13 @@
 import "server-only";
 
-import { and, asc, desc, eq, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { bookingAddons, bookings, departures, payments } from "@/lib/db/schema";
 import { mapBooking, mapPayment } from "@/lib/db/mappers";
+
+function isUniqueViolation(error: unknown): boolean {
+  return typeof error === "object" && error !== null && "code" in error && error.code === "23505";
+}
 import type {
   Booking,
   BookingStatus,
@@ -51,93 +55,85 @@ export class BookingRepository {
   ): Promise<Booking | null> {
     let booking: Booking | null = null;
 
-    await db.transaction(async (tx) => {
-      // Reserve capacity atomically.
-      const res = await tx.execute(sql`
-        update departures
-        set booked = booked + ${input.guestCount}, updated_at = now()
-        where tour_id = ${input.tourId}
-          and date = ${input.departureDate}
-          and status = 'open'
-          and (capacity <= 0 or booked + ${input.guestCount} <= capacity)
-      `);
-      const changed = res.count === 1;
+    try {
+      await db.transaction(async (tx) => {
+        // Reserve capacity atomically.
+        const res = await tx.execute(sql`
+          update departures
+          set booked = booked + ${input.guestCount}, updated_at = now()
+          where tour_id = ${input.tourId}
+            and date = ${input.departureDate}
+            and status = 'open'
+            and (capacity <= 0 or booked + ${input.guestCount} <= capacity)
+        `);
+        const changed = res.count === 1;
 
-      // If a departure row exists for this tour+date, it MUST have been updated.
-      const depRows = await tx
-        .select({ id: departures.id })
-        .from(departures)
-        .where(
-          and(
-            eq(departures.tourId, input.tourId),
-            eq(departures.date, input.departureDate)
+        // If a departure row exists for this tour+date, it MUST have been updated.
+        const depRows = await tx
+          .select({ id: departures.id })
+          .from(departures)
+          .where(
+            and(
+              eq(departures.tourId, input.tourId),
+              eq(departures.date, input.departureDate)
+            )
           )
-        )
-        .limit(1);
+          .limit(1);
 
-      if (depRows.length > 0 && !changed) {
-        throw new Error("BOOKING_SOLD_OUT");
-      }
+        if (depRows.length > 0 && !changed) {
+          throw new Error("BOOKING_SOLD_OUT");
+        }
 
-      // Booking code collision check (unique constraint backs this up too).
-      const existing = await tx
-        .select({ id: bookings.id })
-        .from(bookings)
-        .where(eq(bookings.bookingCode, input.bookingCode))
-        .limit(1);
-      if (existing.length > 0) {
+        const now = new Date();
+
+        const [inserted] = await tx
+          .insert(bookings)
+          .values({
+            bookingCode: input.bookingCode,
+            tourId: input.tourId,
+            tourSlug: input.tourSlug,
+            tourTitle: input.tourTitle,
+            variantId: input.variantId,
+            variantName: input.variantName,
+            departureDate: input.departureDate,
+            guestCount: input.guestCount,
+            customer: input.customer as never,
+            unitPrice: input.unitPrice,
+            subtotal: input.subtotal,
+            discount: input.discount,
+            vat: input.vat,
+            cardFee: input.cardFee,
+            totalAmount: input.totalAmount,
+            amountToPayNow: input.amountToPayNow,
+            paymentPlan: input.paymentPlan,
+            bookingStatus: "pending",
+            paymentMethod: input.paymentMethod,
+            paymentStatus: "pending",
+            createdAt: now,
+            updatedAt: now,
+          })
+          .returning();
+
+        if (input.addOns.length > 0) {
+          await tx.insert(bookingAddons).values(
+            input.addOns.map((a) => ({
+              bookingId: inserted.id,
+              addonId: a.id,
+              name: a.name,
+              price: a.price,
+              perPerson: a.perPerson,
+            }))
+          );
+        }
+
+        booking = mapBooking(inserted, input.addOns);
+      });
+    } catch (error) {
+      if (isUniqueViolation(error)) {
         throw new Error("BOOKING_CODE_COLLISION");
       }
-
-      const now = new Date();
-
-      const [inserted] = await tx
-        .insert(bookings)
-        .values({
-          bookingCode: input.bookingCode,
-          tourId: input.tourId,
-          tourSlug: input.tourSlug,
-          tourTitle: input.tourTitle,
-          variantId: input.variantId,
-          variantName: input.variantName,
-          departureDate: input.departureDate,
-          guestCount: input.guestCount,
-          customer: input.customer as never,
-          unitPrice: input.unitPrice,
-          subtotal: input.subtotal,
-          discount: input.discount,
-          vat: input.vat,
-          cardFee: input.cardFee,
-          totalAmount: input.totalAmount,
-          amountToPayNow: input.amountToPayNow,
-          paymentPlan: input.paymentPlan,
-          bookingStatus: "pending",
-          paymentMethod: input.paymentMethod,
-          paymentStatus: "pending",
-          createdAt: now,
-          updatedAt: now,
-        })
-        .returning();
-
-      if (input.addOns.length > 0) {
-        await tx.insert(bookingAddons).values(
-          input.addOns.map((a) => ({
-            bookingId: inserted.id,
-            addonId: a.id,
-            name: a.name,
-            price: a.price,
-            perPerson: a.perPerson,
-          }))
-        );
-      }
-
-      const row = await tx
-        .select()
-        .from(bookings)
-        .where(eq(bookings.id, inserted.id))
-        .limit(1);
-      booking = row.length ? mapBooking(row[0], input.addOns) : null;
-    });
+      throw error;
+    }
 
     return booking;
   }
@@ -149,7 +145,8 @@ export class BookingRepository {
       .where(eq(bookings.bookingCode, bookingCode))
       .limit(1);
     if (rows.length === 0) return null;
-    return this.withAddOns(rows[0]);
+    const addOns = await this.getAddOnsByBookingId(rows[0].id);
+    return this.mapWithAddOns(rows[0], addOns);
   }
 
   async getById(id: string): Promise<Booking | null> {
@@ -159,14 +156,14 @@ export class BookingRepository {
       .where(eq(bookings.id, id))
       .limit(1);
     if (rows.length === 0) return null;
-    return this.withAddOns(rows[0]);
+    const addOns = await this.getAddOnsByBookingId(rows[0].id);
+    return this.mapWithAddOns(rows[0], addOns);
   }
 
-  private async withAddOns(row: typeof bookings.$inferSelect): Promise<Booking> {
-    const addOns = await db
-      .select()
-      .from(bookingAddons)
-      .where(eq(bookingAddons.bookingId, row.id));
+  private mapWithAddOns(
+    row: typeof bookings.$inferSelect,
+    addOns: (typeof bookingAddons.$inferSelect)[]
+  ): Booking {
     return mapBooking(
       row,
       addOns.map((a) => ({
@@ -176,6 +173,13 @@ export class BookingRepository {
         perPerson: a.perPerson,
       }))
     );
+  }
+
+  private async getAddOnsByBookingId(bookingId: string) {
+    return db
+      .select()
+      .from(bookingAddons)
+      .where(eq(bookingAddons.bookingId, bookingId));
   }
 
   async updateBooking(bookingCode: string, patch: Partial<Booking>): Promise<void> {
@@ -264,11 +268,26 @@ export class BookingRepository {
       .limit(limit)
       .offset(offset);
 
-    const result: Booking[] = [];
-    for (const row of rows) {
-      result.push(await this.withAddOns(row));
+    const bookingIds = rows.map((row) => row.id);
+    const addonRows = bookingIds.length
+      ? await db
+          .select()
+          .from(bookingAddons)
+          .where(inArray(bookingAddons.bookingId, bookingIds))
+      : [];
+    const addonsByBookingId = new Map<string, typeof addonRows>();
+    for (const addon of addonRows) {
+      const existing = addonsByBookingId.get(addon.bookingId) ?? [];
+      existing.push(addon);
+      addonsByBookingId.set(addon.bookingId, existing);
     }
-    return { rows: result, total };
+
+    return {
+      rows: rows.map((row) =>
+        this.mapWithAddOns(row, addonsByBookingId.get(row.id) ?? [])
+      ),
+      total,
+    };
   }
 }
 

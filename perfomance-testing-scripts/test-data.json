@@ -1,0 +1,56 @@
+{
+  "_comment": "Snapshot từ Supabase live lúc 2026-08-18. Đã verify GET /api/bookings/JAS-E3KN6C → 200 trên https://tour-website-kohl.vercel.app.",
+  "generatedAt": "2026-08-18T12:35:00.000Z",
+  "baseUrl": {
+    "local": "http://localhost:3000",
+    "vercel": "https://tour-website-kohl.vercel.app",
+    "verifiedLive": true
+  },
+  "bookingTest": {
+    "tourId": "tour-1",
+    "tourSlug": "ha-giang-loop-3d2n",
+    "variantId": "v1-self",
+    "variantName": "Self-Riding",
+    "startDate": "2099-12-31",
+    "guestCount": 1,
+    "capacity": { "load": 100000, "race": 20 }
+  },
+  "readTest": {
+    "bookingCode": "JAS-E3KN6C",
+    "alternates": ["JAS-7UNN3R", "JAS-TVXJPC", "JAS-6WGN4M", "JAS-F9A5KE"]
+  },
+  "catalog": {
+    "tours": [
+      {
+        "id": "tour-1",
+        "slug": "ha-giang-loop-3d2n",
+        "variants": ["v1-self", "v1-easy", "v1-self-bus"],
+        "addons": ["a1-private"]
+      },
+      {
+        "id": "tour-2",
+        "slug": "ha-giang-loop-4d3n",
+        "variants": ["v2-self", "v2-easy", "v2-self-bus"],
+        "addons": ["a2-private"]
+      },
+      {
+        "id": "tour-3",
+        "slug": "cao-bang-loop-3d2n",
+        "variants": ["v3-self", "v3-easy"],
+        "addons": []
+      },
+      {
+        "id": "tour-4",
+        "slug": "jeep-wrangler-tour",
+        "variants": ["v4-1pax", "v4-3d2n"],
+        "addons": []
+      },
+      {
+        "id": "tour-5",
+        "slug": "suv-hi-class-ha-giang-loop",
+        "variants": ["v5-4star", "v5-5star"],
+        "addons": []
+      }
+    ]
+  }
+}

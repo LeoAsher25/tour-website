@@ -12,6 +12,7 @@ import {
   siteSettings,
 } from "@/lib/db/schema";
 import { deleteMedia, uploadMedia } from "@/lib/storage/media";
+import { findReferencingEntities } from "@/lib/storage/media-keys";
 
 // ---------------------------------------------------------------------------
 // Promotions
@@ -268,15 +269,54 @@ export class MediaAdminRepository {
     return db.select().from(media).orderBy(desc(media.createdAt));
   }
 
-  async delete(id: string) {
+  /** Record an uploaded object in the media table (for the Media page). */
+  async recordUpload(input: {
+    storageKey: string;
+    bucket?: string;
+    mimeType?: string;
+    sizeBytes?: number;
+    alt?: string;
+    uploadedBy?: string;
+  }) {
+    const [row] = await db
+      .insert(media)
+      .values({
+        storageKey: input.storageKey,
+        bucket: input.bucket ?? "media",
+        mimeType: input.mimeType ?? null,
+        sizeBytes: input.sizeBytes ?? null,
+        alt: input.alt ?? null,
+        uploadedBy: input.uploadedBy ?? null,
+      })
+      .onConflictDoNothing({ target: media.storageKey })
+      .returning({ id: media.id });
+    revalidatePath("/admin/media");
+    return row ?? null;
+  }
+
+  /**
+   * Delete a media row + its storage object. Returns an error if the key is
+   * still referenced by a tour/blog/destination — those must be unlinked first.
+   */
+  async delete(id: string): Promise<{ ok: boolean; error?: string }> {
     const rows = await db.select().from(media).where(eq(media.id, id)).limit(1);
-    if (rows.length === 0) return;
+    if (rows.length === 0) return { ok: true };
+
+    const refs = await findReferencingEntities([rows[0].storageKey]);
+    const keyRefs = refs[rows[0].storageKey];
+    if (keyRefs && keyRefs.length > 0) {
+      return {
+        ok: false,
+        error: `File đang được dùng ở: ${keyRefs.join(", ")}. Gỡ khỏi các mục này trước khi xoá.`,
+      };
+    }
+
     await deleteMedia(rows[0].storageKey).catch(() => {
       // Storage delete failure shouldn't block DB cleanup.
     });
     await db.delete(media).where(eq(media.id, id));
     revalidatePath("/admin/media");
+    return { ok: true };
   }
 }
 
-export { uploadMedia };

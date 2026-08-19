@@ -1,7 +1,7 @@
 import "server-only";
 
-import { desc, eq, inArray } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { asc, desc, eq, inArray } from "drizzle-orm";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { db } from "@/lib/db";
 import {
   departures,
@@ -13,6 +13,10 @@ import {
 } from "@/lib/db/schema";
 import { mapTour, type TourWithChildren } from "@/lib/db/mappers";
 import { keyFromPublicUrl } from "@/lib/storage/media";
+import {
+  collectTourKeys,
+  removeOrphanedKeys,
+} from "@/lib/storage/media-keys";
 import type { Tour } from "@/types/domain";
 import {
   tourInputSchema,
@@ -31,6 +35,15 @@ export class TourAdminRepository {
   async listAll(): Promise<Tour[]> {
     const rows = await db.select().from(tours).orderBy(desc(tours.updatedAt));
     return (await this.loadChildren(rows)).map(mapTour);
+  }
+
+  /** Lightweight id+title list for dropdowns (no child rows). */
+  async listLight(): Promise<{ id: string; title: string; slug: string }[]> {
+    const rows = await db
+      .select({ id: tours.id, title: tours.title, slug: tours.slug })
+      .from(tours)
+      .orderBy(asc(tours.title));
+    return rows;
   }
 
   async getById(id: string): Promise<Tour | null> {
@@ -99,6 +112,8 @@ export class TourAdminRepository {
 
   async update(id: string, input: TourInput): Promise<Tour> {
     const norm = normalizeInput(input);
+    // Collect keys in use BEFORE updating (hero may change).
+    const before = await collectTourKeys(id);
     await db
       .update(tours)
       .set({
@@ -138,7 +153,9 @@ export class TourAdminRepository {
       })
       .where(eq(tours.id, id));
 
-    await this.replaceChildren(id, norm);
+    // replaceChildren collects keys again — pass the pre-update set so removed
+    // files are cleaned after the transaction.
+    await this.replaceChildren(id, norm, before);
     this.revalidate();
     return (await this.getById(id))!;
   }
@@ -200,11 +217,21 @@ export class TourAdminRepository {
   }
 
   async delete(id: string) {
+    const keys = await collectTourKeys(id);
     await db.delete(tours).where(eq(tours.id, id));
+    // Remove objects no longer referenced (e.g. a key shared with a blog stays).
+    await removeOrphanedKeys(keys);
     this.revalidate();
   }
 
-  private async replaceChildren(tourId: string, input: TourInput) {
+  private async replaceChildren(
+    tourId: string,
+    input: TourInput,
+    beforeKeys?: string[]
+  ) {
+    // Collect keys in use BEFORE replacing so we can clean up removed files.
+    const before = beforeKeys ?? (await collectTourKeys(tourId));
+
     await db.transaction(async (tx) => {
       await tx.delete(tourVariants).where(eq(tourVariants.tourId, tourId));
       await tx.delete(tourAddons).where(eq(tourAddons.tourId, tourId));
@@ -250,9 +277,18 @@ export class TourAdminRepository {
         );
       }
     });
+
+    // Keys removed from the gallery → delete objects if nothing else uses them.
+    const after = [
+      input.heroImageKey,
+      ...(input.images ?? []).map((img) => img.storageKey),
+    ].filter((k): k is string => Boolean(k));
+    const removed = before.filter((k) => !after.includes(k));
+    await removeOrphanedKeys(removed);
   }
 
   private revalidate() {
+    revalidateTag("public-tours", "max");
     revalidatePath("/tours/[slug]", "page");
     revalidatePath("/", "page");
     revalidatePath("/admin/tours", "page");

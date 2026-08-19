@@ -1,6 +1,9 @@
 import "server-only";
 
 import { getAdminClient } from "@/lib/supabase/admin";
+import { MEDIA_BUCKET, publicUrlFor } from "./url";
+
+export { MEDIA_BUCKET, publicUrlFor, keyFromPublicUrl } from "./url";
 
 /**
  * Supabase Storage media service.
@@ -30,8 +33,6 @@ export interface UploadResult {
   key: string;
   publicUrl: string;
 }
-
-export const MEDIA_BUCKET = "media";
 
 const ALLOWED_MIME_TYPES = new Set([
   "image/jpeg",
@@ -133,28 +134,4 @@ export async function deleteMedia(key: string): Promise<void> {
   if (error) {
     throw new MediaError(`Delete failed: ${error.message}`, "DELETE_FAILED");
   }
-}
-
-/** Derive the public URL for a storage key (no network call). */
-export function publicUrlFor(key: string): string {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-  const base = url.replace(/\/$/, "");
-  // encodeURIComponent per segment so spaces/special chars are safe
-  const encoded = key
-    .split("/")
-    .map((s) => encodeURIComponent(s))
-    .join("/");
-  return `${base}/storage/v1/object/public/${MEDIA_BUCKET}/${encoded}`;
-}
-
-/** Extract the storage key from a public URL (round-trip for legacy data). */
-export function keyFromPublicUrl(publicUrl: string): string | null {
-  const marker = `/storage/v1/object/public/${MEDIA_BUCKET}/`;
-  const idx = publicUrl.indexOf(marker);
-  if (idx === -1) return null;
-  return publicUrl
-    .slice(idx + marker.length)
-    .split("/")
-    .map((s) => decodeURIComponent(s))
-    .join("/");
 }

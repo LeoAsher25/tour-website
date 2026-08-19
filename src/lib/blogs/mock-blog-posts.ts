@@ -1,4 +1,4 @@
-import { siteConfig } from "@/src/config/site";
+import { siteConfig } from "@/config/site";
 import type { BlogPost } from "@/types/domain";
 import { markdownToTiptap } from "./tiptap";
 
@@ -6,8 +6,8 @@ const withContentJson = (posts: Omit<BlogPost, "contentJson">[]): BlogPost[] =>
   posts.map((p) => ({ ...p, contentJson: markdownToTiptap(p.content) }));
 
 /**
- * Realistic mock blog content so the UI works with zero configuration.
- * When Supabase/Postgres data is seeded, the repository takes over.
+ * Seed blog content used by `npm run db:seed` to populate Supabase.
+ * Public site reads published posts from Postgres — this is the seed source.
  */
 export const mockBlogPosts: BlogPost[] = withContentJson([
   {

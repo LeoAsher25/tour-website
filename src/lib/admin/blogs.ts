@@ -8,6 +8,11 @@ import { mapBlog } from "@/lib/db/mappers";
 import { textFromTiptap } from "@/lib/blogs/tiptap";
 import { getCurrentAdmin } from "@/lib/admin/auth";
 import { blogInputSchema, type BlogInput } from "./blog-schema";
+import {
+  collectBlogKeys,
+  collectImageKeysFromTiptap,
+  removeOrphanedKeys,
+} from "@/lib/storage/media-keys";
 
 /**
  * Admin blog repository + actions.
@@ -73,6 +78,8 @@ export class BlogAdminRepository {
 
   async update(id: string, input: BlogInput): Promise<void> {
     const existing = await this.getById(id);
+    // Collect keys in use BEFORE updating (cover / inline images may change).
+    const before = await collectBlogKeys(id);
     const now = new Date();
     const contentText = textFromTiptap(input.contentJson) || "";
 
@@ -100,6 +107,14 @@ export class BlogAdminRepository {
         updatedAt: now,
       })
       .where(eq(blogs.id, id));
+
+    // Clean up removed cover/inline images if nothing else references them.
+    const after = [
+      input.coverImageKey,
+      ...collectImageKeysFromTiptap(input.contentJson ?? null),
+    ].filter((k): k is string => Boolean(k));
+    const removed = before.filter((k) => !after.includes(k));
+    await removeOrphanedKeys(removed);
 
     this.revalidate();
   }
@@ -130,7 +145,10 @@ export class BlogAdminRepository {
   }
 
   async delete(id: string) {
+    const keys = await collectBlogKeys(id);
     await db.delete(blogs).where(eq(blogs.id, id));
+    // Remove objects no longer referenced (shared keys with tours/blogs stay).
+    await removeOrphanedKeys(keys);
     this.revalidate();
   }
 

@@ -1,4 +1,4 @@
-import { siteConfig } from "@/src/config/site";
+import { siteConfig } from "@/config/site";
 import type { Tour } from "@/types/domain";
 
 /**
@@ -641,46 +641,5 @@ export const tours: Tour[] = [
     departures: [],
     featured: false,
     published: true,
-  },
-];
-
-export const strengths = [
-  {
-    title: "Years of Experience",
-    value: "12+",
-    text: "Guiding riders through the Ha Giang Loop since 2012.",
-  },
-  {
-    title: "Tours in Ha Giang",
-    value: "4,000+",
-    text: "Trips completed across the loop, every season.",
-  },
-  {
-    title: "Trusted Customers",
-    value: "12,000+",
-    text: "Happy travellers from over 60 countries.",
-  },
-];
-
-export const services = [
-  {
-    title: "Semi-automatic Honda 110cc",
-    image: "/images/services/2023/03/16/large/honda-wave-110cc-new_1678933906.png.webp",
-    text: "The classic loop bike. New generation, easy to learn.",
-  },
-  {
-    title: "Suzuki HJ125cc",
-    image: "/images/services/2023/03/16/large/suzuki-hj125-2019_1678934001.jpg.webp",
-    text: "Manual gearbox for confident riders.",
-  },
-  {
-    title: "Honda XR150cc",
-    image: "/images/services/2024/10/22/large/xr150_1729593790.png.webp",
-    text: "The upgrade choice for longer days in the saddle.",
-  },
-  {
-    title: "Jeep Wrangler Sahara",
-    image: "/images/services/2025/11/23/large/unnamed_1763884958.jpg.webp",
-    text: "Ride pillion with a driver-guide in an open-top Jeep.",
   },
 ];

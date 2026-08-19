@@ -125,6 +125,53 @@ export class TourRepository {
     return mapTour(withChildren);
   }
 
+  async getPricingEntities(
+    tourId: string,
+    variantId: string,
+    addOnIds: string[]
+  ): Promise<{ tour: Tour; variant: Tour["variants"][number]; addOns: Tour["addOns"] } | null> {
+    const tourRows = await db
+      .select()
+      .from(tours)
+      .where(eq(tours.id, tourId))
+      .limit(1);
+    const tourRow = tourRows[0];
+    if (!tourRow || tourRow.status !== "published") return null;
+
+    const [variantRows, addOnRows] = await Promise.all([
+      db
+        .select()
+        .from(tourVariants)
+        .where(and(eq(tourVariants.tourId, tourId), eq(tourVariants.id, variantId)))
+        .limit(1),
+      addOnIds.length > 0
+        ? db
+            .select()
+            .from(tourAddons)
+            .where(and(eq(tourAddons.tourId, tourId), inArray(tourAddons.id, addOnIds)))
+            .orderBy(tourAddons.position)
+        : Promise.resolve([]),
+    ]);
+
+    const variantRow = variantRows[0];
+    if (!variantRow) return null;
+
+    const tour = mapTour({
+      tour: tourRow,
+      variants: [variantRow],
+      addOns: addOnRows,
+      images: [],
+      departures: [],
+      destination: null,
+    });
+
+    return {
+      tour,
+      variant: tour.variants[0],
+      addOns: tour.addOns,
+    };
+  }
+
   async getByDestination(slug: string): Promise<Tour[]> {
     const destRows = await db
       .select()
