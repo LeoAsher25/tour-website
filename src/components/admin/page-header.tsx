@@ -1,5 +1,8 @@
-import Link from "next/link";
+"use client";
+
+import { useTranslations } from "next-intl";
 import { ArrowLeft, Plus } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 /**
  * Shared admin page header — consistent title + subtitle + actions across
@@ -16,6 +19,7 @@ export function PageHeader({
   backHref?: string;
   action?: React.ReactNode;
 }) {
+  const t = useTranslations("admin.common");
   return (
     <div className="flex flex-wrap items-center justify-between gap-4">
       <div>
@@ -25,7 +29,7 @@ export function PageHeader({
             className="mb-2 inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-accent"
           >
             <ArrowLeft className="h-4 w-4" />
-            Quay lại
+            {t("back")}
           </Link>
         )}
         <h1 className="font-serif text-3xl text-foreground">{title}</h1>

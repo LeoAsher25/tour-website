@@ -1,6 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 import { Container } from "@/components/container";
 import { SectionHeader } from "@/components/section-header";
@@ -16,6 +17,7 @@ function formatDate(iso: string): string {
 }
 
 export async function BlogPreviewSection() {
+  const t = await getTranslations("home.blogPreview");
   const posts = await getLatestBlogCards(3);
 
   if (posts.length === 0) return null;
@@ -25,11 +27,11 @@ export async function BlogPreviewSection() {
       <Container>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeader
-            eyebrow="Stories from the road"
+            eyebrow={t("eyebrow")}
             title={
               <>
-                Notes from the{" "}
-                <span className="accent-word">highlands</span>
+                {t("title1")}{" "}
+                <span className="accent-word">{t("titleAccent")}</span>
               </>
             }
           />
@@ -37,7 +39,7 @@ export async function BlogPreviewSection() {
             href="/blogs"
             className="group inline-flex shrink-0 items-center gap-3 text-sm font-medium text-accent transition-colors hover:text-accent-hover"
           >
-            View all stories
+            {t("viewAll")}
             <span className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/30 bg-accent-tint transition-all duration-300 group-hover:translate-x-1 group-hover:bg-accent group-hover:text-accent-foreground">
               <ArrowRight className="h-4 w-4" />
             </span>
@@ -76,7 +78,7 @@ export async function BlogPreviewSection() {
                 </div>
                 <div className="flex flex-1 flex-col space-y-3 p-6 sm:p-7">
                   <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                    {formatDate(post.publishedAt)} · {post.readingMinutes} min read
+                    {formatDate(post.publishedAt)} · {t("minRead", { minutes: post.readingMinutes })}
                   </p>
                   <h3 className="line-clamp-2 font-serif text-2xl leading-snug text-foreground transition-colors group-hover:text-accent">
                     {post.title}
@@ -85,7 +87,7 @@ export async function BlogPreviewSection() {
                     {post.excerpt}
                   </p>
                   <span className="mt-auto flex items-center gap-2 pt-4 text-sm font-medium text-accent transition-colors group-hover:text-accent-hover">
-                    Read story
+                    {t("readStory")}
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </span>
                 </div>

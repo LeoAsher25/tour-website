@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { LogOut, PanelLeft, PanelLeftClose } from "lucide-react";
 
 import { SidebarNav } from "@/components/admin/sidebar-nav";
@@ -21,13 +22,14 @@ export function AdminShell({
   onSignOut: () => Promise<void>;
   children: React.ReactNode;
 }) {
-  const [collapsed, setCollapsed] = useState(false);
-
-  useEffect(() => {
+  const [collapsed, setCollapsed] = useState(() => {
     try {
-      if (localStorage.getItem(STORAGE_KEY) === "1") setCollapsed(true);
-    } catch {}
-  }, []);
+      return localStorage.getItem(STORAGE_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
+  const t = useTranslations("admin.shell");
 
   function toggle() {
     setCollapsed((v) => {
@@ -56,14 +58,14 @@ export function AdminShell({
               {siteConfig.brand.shortName}
             </p>
             <p className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-              Admin console
+              {t("adminConsole")}
             </p>
           </div>
           <button
             type="button"
             onClick={toggle}
-            aria-label={collapsed ? "Mở sidebar" : "Thu gọn sidebar"}
-            title={collapsed ? "Mở sidebar" : "Thu gọn"}
+            aria-label={collapsed ? t("openSidebar") : t("collapseSidebar")}
+            title={collapsed ? t("openSidebar") : t("collapseSidebar")}
             className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-transparent text-muted-foreground transition-colors hover:bg-muted hover:text-foreground cursor-pointer -mr-5">
             <PanelLeftClose className="h-[18px] w-[18px]" />
           </button>
@@ -92,7 +94,7 @@ export function AdminShell({
               size="sm"
               className="w-full justify-start gap-2 text-muted-foreground hover:text-destructive">
               <LogOut className="h-4 w-4" />
-              Sign out
+              {t("signOut")}
             </Button>
           </form>
         </div>
@@ -104,7 +106,7 @@ export function AdminShell({
             {siteConfig.brand.shortName.charAt(0)}
           </div>
           <span className="font-serif text-base font-medium text-foreground">
-            {siteConfig.brand.shortName} Admin
+            {t("adminTitle", { brand: siteConfig.brand.shortName })}
           </span>
         </div>
         <div className="flex items-center gap-1">
@@ -113,7 +115,7 @@ export function AdminShell({
               type="submit"
               variant="ghost"
               size="sm"
-              aria-label="Sign out">
+              aria-label={t("signOut")}>
               <LogOut className="h-4 w-4" />
             </Button>
           </form>
@@ -130,8 +132,8 @@ export function AdminShell({
           <button
             type="button"
             onClick={toggle}
-            aria-label="Mở sidebar"
-            title="Mở sidebar"
+            aria-label={t("openSidebar")}
+            title={t("openSidebar")}
             className="fixed left-4 top-4 z-30 hidden h-9 w-9 items-center justify-center rounded-xl border border-border bg-card hover:bg-background text-foreground shadow-sm transition-colors hover:border-foreground/15 lg:inline-flex cursor-pointer">
             <PanelLeft className="h-[18px] w-[18px]" />
           </button>

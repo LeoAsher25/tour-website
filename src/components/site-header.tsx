@@ -3,13 +3,13 @@
 import { useEffect, useId, useState } from "react";
 import { Dialog } from "@base-ui/react/dialog";
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, MessageCircle, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getZaloLink, siteConfig } from "@/config/site";
-
-const navItems = siteConfig.navigation;
+import { Link } from "@/i18n/navigation";
+import { LocaleSwitcher } from "@/components/locale-switcher";
 
 type SiteHeaderProps = {
   variant?: "overlay" | "solid";
@@ -21,6 +21,16 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
   const titleId = useId();
   const reduce = useReducedMotion();
   const isSolid = variant === "solid";
+  const t = useTranslations("site");
+
+  const navItems = [
+    { label: t("nav.home"), href: "/" },
+    { label: t("nav.tours"), href: "/#tours" },
+    { label: t("nav.itinerary"), href: "/#itinerary" },
+    { label: t("nav.services"), href: "/#services" },
+    { label: t("nav.gallery"), href: "/#gallery" },
+    { label: t("nav.blog"), href: "/blogs" },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 96);
@@ -45,7 +55,7 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
         <Link
           href="/"
           className="group flex min-w-0 shrink items-center gap-2.5 sm:gap-3"
-          aria-label={`${siteConfig.brand.fullName} — home`}>
+          aria-label={`${siteConfig.brand.fullName} — ${t("header.home")}`}>
           <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full transition-transform duration-300 group-hover:scale-105 sm:h-9 sm:w-9">
             <Image
               src={siteConfig.assets.logo}
@@ -91,7 +101,9 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
+        <nav
+          className="hidden items-center gap-7 lg:flex"
+          aria-label={t("header.mainNav")}>
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -135,22 +147,26 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
             )}>
             {siteConfig.contact.phone}
           </a>
-          <Link href="/#booking" className="group" aria-label="Book a tour">
+          <Link
+            href="/#booking"
+            className="group"
+            aria-label={t("header.bookATour")}>
             <span className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-accent text-accent-foreground shadow-md transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-accent-hover group-hover:shadow-lg sm:h-9 sm:w-auto sm:gap-1.5 sm:px-5 sm:text-sm">
-              <span className="sr-only sm:not-sr-only">Book a tour</span>
-              <MessageCircle className="h-4 w-4 sm:hidden" />
+              <MessageCircle className="h-4 w-4 sm:hidden -mt-[2px]" />
               <span className="hidden whitespace-nowrap text-[0.8rem] font-medium sm:block">
-                Book a tour
+                {t("header.bookATour")}
               </span>
             </span>
           </Link>
+
+          <LocaleSwitcher variant={isSolid ? "solid" : "overlay"} />
 
           <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger
               render={
                 <button
                   type="button"
-                  aria-label="Open menu"
+                  aria-label={t("header.openMenu")}
                   className={cn(
                     "inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors lg:hidden",
                     isSolid
@@ -193,13 +209,13 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
                           <p
                             id={titleId}
                             className="font-serif text-xl text-foreground">
-                            Menu
+                            {t("header.menu")}
                           </p>
                           <Dialog.Close
                             render={
                               <button
                                 type="button"
-                                aria-label="Close menu"
+                                aria-label={t("header.closeMenu")}
                                 className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background transition-colors hover:border-accent/40">
                                 <X className="h-5 w-5 text-foreground" />
                               </button>
@@ -209,7 +225,7 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
 
                         <nav
                           className="flex flex-1 flex-col gap-1 px-4 py-6"
-                          aria-label="Mobile">
+                          aria-label={t("header.mobileNav")}>
                           {navItems.map((item, i) => (
                             <motion.div
                               key={item.href}
@@ -235,7 +251,7 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
 
                         <div className="border-t border-border px-6 py-6">
                           <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                            Hotline Zalo
+                            {t("header.hotlineZalo")}
                           </p>
                           <a
                             href={getZaloLink()}

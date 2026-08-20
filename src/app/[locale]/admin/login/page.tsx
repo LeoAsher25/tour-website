@@ -1,0 +1,123 @@
+import { getTranslations } from "next-intl/server";
+import { Lock, Mail } from "lucide-react";
+
+import { getCurrentAdmin } from "@/lib/admin/auth";
+import { loginAction } from "@/lib/admin/login-action";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { siteConfig } from "@/config/site";
+import { redirect } from "@/i18n/navigation";
+
+export default async function AdminLoginPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ next?: string; error?: string }>;
+}) {
+  const { locale } = await params;
+  const { next, error } = await searchParams;
+  const t = await getTranslations("admin.login");
+
+  // Already signed in → go to dashboard.
+  const admin = await getCurrentAdmin();
+  if (admin) redirect({ href: "/admin", locale });
+
+  return (
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#F4F1EA] px-4">
+      {/* Warm decorative background */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-primary/5 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-accent/5 blur-3xl"
+      />
+
+      <Card className="relative w-full max-w-sm border-border/70 shadow-xl">
+        <CardHeader className="items-center pb-4 text-center">
+          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary font-serif text-2xl text-primary-foreground shadow-md">
+            {siteConfig.brand.shortName.charAt(0)}
+          </div>          <CardTitle className="font-serif text-2xl text-foreground">
+            {siteConfig.brand.shortName} Admin
+          </CardTitle>
+          <CardDescription>{t("cardDescription")}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <LoginForm next={next} serverError={error} />
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+/** Client login form — surfaces server-action errors inline. */
+function LoginForm({
+  next,
+  serverError,
+}: {
+  next?: string;
+  serverError?: string;
+}) {
+  return (
+    <form
+      action={loginAction}
+      className="space-y-4"
+    >
+      {next && <input type="hidden" name="next" value={next} />}
+      {serverError && (
+        <div
+          role="alert"
+          className="rounded-lg border border-destructive/20 bg-destructive/5 px-3.5 py-2.5 text-sm text-destructive"
+        >
+          {serverError}
+        </div>
+      )}
+      <div className="space-y-2">
+        <Label htmlFor="email">Email</Label>
+        <div className="relative">
+          <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/60" />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            placeholder="admin@example.com"
+            className="pl-9"
+          />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="password">Mật khẩu</Label>
+        <div className="relative">
+          <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/60" />
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            required
+            placeholder="••••••••"
+            className="pl-9"
+          />
+        </div>
+      </div>
+      <Button type="submit" className="w-full">
+        Đăng nhập
+      </Button>
+      <p className="text-center text-xs text-muted-foreground">
+        Chỉ quản trị viên mới có quyền truy cập.
+      </p>
+    </form>
+  );
+}

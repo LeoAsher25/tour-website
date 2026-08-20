@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
@@ -18,6 +18,7 @@ import {
 
 import { formatVnd } from "@/lib/pricing";
 import { getZaloLink } from "@/config/site";
+import { Link } from "@/i18n/navigation";
 import type { Tour } from "@/types/domain";
 
 type PayMethod = "vnpay" | "zalo";
@@ -50,6 +51,8 @@ export function CheckoutForm({
   initialVariantId?: string;
 }) {
   const router = useRouter();
+  const t = useTranslations("checkout.form");
+  const locale = useLocale();
   const [variantId, setVariantId] = useState(
     initialVariantId ?? tour.variants[0]?.id ?? ""
   );
@@ -115,7 +118,7 @@ export function CheckoutForm({
 
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.");
+        setError(data.error ?? t("errorGeneric"));
         return;
       }
 
@@ -126,14 +129,14 @@ export function CheckoutForm({
         const payRes = await fetch("/api/payments/vnpay/create", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ bookingCode: data.booking.bookingCode }),
+          body: JSON.stringify({
+            bookingCode: data.booking.bookingCode,
+            locale: locale === "vi" ? "vn" : "en",
+          }),
         });
         const payData = await payRes.json();
         if (!payRes.ok || !payData.url) {
-          setError(
-            payData.error ??
-              "Booking created but the payment gateway could not be reached. Use your booking code to pay later."
-          );
+          setError(payData.error ?? t("errorGateway"));
           return;
         }
         window.location.href = payData.url;
@@ -142,22 +145,22 @@ export function CheckoutForm({
 
       // Zalo: open Zalo with a prefilled message.
       const message = [
-        `Xin chào Jasmine Tours! Tôi muốn đặt tour:`,
-        `- Mã đặt tour: ${data.booking.bookingCode}`,
-        `- Tour: ${data.booking.tourTitle} (${data.booking.variant})`,
-        `- Ngày khởi hành: ${data.booking.departureDate}`,
-        `- Số khách: ${data.booking.guestCount}`,
-        `- Tên khách: ${data.booking.customer.fullName}`,
-        `- Tổng tiền: ${formatVnd(data.booking.totalAmount)}`,
+        t("zaloMessage.greeting"),
+        t("zaloMessage.code").replace("{code}", data.booking.bookingCode),
+        t("zaloMessage.tour").replace("{title}", data.booking.tourTitle).replace("{variant}", data.booking.variant),
+        t("zaloMessage.date").replace("{date}", data.booking.departureDate),
+        t("zaloMessage.guests").replace("{count}", String(data.booking.guestCount)),
+        t("zaloMessage.name").replace("{name}", data.booking.customer.fullName),
+        t("zaloMessage.total").replace("{total}", formatVnd(data.booking.totalAmount)),
         "",
-        "Vui lòng xác nhận giúp tôi. Cảm ơn!",
+        t("zaloMessage.confirm"),
       ].join("\n");
       window.open(getZaloLink(message), "_blank", "noopener,noreferrer");
 
       // Show the booking summary + code on the same page.
-      router.replace(`/booking/${data.booking.bookingCode}`);
+      router.replace(`/${locale}/booking/${data.booking.bookingCode}`);
     } catch {
-      setError("Network error — please try again.");
+      setError(t("errorNetwork"));
     } finally {
       setSubmitting(false);
     }
@@ -173,7 +176,7 @@ export function CheckoutForm({
           </span>
           <div>
             <p className="font-serif text-2xl text-foreground">
-              Booking {quote.booking.bookingCode}
+              {t("booking", { code: quote.booking.bookingCode })}
             </p>
             <p className="text-sm text-muted-foreground">
               {quote.booking.tourTitle} · {quote.booking.variant} ·{" "}
@@ -193,12 +196,12 @@ export function CheckoutForm({
           ))}
           {quote.price.discount > 0 && (
             <div className="flex items-center justify-between text-sm text-primary">
-              <span>Discount</span>
+              <span>{t("discount")}</span>
               <span>-{formatVnd(quote.price.discount)}</span>
             </div>
           )}
           <div className="flex items-center justify-between border-t border-border pt-3">
-            <span className="text-sm font-medium text-foreground">Total</span>
+            <span className="text-sm font-medium text-foreground">{t("total")}</span>
             <span className="font-serif text-2xl text-accent-hover">
               {formatVnd(quote.price.total)}
             </span>
@@ -207,9 +210,7 @@ export function CheckoutForm({
 
         {payMethod === "zalo" && (
           <p className="mt-6 rounded-2xl bg-accent-tint p-5 text-sm font-light leading-7 text-accent-hover">
-            We&rsquo;ve opened Zalo with your booking details. Our team will
-            confirm within a few hours. Keep your booking code — you can check
-            status any time.
+            {t("zaloOpened")}
           </p>
         )}
 
@@ -217,14 +218,14 @@ export function CheckoutForm({
           <Link
             href={`/booking/${quote.booking.bookingCode}`}
             className="inline-flex h-12 items-center justify-center rounded-full bg-accent px-7 text-sm font-medium text-accent-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-hover">
-            View booking
+            {t("viewBooking")}
           </Link>
           {payMethod === "vnpay" && (
             <button
               type="button"
               onClick={() => window.location.reload()}
               className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-background px-7 text-sm font-medium text-foreground transition-colors hover:border-accent/40">
-              Try payment again
+              {t("tryPaymentAgain")}
             </button>
           )}
         </div>
@@ -246,7 +247,7 @@ export function CheckoutForm({
           </p>
         </div>
         <span className="shrink-0 rounded-full bg-accent-tint px-3 py-1 text-xs font-medium text-accent-hover">
-          From {formatVnd(tour.fromPrice)}
+          {t("from")} {formatVnd(tour.fromPrice)}
         </span>
       </div>
 
@@ -260,7 +261,7 @@ export function CheckoutForm({
         {/* Variant */}
         <div>
           <label className="mb-2.5 block text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-            Riding option
+            {t("ridingOption")}
           </label>
           <div className="grid gap-2">
             {tour.variants.map((v) => (
@@ -307,7 +308,7 @@ export function CheckoutForm({
               htmlFor="date"
               className="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
               <CalendarDays className="h-3.5 w-3.5" />
-              Start date
+              {t("startDate")}
             </label>
             <input
               id="date"
@@ -322,12 +323,12 @@ export function CheckoutForm({
           <div>
             <label className="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
               <Users className="h-3.5 w-3.5" />
-              Guests
+              {t("guests")}
             </label>
             <div className="flex items-center justify-between rounded-xl border border-border bg-background px-2 py-1.5">
               <button
                 type="button"
-                aria-label="Remove a guest"
+                aria-label={t("removeGuest")}
                 onClick={() => setGuests((g) => Math.max(1, g - 1))}
                 className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
                 <Minus className="h-4 w-4" />
@@ -335,7 +336,7 @@ export function CheckoutForm({
               <span className="font-serif text-lg text-foreground">{guests}</span>
               <button
                 type="button"
-                aria-label="Add a guest"
+                aria-label={t("addGuest")}
                 onClick={() => setGuests((g) => Math.min(12, g + 1))}
                 className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
                 <Plus className="h-4 w-4" />
@@ -348,7 +349,7 @@ export function CheckoutForm({
         {tour.addOns.length > 0 && (
           <div>
             <p className="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              Optional extras
+              {t("optionalExtras")}
             </p>
             <div className="space-y-2">
               {tour.addOns.map((a) => (
@@ -387,14 +388,14 @@ export function CheckoutForm({
         {/* Customer info */}
         <div className="rounded-2xl bg-background p-5">
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-            Your information
+            {t("yourInformation")}
           </p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <input
                 type="text"
                 required
-                placeholder="Full name *"
+                placeholder={t("fullName")}
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-ring/40"
@@ -403,35 +404,35 @@ export function CheckoutForm({
             <input
               type="tel"
               required
-              placeholder="Phone *"
+              placeholder={t("phone")}
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-ring/40"
             />
             <input
               type="email"
-              placeholder="Email (optional)"
+              placeholder={t("email")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-ring/40"
             />
             <input
               type="tel"
-              placeholder="Zalo number (optional)"
+              placeholder={t("zaloNumber")}
               value={zaloPhone}
               onChange={(e) => setZaloPhone(e.target.value)}
               className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-ring/40"
             />
             <input
               type="text"
-              placeholder="Nationality (optional)"
+              placeholder={t("nationality")}
               value={nationality}
               onChange={(e) => setNationality(e.target.value)}
               className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-ring/40"
             />
             <div className="sm:col-span-2">
               <textarea
-                placeholder="Note (optional)"
+                placeholder={t("note")}
                 rows={2}
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
@@ -444,7 +445,7 @@ export function CheckoutForm({
         {/* Payment method */}
         <div>
           <p className="mb-2.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-            How would you like to pay?
+            {t("howToPay")}
           </p>
           <div className="grid gap-2 sm:grid-cols-2">
             <button
@@ -466,10 +467,10 @@ export function CheckoutForm({
                   className={`block text-sm font-medium ${
                     payMethod === "vnpay" ? "text-accent-hover" : "text-foreground"
                   }`}>
-                  Pay now with VNPay
+                  {t("payNowVnpay")}
                 </span>
                 <span className="block text-xs font-light text-muted-foreground">
-                  Online card / bank transfer
+                  {t("payNowVnpaySub")}
                 </span>
               </span>
             </button>
@@ -492,10 +493,10 @@ export function CheckoutForm({
                   className={`block text-sm font-medium ${
                     payMethod === "zalo" ? "text-accent-hover" : "text-foreground"
                   }`}>
-                  Contact via Zalo
+                  {t("contactZalo")}
                 </span>
                 <span className="block text-xs font-light text-muted-foreground">
-                  Confirm with our team first
+                  {t("contactZaloSub")}
                 </span>
               </span>
             </button>
@@ -506,17 +507,17 @@ export function CheckoutForm({
         <div className="space-y-2 rounded-2xl bg-background p-5">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
-              {variant?.name} × {guests} {guests === 1 ? "rider" : "riders"}
+              {variant?.name} × {guests} {guests === 1 ? t("rider") : t("riders")}
             </span>
             <span className="font-medium text-foreground">
               {variant?.priceType === "per_group"
                 ? formatVnd(variant?.basePrice ?? 0)
-                : `${formatVnd(variant?.basePrice ?? 0)} / person`}
+                : `${formatVnd(variant?.basePrice ?? 0)} ${t("perPerson")}`}
             </span>
           </div>
           {addOnIds.length > 0 && (
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Extras</span>
+              <span className="text-muted-foreground">{t("extras")}</span>
               <span className="font-medium text-foreground">
                 {formatVnd(
                   tour.addOns
@@ -532,7 +533,7 @@ export function CheckoutForm({
           )}
           <div className="flex items-center justify-between border-t border-border pt-3">
             <span className="text-sm font-medium text-foreground">
-              Estimated total
+              {t("estimatedTotal")}
             </span>
             <span className="font-serif text-2xl text-accent-hover">
               {formatVnd(
@@ -550,8 +551,7 @@ export function CheckoutForm({
             </span>
           </div>
           <p className="pt-1 text-[0.7rem] font-light leading-5 text-muted-foreground">
-            Final price confirmed on the server. VNPay online payment includes
-            a 4% card fee.
+            {t("priceNote")}
           </p>
         </div>
 
@@ -563,31 +563,31 @@ export function CheckoutForm({
           {submitting ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              Creating booking…
+              {t("creatingBooking")}
             </>
           ) : payMethod === "vnpay" ? (
             <>
               <Wallet className="h-4 w-4" />
-              Book & pay now
+              {t("bookPayNow")}
             </>
           ) : (
             <>
               <MessageCircle className="h-4 w-4" />
-              Book via Zalo
+              {t("bookViaZalo")}
             </>
           )}
         </button>
 
         <p className="flex items-center justify-center gap-1.5 text-center text-xs font-light text-muted-foreground">
           <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-          Free cancellation · No payment needed now for Zalo bookings
+          {t("freeCancellation")}
         </p>
 
         <Link
           href={`/tours/${tour.slug}`}
           className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-accent">
           <ArrowLeft className="h-3.5 w-3.5" />
-          Back to tour details
+          {t("backToTour")}
         </Link>
       </div>
     </form>

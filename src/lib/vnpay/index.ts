@@ -97,6 +97,14 @@ export function createPaymentUrl(
   };
   if (input.bankCode) params.vnp_BankCode = input.bankCode;
 
+  // Append the UI locale to the return URL so the VNPay return handler can
+  // redirect the browser back to the correct /{locale}/booking result page.
+  // VNPay keeps any pre-existing query string on vnp_ReturnUrl and appends
+  // its own vnp_* params.
+  const returnUrl = new URL(config.returnUrl);
+  returnUrl.searchParams.set("locale", input.locale ?? "vn");
+  params.vnp_ReturnUrl = returnUrl.toString();
+
   const signData = buildSignData(params);
   const secureHash = sign(signData, config.hashSecret);
 

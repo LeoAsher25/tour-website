@@ -9,6 +9,7 @@ import {
   DestinationRepository,
   TourRepository,
 } from "@/lib/repositories/tours";
+import { localizeHomepageSection, localizeTour } from "@/lib/i18n/content";
 import type {
   AddOn,
   BlogCardPost,
@@ -67,33 +68,46 @@ const getPublishedToursCached = cache(async () => getPublishedToursPersistent())
 const getFeaturedToursCached = cache(async () => getFeaturedToursPersistent());
 const getTourBySlugCached = cache(async (slug: string) => getTourBySlugPersistent(slug));
 
-export async function getHomepageTours(): Promise<HomepageTourSectionData> {
-  return getHomepageToursCached();
+export async function getHomepageTours(
+  locale = "en"
+): Promise<HomepageTourSectionData> {
+  const data = await getHomepageToursCached();
+  return localizeHomepageSection(data, locale);
 }
 
-export async function getPublishedTours(): Promise<Tour[]> {
-  return getPublishedToursCached();
+export async function getPublishedTours(locale = "en"): Promise<Tour[]> {
+  const tours = await getPublishedToursCached();
+  return locale === "vi" ? tours.map((t) => localizeTour(t, locale)) : tours;
 }
 
-export async function getFeaturedTours(): Promise<Tour[]> {
-  return getFeaturedToursCached();
+export async function getFeaturedTours(locale = "en"): Promise<Tour[]> {
+  const tours = await getFeaturedToursCached();
+  return locale === "vi" ? tours.map((t) => localizeTour(t, locale)) : tours;
 }
 
-export async function getTourBySlug(slug: string): Promise<Tour | null> {
-  return getTourBySlugCached(slug);
+export async function getTourBySlug(
+  slug: string,
+  locale = "en"
+): Promise<Tour | null> {
+  const tour = await getTourBySlugCached(slug);
+  return tour ? localizeTour(tour, locale) : null;
 }
 
-export async function getTourById(id: string): Promise<Tour | null> {
-  return tourRepo.getById(id);
+export async function getTourById(id: string, locale = "en"): Promise<Tour | null> {
+  const tour = await tourRepo.getById(id);
+  return tour ? localizeTour(tour, locale) : null;
 }
 
 export async function getRelatedTours(
   slug: string,
-  limit = 2
+  limit = 2,
+  locale = "en"
 ): Promise<HomepageTour[]> {
-  return tourRepo.getRelatedBySlug(slug, limit);
+  const tours = await tourRepo.getRelatedBySlug(slug, limit);
+  if (locale !== "vi") return tours;
+  const { localizeHomepageTour } = await import("@/lib/i18n/content");
+  return tours.map((t) => localizeHomepageTour(t, locale));
 }
-
 export async function getDestinations(): Promise<Destination[]> {
   return destinationRepo.list();
 }

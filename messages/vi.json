@@ -1,0 +1,586 @@
+{
+  "site": {
+    "nav": {
+      "home": "Trang chủ",
+      "tours": "Tour",
+      "itinerary": "Lịch trình",
+      "services": "Dịch vụ",
+      "gallery": "Bộ sưu tập",
+      "blog": "Blog"
+    },
+    "header": {
+      "bookATour": "Đặt tour",
+      "openMenu": "Mở menu",
+      "closeMenu": "Đóng menu",
+      "menu": "Menu",
+      "hotlineZalo": "Hotline Zalo",
+      "home": "trang chủ",
+      "mainNav": "Chính",
+      "mobileNav": "Di động"
+    },
+    "footer": {
+      "explore": "Khám phá",
+      "contact": "Liên hệ",
+      "locations": "Địa điểm",
+      "exploreLinks": {
+        "motorbikeTours": "Tour xe máy",
+        "jeepSuvTours": "Tour Jeep & SUV",
+        "itinerary": "Lịch trình",
+        "services": "Dịch vụ",
+        "travelBlog": "Blog du lịch"
+      },
+      "haNoiOffice": "Văn phòng Hà Nội",
+      "haGiangHostel1": "Số 134C Lý Tự Trọng (Minh Khai), Hà Giang",
+      "haGiangHostel2": "Jasmine Hostel 2 tại Hoa Bắc / Km11, Vị Xuyên, Hà Giang",
+      "onInstagram": "trên Instagram",
+      "onZalo": "trên Zalo",
+      "emailUs": "Email",
+      "hotlineZalo": "Hotline Zalo"
+    },
+    "seo": {
+      "title": "Jasmine Tours Hà Giang | Tour Xe Máy Đèo Hà Giang",
+      "description": "Chinh phục cung đường Hà Giang Loop huyền thoại cùng Jasmine Tours. Tour xe máy nhóm nhỏ, Easy Rider, tour riêng và Jeep qua vùng núi phía Bắc hoang sơ của Việt Nam."
+    },
+    "taglines": {
+      "heroSubtitle": "Hà Giang Loop, đồng hành cùng bạn.",
+      "description": "Tour xe máy nhóm nhỏ, lựa chọn Easy Rider và tour Jeep riêng qua vùng núi phía Bắc hoang sơ của Việt Nam. Homestay, hướng dẫn viên địa phương và những con đường ngoạn mục nhất đất nước."
+    },
+    "notFound": {
+      "title": "Không tìm thấy trang",
+      "description": "Trang bạn đang tìm không tồn tại hoặc đã bị di chuyển.",
+      "backHome": "Về trang chủ"
+    },
+    "tourCard": {
+      "viewTour": "Xem tour"
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Hà Giang Loop — Việt Nam",
+      "location": "Hà Giang, Việt Nam",
+      "title1": "Chinh phục con đường",
+      "titleAccent": "ngoạn mục",
+      "title2": "nhất",
+      "title3": "Việt Nam.",
+      "subtitle": "Không cần bằng lái. Không cần lo lắng. Chỉ cần lên xe — và đi. Tour xe máy nhóm nhỏ, lựa chọn Easy Rider và tour Jeep riêng qua những đèo núi huyền thoại của Hà Giang.",
+      "exploreTours": "Khám phá tour",
+      "bookYourRide": "Đặt chuyến đi",
+      "statReviews": "2.000+ đánh giá",
+      "statRoads": "500 km",
+      "statRoadsLabel": "đường đèo núi",
+      "statGuides": "100%",
+      "statGuidesLabel": "hướng dẫn viên địa phương",
+      "scroll": "Cuộn xuống",
+      "goToSlide": "Chuyển đến slide {index}",
+      "slideAlt1": "Đoàn xe máy vượt đèo cao",
+      "slideAlt2": "Núi đá vôi và thung lũng ruộng bậc thang ở Hà Giang",
+      "slideAlt3": "Tay lái đang đổ đèo mù sương trên cung Hà Giang Loop"
+    },
+    "intro": {
+      "eyebrow": "Chào mừng đến với Cung đường",
+      "title1": "Một trong những nơi",
+      "title2": "tuyệt vời nhất để du lịch tại",
+      "titleAccent": "Việt Nam",
+      "text": "Với tổng chiều dài 500 km, Hà Giang Loop không phải là chuyến đi ngắn. Những con đường quanh co len lỏi qua núi đá vôi hùng vĩ, bên những thác nước và ngôi làng dân tộc đẹp như tranh. Cảnh quan tuyệt đẹp và hành trình đầy phấn khích sẽ là điểm nhấn trong chuyến đi Việt Nam của bạn — và có lẽ là những ngày đáng nhớ nhất.",
+      "imgAlt1": "Tay lái trên cung Hà Giang Loop với núi phía sau",
+      "imgAlt2": "Ruộng bậc thang ở Hà Giang",
+      "badge": "12.000+ tay lái",
+      "features": {
+        "guide": { "title": "Đi theo hướng dẫn viên", "text": "Nhóm nhỏ, tối đa 12 tay lái, dẫn dắt bởi hướng dẫn viên địa phương am hiểu từng khúc cua." },
+        "locals": { "title": "Ngủ cùng người bản địa", "text": "Homestay cùng gia đình người H'mông và Tày — bữa tối chung, buổi sáng đích thực." },
+        "media": { "title": "Đội ngũ media đi kèm", "text": "Ảnh và video chuyên nghiệp của chuyến đi, được ghi lại bởi đội ngũ media của chúng tôi." }
+      },
+      "exploreTours": "Khám phá các tour"
+    },
+    "experience": {
+      "eyebrow": "Trải nghiệm Hà Giang",
+      "title1": "Vượt qua nỗi sợ của chính mình sau khi chinh phục những khúc cua",
+      "titleAccent": "kẹp tóc",
+      "title2": "huyền thoại",
+      "text": "Hà Giang Loop như bước ra từ một bộ phim — đèo dốc, khúc cua quanh co và những cua kẹp tóc có thể khiến bạn hồi hộp hoặc thậm chí sợ hãi. Nhưng với hướng dẫn viên chuyên nghiệp của chúng tôi, bạn sẽ vượt qua nỗi sợ này và chinh phục \"cực Bắc\", nhận được sự ngưỡng mộ của bạn bè và gia đình.",
+      "stats": {
+        "years": { "title": "Năm kinh nghiệm", "value": "12+", "text": "Dẫn dắt tay lái qua Hà Giang Loop từ năm 2012." },
+        "tours": { "title": "Tour tại Hà Giang", "value": "4.000+", "text": "Chuyến đi hoàn thành trên cung đường, mọi mùa." },
+        "customers": { "title": "Khách hàng tin tưởng", "value": "12.000+", "text": "Du khách hài lòng từ hơn 60 quốc gia." }
+      }
+    },
+    "tours": {
+      "eyebrow": "Tour của chúng tôi",
+      "title1": "Giá cả đơn giản và",
+      "titleAccent": "linh hoạt",
+      "description": "Tour xe máy, Jeep và SUV riêng — mỗi tour là một nhóm nhỏ với hướng dẫn viên địa phương, homestay và đầy đủ bữa ăn.",
+      "groupBadge": "Tour nhóm chạy hằng ngày · ~10 người",
+      "checkAvailability": "Kiểm tra lịch & đặt tour",
+      "duration": "{days}N {nights}Đ"
+    },
+    "itinerary": {
+      "eyebrow": "Hành trình",
+      "title1": "Lịch trình được thiết kế cho",
+      "titleAccent": "cảm xúc",
+      "description": "Ba ngày, 375 km và con đường ngoạn mục nhất Việt Nam — nhịp độ vừa đủ để mỗi điểm dừng có thời gian in sâu.",
+      "days": {
+        "day1": { "day": "Ngày 1", "title": "Hà Giang — Yên Minh", "distance": "95 km", "text": "Gặp mặt tại Hostel {hostel}, sau đó chạy qua Cổng Trời Quản Bạ và Núi Đôi. Tiệc chào mừng cùng gia đình người H'mông vào buổi tối.", "stops": ["Cổng Trời Quản Bạ", "Núi Đôi", "Homestay & tiệc chào mừng"] },
+        "day2": { "day": "Ngày 2", "title": "Yên Minh — Mèo Vạc", "distance": "120 km", "text": "Vương miện của cung đường. Cột cờ Lũng Cú tại biên giới Trung Quốc, phố cổ Đồng Văn, rồi đến đèo Mã Pì Lèng huyền thoại.", "stops": ["Cột cờ Lũng Cú", "Phố cổ Đồng Văn", "Đèo Mã Pì Lèng"] },
+        "day3": { "day": "Ngày 3", "title": "Mèo Vạc — Hà Giang", "distance": "160 km", "text": "Làng tiên Du Già, thác nước và cảnh sắc mộng mơ, rồi chạy về nhà — đến nơi trước 4h chiều để kịp xe giường nằm lúc 9h tối.", "stops": ["Thác Du Già", "Làng Du Già", "Trở về Hà Giang"] }
+      }
+    },
+    "booking": {
+      "eyebrow": "Đặt chuyến đi",
+      "title1": "Sẵn sàng cho",
+      "titleAccent": "cuộc phiêu lưu",
+      "question": "?",
+      "description": "Cho chúng tôi biết bạn muốn đi tour nào, bao nhiêu người và ngày khởi hành. Đội ngũ của chúng tôi xác nhận đặt tour trong vài giờ.",
+      "points": {
+        "freeDorm": "Giường dorm miễn phí tại {location} đêm trước ngày khởi hành",
+        "privateRoom": "Nâng cấp phòng riêng (+400.000 VND / 2 người / đêm)",
+        "twoPerBike": "2 người 1 xe — miễn phí nâng cấp xe lớn hơn",
+        "payOptions": "Thanh toán tiền mặt hoặc thẻ tại văn phòng, hoặc trực tuyến"
+      },
+      "chooseTour": "Chọn tour",
+      "ridingOption": "Lựa chọn xe",
+      "startDate": "Ngày khởi hành",
+      "guests": "Số khách",
+      "removeGuest": "Bớt một khách",
+      "addGuest": "Thêm một khách",
+      "groupPrice": "Giá nhóm",
+      "estimatedTotal": "Tổng tạm tính",
+      "finalPriceNote": "Giá cuối do đội ngũ xác nhận. Phí thanh toán thẻ 4% áp dụng khi thanh toán trực tuyến.",
+      "bookThisTour": "Đặt tour này",
+      "rider": "khách",
+      "riders": "khách"
+    },
+    "services": {
+      "eyebrow": "Đội xe & dịch vụ",
+      "title1": "Mọi loại xe bạn cần,",
+      "titleAccent": "sẵn sàng",
+      "title2": "lên đường",
+      "description": "Xe bán tự động cho người mới, xe số sàn cho tay lái tự tin, và Jeep mui trần cho những ai thích ngắm cảnh trên đường.",
+      "note": "Xe tay ga hoặc xe tự động không phù hợp với đường đèo nhiều dốc lên xuống. Chúng tôi có buổi tập ngắn với xe bán tự động — dễ học, và bạn sẽ lên tay nghề ngay sau đèo đầu tiên.",
+      "items": {
+        "honda": { "title": "Honda 110cc bán tự động", "text": "Chiếc xe huyền thoại của cung đường. Đời mới, dễ học." },
+        "suzuki": { "title": "Suzuki HJ125cc", "text": "Số sàn dành cho tay lái tự tin." },
+        "xr": { "title": "Honda XR150cc", "text": "Lựa chọn nâng cấp cho những ngày dài trên yên." },
+        "jeep": { "title": "Jeep Wrangler Sahara", "text": "Ngồi sau tài xế hướng dẫn viên trong chiếc Jeep mui trần." }
+      }
+    },
+    "video": {
+      "eyebrow": "Xem cung đường",
+      "title": "Một trong những nơi tuyệt vời nhất để du lịch tại Việt Nam",
+      "play": "Phát video Hà Giang Loop",
+      "alt": "Xem trước video — tay lái trên cung Hà Giang Loop"
+    },
+    "gallery": {
+      "eyebrow": "Bộ sưu tập",
+      "title1": "Khoảnh khắc trên",
+      "titleAccent": "cung đường",
+      "description": "Ảnh và video chuyên nghiệp đi kèm mỗi tour — được đội ngũ media ghi lại để bạn tận hưởng trọn vẹn khoảnh khắc.",
+      "alts": {
+        "pass": "Tay lái đổ đèo trong sương",
+        "village": "Con phố làng ở Hà Giang",
+        "golden": "Thung lũng núi trong ánh nắng vàng",
+        "thamMa": "Những khúc cua nổi tiếng đèo Thăm Mà",
+        "travellers": "Du khách trên cung đường",
+        "sunset": "Núi đá vôi lúc hoàng hôn"
+      }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title1": "Mọi thắc mắc,",
+      "titleAccent": "đều có lời giải",
+      "description": "Những điều du khách thường hỏi trước khi chinh phục cung đường.",
+      "messageUs": "Còn tò mò? Nhắn chúng tôi trên Zalo",
+      "items": {
+        "solo": {
+          "q": "Tôi đi một mình — có thể tham gia nhóm không?",
+          "a": "Chắc chắn rồi. Đây là tour cá nhân, cặp đôi hoặc nhóm tùy theo nhu cầu. Ngay cả khi đi một mình bạn vẫn nhận trọn vẹn trải nghiệm tour. Chúng tôi cũng có tour nhóm chạy mỗi ngày với khoảng 10 người."
+        },
+        "luggage": {
+          "q": "Tôi có thể mang vali hoặc ba lô to không?",
+          "a": "Vì đi bằng xe máy, chỗ để đồ có hạn — nên mang ba lô nhỏ và túi dễ mang theo. Bạn có thể gửi ba lô lớn tại Hostel {brand} với dịch vụ giữ đồ miễn phí và camera an ninh 24/7."
+        },
+        "automatic": {
+          "q": "Có xe tay ga / xe tự động không?",
+          "a": "Xe tay ga hoặc xe tự động không phù hợp với đường đèo nhiều dốc. Bạn cần số để giảm tốc an toàn khi đổ đèo. Chúng tôi có buổi tập ngắn với xe bán tự động — rất dễ học và bạn sẽ thành thạo sau buổi tập."
+        },
+        "licence": {
+          "q": "Tôi có thể lái xe máy khi chưa có bằng không?",
+          "a": "Để tự lái bạn cần Giấy phép lái xe quốc tế 1968 (hạng A hoặc A1) kèm bằng lái quốc gia (hạng A hoặc A1). Cần hỗ trợ? Chọn lựa chọn Easy Rider và ngồi sau một hướng dẫn viên chuyên nghiệp — không cần bằng lái."
+        },
+        "card": {
+          "q": "Tôi có thể thanh toán bằng thẻ không?",
+          "a": "Có! Chúng tôi chấp nhận thanh toán tiền mặt và thẻ khi bạn thanh toán tại văn phòng, hoặc bạn có thể thanh toán qua website (phí thanh toán thẻ 4% áp dụng trực tuyến)."
+        },
+        "office": {
+          "q": "{brand} có văn phòng tại Hà Nội không?",
+          "a": "Có! Văn phòng của {brand} tại số 22 Phố Phất Lộc, Hoàn Kiếm, Hà Nội. Tại Hà Giang chúng tôi có hai hostel: số 134C Lý Tự Trọng (Minh Khai) và {brand} Hostel 2 tại Hoa Bắc / Km11, Vị Xuyên."
+        }
+      }
+    },
+    "blogPreview": {
+      "eyebrow": "Những câu chuyện trên đường",
+      "title1": "Ghi chép từ",
+      "titleAccent": "cao nguyên",
+      "viewAll": "Xem tất cả bài viết",
+      "readStory": "Đọc bài viết",
+      "featured": "Nổi bật",
+      "minRead": "{minutes} phút đọc"
+    },
+    "finalCta": {
+      "eyebrow": "Sẵn sàng lên đường",
+      "title1": "Đặt tour Hà Giang Loop",
+      "titleAccent": "ngay hôm nay",
+      "title2": "và trải nghiệm cuộc phiêu lưu đáng nhớ nhất đời",
+      "text": "Dù mùa nào, cung đường vẫn luôn chờ bạn. Tour nhóm chạy hằng ngày — cho chúng tôi biết khi nào bạn muốn đi và chúng tôi lo phần còn lại.",
+      "bookYourRide": "Đặt chuyến đi",
+      "talkToGuide": "Trò chuyện với hướng dẫn viên"
+    }
+  },
+  "tourDetail": {
+    "hero": {
+      "home": "Trang chủ",
+      "tours": "Tour",
+      "reviews": "({count} đánh giá)",
+      "duration": "Thời lượng",
+      "groupSize": "Số người",
+      "smallGroup": "Nhóm nhỏ",
+      "from": "Từ",
+      "bookThisTour": "Đặt tour này",
+      "seeItinerary": "Xem lịch trình",
+      "durationFormat": "{days}N {nights}Đ"
+    },
+    "overview": {
+      "eyebrow": "Tổng quan",
+      "title1": "Hành trình qua",
+      "titleAccent": "lời kể",
+      "whyRideWithUs": "Vì sao đi cùng chúng tôi:",
+      "whyRideText": "Nhóm nhỏ, hướng dẫn viên địa phương sinh ra giữa núi rừng, và mọi chi tiết — bữa ăn, homestay, xăng, vé — đều được lo trọn.",
+      "facts": {
+        "duration": "Thời lượng",
+        "destination": "Điểm đến",
+        "difficulty": "Độ khó",
+        "groupSize": "Số người",
+        "vehicle": "Phương tiện",
+        "suitableFor": "Phù hợp với"
+      },
+      "durationValue": "{days} ngày / {nights} đêm"
+    },
+    "highlights": {
+      "eyebrow": "Điểm nổi bật",
+      "title1": "Điều khiến tour này",
+      "titleAccent": "khó quên",
+      "description": "Những khoảnh khắc bạn sẽ kể cho bạn bè rất lâu sau khi kết thúc chuyến đi.",
+      "experience": "Trải nghiệm {number}"
+    },
+    "itinerary": {
+      "eyebrow": "Lịch trình",
+      "title1": "{days} ngày của",
+      "titleAccent": "sự chậm rãi",
+      "title2": "kỳ diệu",
+      "description": "Nhịp độ vừa đủ để mỗi điểm nhìn có thời gian in sâu — từng ngày, từng bản làng.",
+      "day": "Ngày {number}",
+      "km": "{km} km"
+    },
+    "pricing": {
+      "eyebrow": "Bảng giá",
+      "title1": "Giá đơn giản,",
+      "titleAccent": "minh bạch",
+      "description": "Chọn phong cách đi của bạn. Mọi gói đều bao gồm trọn vẹn trải nghiệm — không chi phí ẩn cuối đường.",
+      "mostPopular": "Phổ biến nhất",
+      "perGroup": "theo nhóm",
+      "perPerson": "theo người",
+      "chooseThisOption": "Chọn lựa chọn này",
+      "included": "Đã bao",
+      "includedAccent": "gồm",
+      "goodToKnow": "Cần biết",
+      "goodToKnowAccent": "thêm",
+      "optionalExtras": "Phụ phí tùy chọn"
+    },
+    "bookingCard": {
+      "from": "Từ",
+      "freeCancellation": "Huỷ miễn phí",
+      "ridingOption": "Lựa chọn xe",
+      "startDate": "Ngày khởi hành",
+      "guests": "Số khách",
+      "removeGuest": "Bớt một khách",
+      "addGuest": "Thêm một khách",
+      "optionalExtras": "Phụ phí tùy chọn",
+      "estimatedTotal": "Tổng tạm tính",
+      "finalPriceNote": "Giá cuối do đội ngũ xác nhận. Phí thanh toán thẻ 4% áp dụng khi thanh toán trực tuyến.",
+      "bookThisTour": "Đặt tour này",
+      "instantBooking": "Đặt ngay · VNPay hoặc liên hệ Zalo",
+      "rider": "khách",
+      "riders": "khách",
+      "perGroup": "theo nhóm",
+      "perPerson": "theo người"
+    },
+    "gallery": {
+      "eyebrow": "Bộ sưu tập",
+      "title1": "Khung cảnh trên",
+      "titleAccent": "đường đi",
+      "description": "Ảnh chuyên nghiệp được đội ngũ media ghi lại trong mỗi tour.",
+      "openPhoto": "Mở ảnh: {alt}",
+      "closePhoto": "Đóng ảnh",
+      "previousPhoto": "Ảnh trước",
+      "nextPhoto": "Ảnh sau",
+      "caption": "{alt} · {index} / {total}"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title1": "Mọi thắc mắc,",
+      "titleAccent": "đều có lời giải",
+      "description": "Những điều du khách thường hỏi trước khi chinh phục cung đường. Còn tò mò? Nhắn chúng tôi trên Zalo — chúng tôi trả lời 8h đến 22h (GMT+7)."
+    },
+    "related": {
+      "eyebrow": "Tiếp tục khám phá",
+      "title1": "Những tour tương tự",
+      "titleAccent": "này",
+      "description": "Thêm cách khác để chinh phục miền Bắc hoang sơ — cùng hướng dẫn viên, cùng núi rừng, nhịp điệu khác.",
+      "viewAll": "Xem tất cả tour"
+    },
+    "mobileBar": {
+      "from": "Từ",
+      "perPerson": "/ người",
+      "bookNow": "Đặt ngay"
+    }
+  },
+  "checkout": {
+    "page": {
+      "eyebrow": "Thanh toán",
+      "title1": "Đặt chuyến",
+      "titleAccent": "phiêu lưu",
+      "metaTitle": "Đặt tour {title}",
+      "metaDescription": "Đặt tour {title} tại Hà Giang — đặt trực tuyến ngay với VNPay hoặc liên hệ qua Zalo.",
+      "description": "Chọn lựa chọn của bạn, chọn ngày, và cho chúng tôi biết ai sẽ đồng hành. Thanh toán trực tuyến an toàn qua VNPay, hoặc liên hệ qua Zalo và chúng tôi sẽ xác nhận đặt tour."
+    },
+    "form": {
+      "from": "Từ",
+      "ridingOption": "Lựa chọn xe",
+      "startDate": "Ngày khởi hành",
+      "guests": "Số khách",
+      "removeGuest": "Bớt một khách",
+      "addGuest": "Thêm một khách",
+      "optionalExtras": "Phụ phí tùy chọn",
+      "yourInformation": "Thông tin của bạn",
+      "fullName": "Họ và tên *",
+      "phone": "Số điện thoại *",
+      "email": "Email (tùy chọn)",
+      "zaloNumber": "Số Zalo (tùy chọn)",
+      "nationality": "Quốc tịch (tùy chọn)",
+      "note": "Ghi chú (tùy chọn)",
+      "howToPay": "Bạn muốn thanh toán thế nào?",
+      "payNowVnpay": "Thanh toán ngay qua VNPay",
+      "payNowVnpaySub": "Thẻ trực tuyến / chuyển khoản ngân hàng",
+      "contactZalo": "Liên hệ qua Zalo",
+      "contactZaloSub": "Xác nhận với đội ngũ trước",
+      "extras": "Phụ phí",
+      "estimatedTotal": "Tổng tạm tính",
+      "priceNote": "Giá cuối được xác nhận trên máy chủ. Thanh toán VNPay trực tuyến bao gồm phí thẻ 4%.",
+      "creatingBooking": "Đang tạo đặt tour…",
+      "bookPayNow": "Đặt & thanh toán ngay",
+      "bookViaZalo": "Đặt qua Zalo",
+      "freeCancellation": "Huỷ miễn phí · Không cần thanh toán ngay cho đặt tour qua Zalo",
+      "backToTour": "Quay lại chi tiết tour",
+      "discount": "Giảm giá",
+      "total": "Tổng cộng",
+      "viewBooking": "Xem đặt tour",
+      "tryPaymentAgain": "Thử thanh toán lại",
+      "zaloOpened": "Chúng tôi đã mở Zalo với chi tiết đặt tour của bạn. Đội ngũ sẽ xác nhận trong vài giờ. Giữ mã đặt tour — bạn có thể kiểm tra trạng thái bất cứ lúc nào.",
+      "booking": "Đặt tour {code}",
+      "rider": "khách",
+      "riders": "khách",
+      "perPerson": "/ người",
+      "errorGeneric": "Đã xảy ra lỗi. Vui lòng thử lại.",
+      "errorNetwork": "Lỗi mạng — vui lòng thử lại.",
+      "errorGateway": "Đặt tour đã được tạo nhưng không kết nối được cổng thanh toán. Dùng mã đặt tour để thanh toán sau.",
+      "zaloMessage": {
+        "greeting": "Xin chào Jasmine Tours! Tôi muốn đặt tour:",
+        "code": "- Mã đặt tour: {code}",
+        "tour": "- Tour: {title} ({variant})",
+        "date": "- Ngày khởi hành: {date}",
+        "guests": "- Số khách: {count}",
+        "name": "- Tên khách: {name}",
+        "total": "- Tổng tiền: {total}",
+        "confirm": "Vui lòng xác nhận giúp tôi. Cảm ơn!"
+      }
+    }
+  },
+  "booking": {
+    "page": {
+      "title": "Đặt tour {code}",
+      "booking": "Đặt tour",
+      "confirmed": "Đã xác nhận",
+      "cancelled": "Đã huỷ",
+      "pendingConfirmation": "Chờ xác nhận",
+      "tour": "Tour",
+      "departure": "Khởi hành",
+      "guest": "khách",
+      "guests": "khách",
+      "customer": "Khách hàng",
+      "discount": "Giảm giá",
+      "vat": "VAT",
+      "cardFee": "Phí thẻ",
+      "total": "Tổng cộng",
+      "payment": "Thanh toán",
+      "paid": "Đã thanh toán",
+      "paymentFailed": "Thanh toán thất bại",
+      "refunded": "Đã hoàn tiền",
+      "paymentPending": "Chờ thanh toán",
+      "nextSteps": "Bước tiếp theo",
+      "nextStepsPaid": "Cảm ơn bạn! Đặt tour của bạn đã được xác nhận. Chúng tôi sẽ liên hệ qua số điện thoại đã cung cấp trước ngày khởi hành.",
+      "nextStepsPending": "Đặt tour của bạn đang chờ xử lý. Thanh toán trực tuyến qua VNPay, hoặc liên hệ qua Zalo — đội ngũ xác nhận trong vài giờ.",
+      "contactZalo": "Liên hệ qua Zalo",
+      "payNow": "Thanh toán ngay",
+      "payStarting": "Đang bắt đầu thanh toán…",
+      "payError": "Không thể bắt đầu thanh toán. Vui lòng thử lại.",
+      "payNetworkError": "Lỗi mạng — vui lòng thử lại.",
+      "zaloMessage": {
+        "greeting": "Xin chào Jasmine Tours! Tôi có thắc mắc về đặt tour:",
+        "code": "- Mã đặt tour: {code}",
+        "tour": "- Tour: {title} ({variant})",
+        "date": "- Ngày khởi hành: {date}",
+        "guests": "- Số khách: {count}",
+        "name": "- Tên khách: {name}",
+        "total": "- Tổng tiền: {total}"
+      }
+    },
+    "success": {
+      "title": "Đặt tour thành công",
+      "h1": "Cảm ơn bạn! Đặt tour của bạn đã",
+      "h1Accent": "được xác nhận",
+      "confirmedWith": "Đặt tour {code} cho {title} ({variant}) vào {date} đã được xác nhận. Chúng tôi sẽ liên hệ qua điện thoại trước ngày khởi hành.",
+      "noBooking": "Khoản thanh toán của bạn đã được nhận và đặt tour đã được xác nhận. Kiểm tra email để biết chi tiết.",
+      "viewDetails": "Xem chi tiết đặt tour",
+      "contactZalo": "Liên hệ chúng tôi trên Zalo",
+      "zaloPaid": "Xin chào Jasmine Tours! Tôi đã thanh toán thành công đơn {code}.",
+      "zaloGeneric": "Xin chào Jasmine Tours! Tôi vừa hoàn tất thanh toán tour."
+    },
+    "failed": {
+      "title": "Thanh toán chưa hoàn tất",
+      "h1": "Thanh toán chưa",
+      "h1Accent": "hoàn tất",
+      "reasonInvalidSignature": "Không thể xác minh phản hồi thanh toán. Thẻ của bạn không bị trừ tiền.",
+      "reasonNotFound": "Chúng tôi không tìm thấy đặt tour này. Có thể nó đã hết hạn.",
+      "reasonCancelled": "Bạn đã huỷ thanh toán trước khi hoàn tất.",
+      "reasonDefault": "Thanh toán chưa hoàn tất. Thẻ của bạn không bị trừ tiền.",
+      "yourCode": "Mã đặt tour của bạn là {code}. Bạn có thể thử thanh toán lại từ trang đặt tour.",
+      "retryPayment": "Thử thanh toán lại",
+      "browseTours": "Xem các tour",
+      "contactZalo": "Liên hệ qua Zalo",
+      "zaloFailed": "Xin chào Jasmine Tours! Thanh toán đơn {code} chưa thành công, tôi cần hỗ trợ.",
+      "zaloGeneric": "Xin chào Jasmine Tours! Tôi cần hỗ trợ thanh toán."
+    }
+  },
+  "blogs": {
+    "index": {
+      "title": "Câu chuyện & Cẩm nang du lịch",
+      "description": "Cẩm nang, câu chuyện và lời khuyên thực tế từ Hà Giang Loop — mùa, hành lý, đèo, bản làng và hơn thế nữa từ đội ngũ {brand}.",
+      "eyebrow": "Những câu chuyện trên đường",
+      "h1": "Ghi chép từ",
+      "h1Accent": "cao nguyên",
+      "intro": "Mùa, danh sách hành lý, những con đèo khiến bạn nghẹt thở, và những bản làng níu chân bạn. Tất cả những gì chúng tôi biết về việc chinh phục Hà Giang Loop."
+    },
+    "detail": {
+      "title": "Không tìm thấy bài viết",
+      "allStories": "← Tất cả bài viết",
+      "minRead": "{minutes} phút đọc",
+      "keepReading": "Đọc",
+      "keepReadingAccent": "tiếp",
+      "inspired": "Cảm hứng rồi chứ? Cung đường đang",
+      "inspiredAccent": "chờ bạn",
+      "ctaText": "Tour nhóm chạy hằng ngày với ~10 tay lái. Đặt ngay hoặc hỏi chúng tôi bất cứ điều gì trên Zalo.",
+      "bookATour": "Đặt tour",
+      "chatOnZalo": "Trò chuyện trên Zalo"
+    }
+  },
+  "admin": {
+    "shell": {
+      "adminConsole": "Bảng quản trị",
+      "openSidebar": "Mở sidebar",
+      "collapseSidebar": "Thu gọn sidebar",
+      "signOut": "Đăng xuất",
+      "adminTitle": "{brand} Admin"
+    },
+    "nav": {
+      "dashboard": "Tổng quan",
+      "tours": "Tour",
+      "departures": "Departures",
+      "bookings": "Đặt tour",
+      "payments": "Thanh toán",
+      "blogs": "Bài viết",
+      "promotions": "Khuyến mãi",
+      "destinations": "Điểm đến",
+      "reviews": "Đánh giá",
+      "media": "Media",
+      "settings": "Cài đặt"
+    },
+    "dashboard": {
+      "overview": "Tổng quan",
+      "greeting": "Xin chào,",
+      "subtitle": "Quản lý tours, bookings và nội dung từ một nơi duy nhất.",
+      "viewSite": "Xem trang công khai",
+      "cardTours": "Tour",
+      "hintTours": "Đã xuất bản & bản nháp",
+      "cardBlogs": "Bài viết",
+      "hintBlogs": "Bài viết trên trang",
+      "cardBookings": "Đặt tour",
+      "hintBookings": "Tất cả thời gian",
+      "cardDepartures": "Departures",
+      "hintDepartures": "Ngày sắp tới",
+      "cardPaid": "Số tiền đã thanh toán",
+      "hintPaid": "VNPay + thủ công",
+      "cardRevenue": "Doanh thu đã xác nhận",
+      "hintRevenue": "Đặt tour đã xác nhận",
+      "quickActions": "Hành động nhanh",
+      "quickActionsSub": "Các thao tác thường dùng",
+      "newTour": "Tour mới",
+      "newBlog": "Bài viết mới",
+      "newBooking": "Tạo booking",
+      "manageDepartures": "Quản lý departures"
+    },
+    "login": {
+      "cardDescription": "Đăng nhập để quản lý website",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "emailPlaceholder": "admin@example.com",
+      "passwordPlaceholder": "••••••••",
+      "submit": "Đăng nhập",
+      "hint": "Chỉ quản trị viên mới có quyền truy cập."
+    },
+    "common": {
+      "back": "Quay lại",
+      "filter": "Lọc",
+      "clearFilters": "Xoá bộ lọc",
+      "add": "Thêm",
+      "saving": "Đang lưu…",
+      "saveChanges": "Lưu thay đổi",
+      "cancel": "Huỷ",
+      "noImg": "Không có ảnh",
+      "copy": "Copy URL",
+      "copied": "Đã copy!"
+    },
+    "tours": {
+      "title": "Tour",
+      "count": "{count} tour trên hệ thống",
+      "countOne": "1 tour trên hệ thống",
+      "newTour": "Tour mới",
+      "searchPlaceholder": "Tìm theo tên, slug, điểm đến…",
+      "status": "Trạng thái",
+      "allStatuses": "Tất cả trạng thái",
+      "published": "Published",
+      "draft": "Draft",
+      "archived": "Archived",
+      "colTour": "Tour",
+      "colDestination": "Điểm đến",
+      "colDuration": "Thời lượng",
+      "colPrice": "Giá từ",
+      "colStatus": "Trạng thái",
+      "colActions": "Thao tác",
+      "empty": "Chưa có tour nào",
+      "emptyDesc": "Tạo tour đầu tiên để bắt đầu bán hàng.",
+      "createTour": "Tạo tour",
+      "preview": "Xem trước",
+      "edit": "Chỉnh sửa",
+      "duplicate": "Nhân bản"
+    }
+  }
+}

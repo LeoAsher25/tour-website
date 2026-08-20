@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   Clock,
   Gauge,
@@ -15,13 +16,15 @@ import type { Tour } from "@/types/domain";
 
 /** Quick-fact cards (duration, difficulty, group, vehicle, etc.) */
 export function TourOverview({ tour }: { tour: Tour }) {
+  const t = useTranslations("tourDetail.overview");
+
   const facts = [
-    { icon: Clock, label: "Duration", value: `${tour.durationDays} days / ${tour.durationNights} nights` },
-    { icon: MapPin, label: "Destination", value: tour.destination },
-    { icon: Gauge, label: "Difficulty", value: tour.difficulty },
-    { icon: Users, label: "Group size", value: tour.groupSize ?? "Small group" },
-    { icon: Mountain, label: "Vehicle", value: tour.vehicle ?? tour.transportation },
-    { icon: ShieldCheck, label: "Suitable for", value: tour.suitableFor },
+    { icon: Clock, label: t("facts.duration"), value: t("durationValue", { days: tour.durationDays, nights: tour.durationNights }) },
+    { icon: MapPin, label: t("facts.destination"), value: tour.destination },
+    { icon: Gauge, label: t("facts.difficulty"), value: tour.difficulty },
+    { icon: Users, label: t("facts.groupSize"), value: tour.groupSize ?? "Small group" },
+    { icon: Mountain, label: t("facts.vehicle"), value: tour.vehicle ?? tour.transportation },
+    { icon: ShieldCheck, label: t("facts.suitableFor"), value: tour.suitableFor },
   ];
 
   return (
@@ -32,11 +35,11 @@ export function TourOverview({ tour }: { tour: Tour }) {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <Reveal>
               <p className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
-                Overview
+                {t("eyebrow")}
               </p>
               <h2 className="mt-4 font-serif text-4xl leading-[1.05] text-foreground sm:text-5xl">
-                The journey in{" "}
-                <span className="accent-word">words</span>
+                {t("title1")}{" "}
+                <span className="accent-word">{t("titleAccent")}</span>
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
@@ -48,9 +51,8 @@ export function TourOverview({ tour }: { tour: Tour }) {
               <div className="mt-8 flex items-start gap-3 rounded-2xl border border-border bg-surface p-5">
                 <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                 <p className="text-sm font-light leading-7 text-muted-foreground">
-                  <span className="font-medium text-foreground">Why ride with us:</span>{" "}
-                  Small groups, local guides born in the mountains, and every
-                  detail — meals, homestays, petrol, tickets — handled for you.
+                  <span className="font-medium text-foreground">{t("whyRideWithUs")}</span>{" "}
+                  {t("whyRideText")}
                 </p>
               </div>
             </Reveal>

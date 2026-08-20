@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { usePathname } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import {
   CalendarDays,
   FileText,
@@ -17,22 +18,23 @@ import {
 
 import { cn } from "@/lib/utils";
 
-const NAV_ITEMS = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/tours", label: "Tours", icon: Package },
-  { href: "/admin/departures", label: "Departures", icon: CalendarDays },
-  { href: "/admin/bookings", label: "Bookings", icon: Receipt },
-  { href: "/admin/payments", label: "Payments", icon: CreditCardIcon },
-  { href: "/admin/blogs", label: "Blogs", icon: FileText },
-  { href: "/admin/promotions", label: "Promotions", icon: TicketPercent },
-  { href: "/admin/destinations", label: "Destinations", icon: MapPin },
-  { href: "/admin/reviews", label: "Reviews", icon: Star },
-  { href: "/admin/media", label: "Media", icon: ImageIcon },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
-] as const;
-
 export function SidebarNav() {
   const pathname = usePathname();
+  const t = useTranslations("admin.nav");
+
+  const NAV_ITEMS = [
+    { href: "/admin", label: t("dashboard"), icon: LayoutDashboard },
+    { href: "/admin/tours", label: t("tours"), icon: Package },
+    { href: "/admin/departures", label: t("departures"), icon: CalendarDays },
+    { href: "/admin/bookings", label: t("bookings"), icon: Receipt },
+    { href: "/admin/payments", label: t("payments"), icon: CreditCardIcon },
+    { href: "/admin/blogs", label: t("blogs"), icon: FileText },
+    { href: "/admin/promotions", label: t("promotions"), icon: TicketPercent },
+    { href: "/admin/destinations", label: t("destinations"), icon: MapPin },
+    { href: "/admin/reviews", label: t("reviews"), icon: Star },
+    { href: "/admin/media", label: t("media"), icon: ImageIcon },
+    { href: "/admin/settings", label: t("settings"), icon: Settings },
+  ];
 
   return (
     <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">

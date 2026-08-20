@@ -1,8 +1,10 @@
+import { getTranslations } from "next-intl/server";
 import { formatVnd } from "@/lib/pricing";
 import type { Tour } from "@/types/domain";
 
 /** Mobile-only sticky bottom booking bar. */
-export function MobileBookingBar({ tour }: { tour: Tour }) {
+export async function MobileBookingBar({ tour }: { tour: Tour }) {
+  const t = await getTranslations("tourDetail.mobileBar");
   const cheapest = tour.variants[0];
 
   return (
@@ -13,18 +15,18 @@ export function MobileBookingBar({ tour }: { tour: Tour }) {
             {tour.title}
           </p>
           <p className="text-xs font-light text-muted-foreground">
-            From{" "}
+            {t("from")}{" "}
             <span className="font-medium text-accent-hover">
               {formatVnd(cheapest?.basePrice ?? tour.fromPrice)}
             </span>{" "}
-            / person
+            {t("perPerson")}
           </p>
         </div>
         <a
           href="#booking"
           className="inline-flex h-12 shrink-0 items-center justify-center rounded-full bg-accent px-6 text-sm font-medium text-accent-foreground shadow-lg transition-all duration-200 hover:bg-accent-hover"
         >
-          Book now
+          {t("bookNow")}
         </a>
       </div>
     </div>

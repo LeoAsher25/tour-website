@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   motion,
   useReducedMotion,
@@ -11,6 +11,7 @@ import {
   type Variants,
 } from "framer-motion";
 import { ArrowDown, ChevronRight, MapPin } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 const slides = [
   {
@@ -56,6 +57,7 @@ export function Hero() {
   const [index, setIndex] = useState(0);
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
+  const t = useTranslations("home.hero");
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -129,7 +131,7 @@ export function Hero() {
 
       <div className="absolute left-4 top-24 z-10 hidden items-center gap-2 rounded-full border border-dark-text/20 bg-dark-bg/30 px-4 py-2 text-xs uppercase tracking-[0.18em] text-dark-text/90 backdrop-blur-md md:flex">
         <MapPin className="h-3.5 w-3.5 text-accent" />
-        Ha Giang, Vietnam
+        {t("location")}
       </div>
 
       <motion.div
@@ -143,25 +145,23 @@ export function Hero() {
             variants={line}
             className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.28em] text-accent-tint">
             <span className="h-px w-10 bg-accent" />
-            Ha Giang Loop — Vietnam
+            {t("eyebrow")}
           </motion.p>
 
           <motion.h1
             variants={line}
             className="mt-6 max-w-4xl font-serif text-5xl leading-[0.98] text-dark-text sm:text-7xl lg:text-8xl">
-            Ride the most
+            {t("title1")}
             <br />
-            <span className="accent-word">spectacular</span> road
+            <span className="accent-word">{t("titleAccent")}</span> {t("title2")}
             <br />
-            in Vietnam.
+            {t("title3")}
           </motion.h1>
 
           <motion.p
             variants={line}
             className="mt-7 max-w-xl text-base font-light leading-8 text-dark-muted sm:text-lg">
-            No licence. No fear. Just hop on — and ride. Small-group motorbike
-            tours, easy rider options and private jeep adventures through Ha
-            Giang&rsquo;s legendary mountain passes.
+            {t("subtitle")}
           </motion.p>
 
           <motion.div
@@ -170,14 +170,14 @@ export function Hero() {
             <Link
               href="/#tours"
               className="group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-medium text-accent-foreground shadow-xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-2xl sm:w-auto">
-              Explore tours
+              {t("exploreTours")}
               <ChevronRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
 
             <Link
               href="/#booking"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-dark-text/40 bg-dark-bg/30 px-8 py-4 text-sm font-medium text-dark-text backdrop-blur-sm transition-all duration-200 hover:border-accent hover:text-accent sm:w-auto">
-              Book your ride
+              {t("bookYourRide")}
             </Link>
           </motion.div>
 
@@ -185,9 +185,9 @@ export function Hero() {
             variants={fade}
             className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-4">
             {[
-              ["4.9/5", "2,000+ reviews"],
-              ["500 km", "of mountain roads"],
-              ["100%", "local guides"],
+              ["4.9/5", t("statReviews")],
+              [t("statRoads"), t("statRoadsLabel")],
+              [t("statGuides"), t("statGuidesLabel")],
             ].map(([value, label]) => (
               <div key={label} className="flex items-center gap-3">
                 <span className="font-serif text-2xl text-dark-text">
@@ -213,7 +213,7 @@ export function Hero() {
           transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2 text-dark-text/70">
           <span className="text-[0.65rem] uppercase tracking-[0.24em]">
-            Scroll
+            {t("scroll")}
           </span>
           <ArrowDown className="h-4 w-4" />
         </motion.div>
@@ -224,7 +224,7 @@ export function Hero() {
           <button
             key={i}
             type="button"
-            aria-label={`Go to slide ${i + 1}`}
+            aria-label={t("goToSlide", { index: i + 1 })}
             onClick={() => setIndex(i)}
             className={`h-1.5 rounded-full transition-all duration-500 ${
               i === index

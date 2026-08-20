@@ -120,13 +120,12 @@ export function StaggerItem({
   );
 }
 
-
 /** Cinematic clip-path mask reveal — image wipes into place on scroll. */
 export function MaskReveal({
   children,
   className,
   delay = 0,
-  duration = 0.75,
+  duration = 0.65,
   viewport,
   transition,
 }: {
@@ -160,4 +159,3 @@ export function MaskReveal({
     </motion.div>
   );
 }
-

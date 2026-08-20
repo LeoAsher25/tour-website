@@ -1,10 +1,18 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 import { Container } from "@/components/container";
 import { Reveal } from "@/components/motion/reveal";
-import { strengths } from "@/config/site";
 
-export function ExperienceSection() {
+export async function ExperienceSection() {
+  const t = await getTranslations("home.experience");
+
+  const strengths = [
+    { title: t("stats.years.title"), value: t("stats.years.value"), text: t("stats.years.text") },
+    { title: t("stats.tours.title"), value: t("stats.tours.value"), text: t("stats.tours.text") },
+    { title: t("stats.customers.title"), value: t("stats.customers.value"), text: t("stats.customers.text") },
+  ];
+
   return (
     <section className="relative overflow-hidden bg-dark-bg py-24 text-dark-text lg:py-32">
       <div className="absolute inset-0" aria-hidden="true">
@@ -23,18 +31,15 @@ export function ExperienceSection() {
           <Reveal>
             <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-accent-tint">
               <span className="h-px w-8 bg-accent" />
-              The Ha Giang Experience
+              {t("eyebrow")}
             </p>
             <h2 className="mt-5 max-w-xl font-serif text-5xl leading-[1.02] sm:text-6xl">
-              Conquer your own fear after conquering legendary{" "}
-              <span className="accent-word">hairpin</span> turns
+              {t("title1")}{" "}
+              <span className="accent-word">{t("titleAccent")}</span>{" "}
+              {t("title2")}
             </h2>
             <p className="mt-7 max-w-lg text-base font-light leading-8 text-dark-muted sm:text-lg">
-              The Ha Giang Loop is like something out of a movie — steep passes,
-              winding bends and hairpin turns that may create a rush of
-              adrenaline or even fear. But with our expert guides, you will
-              overcome this fear and conquer the &ldquo;North Pole&rdquo;,
-              earning the respect of your friends and family.
+              {t("text")}
             </p>
           </Reveal>
 

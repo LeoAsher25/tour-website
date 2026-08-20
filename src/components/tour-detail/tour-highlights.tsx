@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { motion, useReducedMotion } from "framer-motion";
 import { Check } from "lucide-react";
 
@@ -12,19 +13,20 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function TourHighlights({ tour }: { tour: Tour }) {
   const reduce = useReducedMotion();
+  const t = useTranslations("tourDetail.highlights");
 
   return (
     <section className="bg-surface py-20 lg:py-28">
       <Container>
         <SectionHeader
-          eyebrow="Highlights"
+          eyebrow={t("eyebrow")}
           title={
             <>
-              What makes this{" "}
-              <span className="accent-word">unforgettable</span>
+              {t("title1")}{" "}
+              <span className="accent-word">{t("titleAccent")}</span>
             </>
           }
-          description="The moments you'll be telling your friends about long after the ride home."
+          description={t("description")}
           align="center"
         />
 
@@ -41,7 +43,7 @@ export function TourHighlights({ tour }: { tour: Tour }) {
                 </span>
                 <div>
                   <p className="text-[0.65rem] font-medium uppercase tracking-[0.18em] text-accent">
-                    Experience {String(i + 1).padStart(2, "0")}
+                    {t("experience", { number: String(i + 1).padStart(2, "0") })}
                   </p>
                   <p className="mt-1.5 font-serif text-lg leading-snug text-foreground">
                     {highlight}

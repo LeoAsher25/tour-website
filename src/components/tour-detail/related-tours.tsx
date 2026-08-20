@@ -1,13 +1,21 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 import { Container } from "@/components/container";
 import { SectionHeader } from "@/components/section-header";
 import { TourCard } from "@/components/tour-card";
 import { getRelatedTours } from "@/lib/repository";
 
-export async function RelatedTours({ slug }: { slug: string }) {
-  const related = await getRelatedTours(slug, 3);
+export async function RelatedTours({
+  slug,
+  locale = "en",
+}: {
+  slug: string;
+  locale?: string;
+}) {
+  const t = await getTranslations("tourDetail.related");
+  const related = await getRelatedTours(slug, 3, locale);
 
   if (related.length === 0) return null;
 
@@ -15,14 +23,14 @@ export async function RelatedTours({ slug }: { slug: string }) {
     <section className="border-t border-border bg-background py-20 lg:py-28">
       <Container>
         <SectionHeader
-          eyebrow="Keep exploring"
+          eyebrow={t("eyebrow")}
           title={
             <>
-              Tours like this{" "}
-              <span className="accent-word">one</span>
+              {t("title1")}{" "}
+              <span className="accent-word">{t("titleAccent")}</span>
             </>
           }
-          description="More ways to ride the wild north — same guides, same mountains, different rhythm."
+          description={t("description")}
           align="center"
         />
 
@@ -49,7 +57,7 @@ export async function RelatedTours({ slug }: { slug: string }) {
             href="/#tours"
             className="group inline-flex h-12 items-center gap-2 rounded-full bg-primary px-8 text-sm font-medium text-primary-foreground shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-lg"
           >
-            View all tours
+            {t("viewAll")}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
           </Link>
         </div>

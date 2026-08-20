@@ -1,6 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowRight, Clock, MapPin, Star } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -33,6 +34,8 @@ export function TourCard({
   rating,
   className,
 }: TourCardProps) {
+  const t = useTranslations("site");
+
   return (
     <article
       className={cn(
@@ -61,8 +64,7 @@ export function TourCard({
                   {highlight}
                 </Badge>
               )}
-            </div>
-            {rating && (
+            </div>            {rating && (
               <div className="flex items-center gap-1 rounded-full bg-card/90 px-2.5 py-1 text-xs font-medium backdrop-blur-sm">
                 <Star className="h-3.5 w-3.5 fill-accent text-accent" />
                 {rating}
@@ -105,7 +107,7 @@ export function TourCard({
               </p>
             </div>
             <span className="inline-flex h-11 items-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground">
-              View tour
+              {t("tourCard.viewTour")}
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </span>
           </div>

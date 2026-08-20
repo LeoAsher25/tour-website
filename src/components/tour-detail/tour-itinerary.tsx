@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Clock, MapPin, Moon, Sunrise } from "lucide-react";
 
@@ -18,6 +19,7 @@ export function TourItinerary({
   aside?: ReactNode;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations("tourDetail.itinerary");
   const { scrollYProgress } = useScroll({
     target: trackRef,
     offset: ["start 0.7", "end 0.55"],
@@ -28,14 +30,15 @@ export function TourItinerary({
     <section id="itinerary" className="scroll-mt-24 bg-background py-20 lg:py-28">
       <Container>
         <SectionHeader
-          eyebrow="The itinerary"
+          eyebrow={t("eyebrow")}
           title={
             <>
-              {tour.durationDays} days of{" "}
-              <span className="accent-word">slow</span> wonder
+              {t("title1", { days: tour.durationDays })}{" "}
+              <span className="accent-word">{t("titleAccent")}</span>{" "}
+              {t("title2")}
             </>
           }
-          description="Paced so every viewpoint has time to land — day by day, village by village."
+          description={t("description")}
           align="center"
         />
 
@@ -67,7 +70,7 @@ export function TourItinerary({
                     {/* Day label + route */}
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
-                        Day {day.dayNumber}
+                        {t("day", { number: day.dayNumber })}
                       </span>
                       <span className="h-1 w-1 rounded-full bg-border" />
                       <span className="inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
@@ -104,7 +107,7 @@ export function TourItinerary({
                                 )}
                                 {stop.distanceKm && (
                                   <span className="text-xs font-light text-muted-foreground">
-                                    {stop.distanceKm} km
+                                    {t("km", { km: stop.distanceKm })}
                                   </span>
                                 )}
                               </div>

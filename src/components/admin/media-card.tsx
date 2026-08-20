@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { publicUrlFor } from "@/lib/storage/url";
 
 /** Client wrapper for the copy-URL action on media cards. */
 export function CopyUrlButton({ storageKey }: { storageKey: string }) {
   const [copied, setCopied] = useState(false);
+  const t = useTranslations("admin.common");
 
   return (
     <button
@@ -19,7 +21,7 @@ export function CopyUrlButton({ storageKey }: { storageKey: string }) {
       }}
       className="inline-flex h-7 flex-1 items-center justify-center rounded-md border border-border text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
     >
-      {copied ? "Đã copy!" : "Copy URL"}
+      {copied ? t("copied") : t("copy")}
     </button>
   );
 }

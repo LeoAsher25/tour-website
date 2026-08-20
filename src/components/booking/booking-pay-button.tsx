@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Loader2, Wallet } from "lucide-react";
 
 /**
@@ -8,9 +9,16 @@ import { Loader2, Wallet } from "lucide-react";
  * redirects the user to the gateway. Lives in a client component so it can
  * use onClick (server components cannot receive event handlers).
  */
-export function BookingPayButton({ bookingCode }: { bookingCode: string }) {
+export function BookingPayButton({
+  bookingCode,
+  locale,
+}: {
+  bookingCode: string;
+  locale: string;
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const t = useTranslations("booking.page");
 
   async function handlePay() {
     setLoading(true);
@@ -19,16 +27,19 @@ export function BookingPayButton({ bookingCode }: { bookingCode: string }) {
       const res = await fetch("/api/payments/vnpay/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ bookingCode }),
+        body: JSON.stringify({
+          bookingCode,
+          locale: locale === "vi" ? "vn" : "en",
+        }),
       });
       const data = await res.json();
       if (!res.ok || !data.url) {
-        setError(data.error ?? "Could not start payment. Please try again.");
+        setError(data.error ?? t("payError"));
         return;
       }
       window.location.href = data.url;
     } catch {
-      setError("Network error — please try again.");
+      setError(t("payNetworkError"));
     } finally {
       setLoading(false);
     }
@@ -44,12 +55,12 @@ export function BookingPayButton({ bookingCode }: { bookingCode: string }) {
         {loading ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" />
-            Starting payment…
+            {t("payStarting")}
           </>
         ) : (
           <>
             <Wallet className="h-4 w-4" />
-            Pay now
+            {t("payNow")}
           </>
         )}
       </button>

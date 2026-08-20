@@ -1,8 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowRight, CalendarDays, Minus, Plus, ShieldCheck, Users } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 import { formatVnd } from "@/lib/pricing";
 import type { Tour } from "@/types/domain";
@@ -13,6 +14,7 @@ import type { Tour } from "@/types/domain";
  * Links to the checkout flow (server-side pricing + VNPay / Zalo).
  */
 export function TourBookingCard({ tour }: { tour: Tour }) {
+  const t = useTranslations("tourDetail.bookingCard");
   const [variantId, setVariantId] = useState(tour.variants[0]?.id ?? "");
   const [guests, setGuests] = useState(1);
   const [date, setDate] = useState("");
@@ -47,18 +49,18 @@ export function TourBookingCard({ tour }: { tour: Tour }) {
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="text-[0.65rem] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              From
+              {t("from")}
             </p>
             <p className="font-serif text-3xl text-accent-hover">
               {formatVnd(variant?.basePrice ?? tour.fromPrice)}
             </p>
             <p className="text-xs font-light text-muted-foreground">
-              per {variant?.priceType === "per_group" ? "group" : "person"}
+              {t(variant?.priceType === "per_group" ? "perGroup" : "perPerson")}
             </p>
           </div>
           <span className="flex items-center gap-1 rounded-full bg-accent-tint px-3 py-1 text-xs font-medium text-accent-hover">
             <ShieldCheck className="h-3.5 w-3.5" />
-            Free cancellation
+            {t("freeCancellation")}
           </span>
         </div>
 
@@ -69,7 +71,7 @@ export function TourBookingCard({ tour }: { tour: Tour }) {
               htmlFor="variant"
               className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground"
             >
-              Riding option
+              {t("ridingOption")}
             </label>
             <div className="grid gap-2">
               {tour.variants.map((v) => (
@@ -120,7 +122,7 @@ export function TourBookingCard({ tour }: { tour: Tour }) {
                 className="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground"
               >
                 <CalendarDays className="h-3.5 w-3.5" />
-                Start date
+                {t("startDate")}
               </label>
               <input
                 id="date"
@@ -136,12 +138,12 @@ export function TourBookingCard({ tour }: { tour: Tour }) {
                 className="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground"
               >
                 <Users className="h-3.5 w-3.5" />
-                Guests
+                {t("guests")}
               </label>
               <div className="flex items-center justify-between rounded-xl border border-border bg-background px-2 py-1.5">
                 <button
                   type="button"
-                  aria-label="Remove a guest"
+                  aria-label={t("removeGuest")}
                   onClick={() => setGuests((g) => Math.max(1, g - 1))}
                   className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
@@ -152,7 +154,7 @@ export function TourBookingCard({ tour }: { tour: Tour }) {
                 </span>
                 <button
                   type="button"
-                  aria-label="Add a guest"
+                  aria-label={t("addGuest")}
                   onClick={() => setGuests((g) => Math.min(12, g + 1))}
                   className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
@@ -166,7 +168,7 @@ export function TourBookingCard({ tour }: { tour: Tour }) {
           {tour.addOns.length > 0 && (
             <div>
               <p className="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                Optional extras
+                {t("optionalExtras")}
               </p>
               <div className="space-y-2">
                 {tour.addOns.map((a) => (
@@ -208,7 +210,7 @@ export function TourBookingCard({ tour }: { tour: Tour }) {
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">
                 {variant?.name} × {guests}{" "}
-                {guests === 1 ? "rider" : "riders"}
+                {guests === 1 ? t("rider") : t("riders")}
               </span>
               <span className="font-medium text-foreground">
                 {formatVnd(subtotal)}
@@ -216,15 +218,14 @@ export function TourBookingCard({ tour }: { tour: Tour }) {
             </div>
             <div className="flex items-center justify-between border-t border-border pt-3">
               <span className="text-sm font-medium text-foreground">
-                Estimated total
+                {t("estimatedTotal")}
               </span>
               <span className="font-serif text-2xl text-accent-hover">
                 {formatVnd(subtotal)}
               </span>
             </div>
             <p className="pt-1 text-[0.7rem] font-light leading-5 text-muted-foreground">
-              Final price confirmed by our team. Card payment fee 4% applies
-              when paying online.
+              {t("finalPriceNote")}
             </p>
           </div>
 
@@ -232,12 +233,12 @@ export function TourBookingCard({ tour }: { tour: Tour }) {
             href={`/checkout/${tour.slug}?variant=${variant?.id ?? ""}`}
             className="group flex h-13 w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-medium text-accent-foreground shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-xl"
           >
-            Book this tour
+            {t("bookThisTour")}
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
 
           <p className="text-center text-xs font-light text-muted-foreground">
-            Instant booking · VNPay or Zalo contact
+            {t("instantBooking")}
           </p>
         </div>
       </div>

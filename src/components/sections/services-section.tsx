@@ -1,23 +1,33 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 import { Container } from "@/components/container";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { SectionHeader } from "@/components/section-header";
-import { services } from "@/config/site";
 
-export function ServicesSection() {
+export async function ServicesSection() {
+  const t = await getTranslations("home.services");
+
+  const services = [
+    { title: t("items.honda.title"), image: "/images/services/2023/03/16/large/honda-wave-110cc-new_1678933906.png.webp", text: t("items.honda.text") },
+    { title: t("items.suzuki.title"), image: "/images/services/2023/03/16/large/suzuki-hj125-2019_1678934001.jpg.webp", text: t("items.suzuki.text") },
+    { title: t("items.xr.title"), image: "/images/services/2024/10/22/large/xr150_1729593790.png.webp", text: t("items.xr.text") },
+    { title: t("items.jeep.title"), image: "/images/services/2025/11/23/large/unnamed_1763884958.jpg.webp", text: t("items.jeep.text") },
+  ];
+
   return (
     <section id="services" className="scroll-mt-24 bg-surface py-24 lg:py-32">
       <Container>
         <SectionHeader
-          eyebrow="Fleet & services"
+          eyebrow={t("eyebrow")}
           title={
             <>
-              Every bike you need,{" "}
-              <span className="accent-word">ready</span> to ride
+              {t("title1")}{" "}
+              <span className="accent-word">{t("titleAccent")}</span>{" "}
+              {t("title2")}
             </>
           }
-          description="Semi-automatic bikes for beginners, manual gearboxes for the confident, and open-top Jeeps for those who'd rather watch the road go by."
+          description={t("description")}
           align="center"
         />
 
@@ -53,10 +63,7 @@ export function ServicesSection() {
 
         <Reveal delay={0.2}>
           <p className="mx-auto mt-12 max-w-2xl text-center text-sm font-light leading-7 text-muted-foreground">
-            The scooter or automatic bike is not suitable for mountain roads with
-            lots of up-and-down. We offer a short training session with the
-            semi-automatic — easy to learn, and you&rsquo;ll be a pro by the
-            first pass.
+            {t("note")}
           </p>
         </Reveal>
       </Container>

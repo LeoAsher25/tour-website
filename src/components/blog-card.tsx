@@ -1,11 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 import type { BlogPost } from "@/types/domain";
 
-export function formatBlogDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
+export function formatBlogDate(iso: string, locale = "en-US"): string {
+  return new Date(iso).toLocaleDateString(locale, {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -19,6 +20,8 @@ export function BlogCard({
   post: BlogPost;
   featured?: boolean;
 }) {
+  const t = useTranslations("home.blogPreview");
+
   return (
     <Link
       href={`/blogs/${post.slug}`}
@@ -41,7 +44,7 @@ export function BlogCard({
         <div className="absolute inset-0 bg-gradient-to-t from-dark-bg/40 to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-70" />
         {featured && (
           <span className="absolute left-4 top-4 rounded-full bg-accent px-4 py-1.5 text-[0.65rem] font-medium uppercase tracking-[0.16em] text-accent-foreground shadow-md">
-            Featured
+            {t("featured")}
           </span>
         )}
       </div>
@@ -73,7 +76,7 @@ export function BlogCard({
         </p>
         <div className="mt-auto flex items-center justify-between pt-6">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
-            {formatBlogDate(post.publishedAt)} · {post.readingMinutes} min read
+            {formatBlogDate(post.publishedAt)} · {t("minRead", { minutes: post.readingMinutes })}
           </p>
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-all duration-200 group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground">
             <ArrowUpRight className="h-4 w-4" />

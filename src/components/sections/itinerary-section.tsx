@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 import { Mountain, MapPin, Moon, Sun } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
 
@@ -9,36 +10,49 @@ import { Reveal } from "@/components/motion/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { siteConfig } from "@/config/site";
 
-const itinerary = [
-  {
-    day: "Day 1",
-    title: "Ha Giang — Yen Minh",
-    distance: "95 km",
-    text: `Briefing at ${siteConfig.brand.shortName} Hostel, then ride through Quan Ba's Heaven Gate and the Twin Mountains. Welcome party with the H'mong family at night.`,
-    icon: Sun,
-    stops: ["Quan Ba Heaven Gate", "Twin Mountains", "Homestay & welcome party"],
-  },
-  {
-    day: "Day 2",
-    title: "Yen Minh — Meo Vac",
-    distance: "120 km",
-    text: "The crown of the loop. Lung Cu flag tower at the Chinese border, Dong Van's old quarter, then the legendary Ma Pi Leng pass.",
-    icon: Mountain,
-    stops: ["Lung Cu Flag Tower", "Dong Van Old Quarter", "Ma Pi Leng Pass"],
-  },
-  {
-    day: "Day 3",
-    title: "Meo Vac — Ha Giang",
-    distance: "160 km",
-    text: "The fairy village of Du Gia, its waterfall and dreamy landscapes, then the ride home — arrive by 4pm for the 9pm night bus.",
-    icon: Moon,
-    stops: ["Du Gia Waterfall", "Du Gia Village", "Return to Ha Giang"],
-  },
-];
-
 export function ItinerarySection() {
   const reduce = useReducedMotion();
   const trackRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations("home.itinerary");
+
+  const itinerary = [
+    {
+      day: t("days.day1.day"),
+      title: t("days.day1.title"),
+      distance: t("days.day1.distance"),
+      text: t("days.day1.text", { hostel: siteConfig.brand.shortName }),
+      icon: Sun,
+      stops: [
+        t("days.day1.stops.0"),
+        t("days.day1.stops.1"),
+        t("days.day1.stops.2"),
+      ],
+    },
+    {
+      day: t("days.day2.day"),
+      title: t("days.day2.title"),
+      distance: t("days.day2.distance"),
+      text: t("days.day2.text"),
+      icon: Mountain,
+      stops: [
+        t("days.day2.stops.0"),
+        t("days.day2.stops.1"),
+        t("days.day2.stops.2"),
+      ],
+    },
+    {
+      day: t("days.day3.day"),
+      title: t("days.day3.title"),
+      distance: t("days.day3.distance"),
+      text: t("days.day3.text"),
+      icon: Moon,
+      stops: [
+        t("days.day3.stops.0"),
+        t("days.day3.stops.1"),
+        t("days.day3.stops.2"),
+      ],
+    },
+  ];
 
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -54,14 +68,14 @@ export function ItinerarySection() {
     <section id="itinerary" className="scroll-mt-24 bg-surface py-24 lg:py-32">
       <Container>
         <SectionHeader
-          eyebrow="The journey"
+          eyebrow={t("eyebrow")}
           title={
             <>
-              An itinerary built for{" "}
-              <span className="accent-word">awe</span>
+              {t("title1")}{" "}
+              <span className="accent-word">{t("titleAccent")}</span>
             </>
           }
-          description="Three days, 375 kilometres, and the most spectacular road in Vietnam — paced so every viewpoint has time to land."
+          description={t("description")}
           align="center"
         />
 

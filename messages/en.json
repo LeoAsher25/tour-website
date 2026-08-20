@@ -1,0 +1,586 @@
+{
+  "site": {
+    "nav": {
+      "home": "Home",
+      "tours": "Tours",
+      "itinerary": "Itinerary",
+      "services": "Services",
+      "gallery": "Gallery",
+      "blog": "Blog"
+    },
+    "header": {
+      "bookATour": "Book a tour",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "menu": "Menu",
+      "hotlineZalo": "Hotline Zalo",
+      "home": "home",
+      "mainNav": "Main",
+      "mobileNav": "Mobile"
+    },
+    "footer": {
+      "explore": "Explore",
+      "contact": "Contact",
+      "locations": "Locations",
+      "exploreLinks": {
+        "motorbikeTours": "Motorbike tours",
+        "jeepSuvTours": "Jeep & SUV tours",
+        "itinerary": "Itinerary",
+        "services": "Services",
+        "travelBlog": "Travel blog"
+      },
+      "haNoiOffice": "Ha Noi Office",
+      "haGiangHostel1": "No.134C Ly Tu Trong Street (Minh Khai), Ha Giang",
+      "haGiangHostel2": "Jasmine Hostel 2 at Hoa Bac / Km11, Vi Xuyen, Ha Giang",
+      "onInstagram": "on Instagram",
+      "onZalo": "on Zalo",
+      "emailUs": "Email",
+      "hotlineZalo": "Hotline Zalo"
+    },
+    "seo": {
+      "title": "Jasmine Tours Ha Giang | Ha Giang Loop Motorbike Tours",
+      "description": "Ride the legendary Ha Giang Loop with Jasmine Tours. Small-group motorbike tours, easy rider options, private tours and jeep adventures through Vietnam's wild northern frontier."
+    },
+    "taglines": {
+      "heroSubtitle": "The Ha Giang Loop, ridden with you.",
+      "description": "Small-group motorbike tours, easy rider options and private jeep adventures through Vietnam's wild northern frontier. Homestays, local guides, and the most spectacular roads in the country."
+    },
+    "notFound": {
+      "title": "Page not found",
+      "description": "The page you are looking for does not exist or has been moved.",
+      "backHome": "Back to home"
+    },
+    "tourCard": {
+      "viewTour": "View tour"
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Ha Giang Loop — Vietnam",
+      "location": "Ha Giang, Vietnam",
+      "title1": "Ride the most",
+      "titleAccent": "spectacular",
+      "title2": "road",
+      "title3": "in Vietnam.",
+      "subtitle": "No licence. No fear. Just hop on — and ride. Small-group motorbike tours, easy rider options and private jeep adventures through Ha Giang's legendary mountain passes.",
+      "exploreTours": "Explore tours",
+      "bookYourRide": "Book your ride",
+      "statReviews": "2,000+ reviews",
+      "statRoads": "500 km",
+      "statRoadsLabel": "of mountain roads",
+      "statGuides": "100%",
+      "statGuidesLabel": "local guides",
+      "scroll": "Scroll",
+      "goToSlide": "Go to slide {index}",
+      "slideAlt1": "Motorbike tour group crossing a high mountain pass",
+      "slideAlt2": "Lush karst mountains and terraced valley in Ha Giang",
+      "slideAlt3": "Riders descending a misty mountain road on the Ha Giang Loop"
+    },
+    "intro": {
+      "eyebrow": "Welcome to the Loop",
+      "title1": "One of the best places",
+      "title2": "to travel in",
+      "titleAccent": "Vietnam",
+      "text": "With a total distance of 500 kilometres, the Ha Giang Loop is no short task. Winding roads snake through dramatic limestone mountains, past cascading waterfalls and through charming hill tribe villages. The stunning views and exhilarating journey will be the highlight of your Vietnam trip — and perhaps the best few days of your travels.",
+      "imgAlt1": "Riders on the Ha Giang Loop with mountains behind",
+      "imgAlt2": "Terraced rice fields in Ha Giang",
+      "badge": "12,000+ riders",
+      "features": {
+        "guide": { "title": "Follow the guide", "text": "Small groups, max 12 riders, led by local guides who know every bend of the loop." },
+        "locals": { "title": "Sleep with locals", "text": "Homestays with H'mong and Tay families — shared dinners, real mornings." },
+        "media": { "title": "Media team included", "text": "Professional photos and videos of your trip, captured by our media crew." }
+      },
+      "exploreTours": "Explore the tours"
+    },
+    "experience": {
+      "eyebrow": "The Ha Giang Experience",
+      "title1": "Conquer your own fear after conquering legendary",
+      "titleAccent": "hairpin",
+      "title2": "turns",
+      "text": "The Ha Giang Loop is like something out of a movie — steep passes, winding bends and hairpin turns that may create a rush of adrenaline or even fear. But with our expert guides, you will overcome this fear and conquer the \"North Pole\", earning the respect of your friends and family.",
+      "stats": {
+        "years": { "title": "Years of Experience", "value": "12+", "text": "Guiding riders through the Ha Giang Loop since 2012." },
+        "tours": { "title": "Tours in Ha Giang", "value": "4,000+", "text": "Trips completed across the loop, every season." },
+        "customers": { "title": "Trusted Customers", "value": "12,000+", "text": "Happy travellers from over 60 countries." }
+      }
+    },
+    "tours": {
+      "eyebrow": "Our tours",
+      "title1": "Simple and flexible",
+      "titleAccent": "pricing",
+      "description": "Motorbike loops, jeep adventures and private SUV experiences — every tour is a small group with local guides, homestays and all meals included.",
+      "groupBadge": "Group tours run daily · ~10 people",
+      "checkAvailability": "Check availability & book",
+      "duration": "{days}D {nights}N"
+    },
+    "itinerary": {
+      "eyebrow": "The journey",
+      "title1": "An itinerary built for",
+      "titleAccent": "awe",
+      "description": "Three days, 375 kilometres, and the most spectacular road in Vietnam — paced so every viewpoint has time to land.",
+      "days": {
+        "day1": { "day": "Day 1", "title": "Ha Giang — Yen Minh", "distance": "95 km", "text": "Briefing at {hostel} Hostel, then ride through Quan Ba's Heaven Gate and the Twin Mountains. Welcome party with the H'mong family at night.", "stops": ["Quan Ba Heaven Gate", "Twin Mountains", "Homestay & welcome party"] },
+        "day2": { "day": "Day 2", "title": "Yen Minh — Meo Vac", "distance": "120 km", "text": "The crown of the loop. Lung Cu flag tower at the Chinese border, Dong Van's old quarter, then the legendary Ma Pi Leng pass.", "stops": ["Lung Cu Flag Tower", "Dong Van Old Quarter", "Ma Pi Leng Pass"] },
+        "day3": { "day": "Day 3", "title": "Meo Vac — Ha Giang", "distance": "160 km", "text": "The fairy village of Du Gia, its waterfall and dreamy landscapes, then the ride home — arrive by 4pm for the 9pm night bus.", "stops": ["Du Gia Waterfall", "Du Gia Village", "Return to Ha Giang"] }
+      }
+    },
+    "booking": {
+      "eyebrow": "Book your ride",
+      "title1": "Ready for the",
+      "titleAccent": "adventure",
+      "question": "?",
+      "description": "Tell us which tour, how many riders, and when you want to go. Our team confirms your booking within a few hours.",
+      "points": {
+        "freeDorm": "Free dorm bed in {location} the night before departure",
+        "privateRoom": "Private room upgrade available (+400,000 VND / 2 people / night)",
+        "twoPerBike": "2 people on 1 bike — free upgrade to a bigger motorbike",
+        "payOptions": "Pay by cash or card at our office, or online"
+      },
+      "chooseTour": "Choose your tour",
+      "ridingOption": "Riding option",
+      "startDate": "Start date",
+      "guests": "Guests",
+      "removeGuest": "Remove a guest",
+      "addGuest": "Add a guest",
+      "groupPrice": "Group price",
+      "estimatedTotal": "Estimated total",
+      "finalPriceNote": "Final price confirmed by our team. Card payment fee 4% applies when paying online.",
+      "bookThisTour": "Book this tour",
+      "rider": "rider",
+      "riders": "riders"
+    },
+    "services": {
+      "eyebrow": "Fleet & services",
+      "title1": "Every bike you need,",
+      "titleAccent": "ready",
+      "title2": "to ride",
+      "description": "Semi-automatic bikes for beginners, manual gearboxes for the confident, and open-top Jeeps for those who'd rather watch the road go by.",
+      "note": "The scooter or automatic bike is not suitable for mountain roads with lots of up-and-down. We offer a short training session with the semi-automatic — easy to learn, and you'll be a pro by the first pass.",
+      "items": {
+        "honda": { "title": "Semi-automatic Honda 110cc", "text": "The classic loop bike. New generation, easy to learn." },
+        "suzuki": { "title": "Suzuki HJ125cc", "text": "Manual gearbox for confident riders." },
+        "xr": { "title": "Honda XR150cc", "text": "The upgrade choice for longer days in the saddle." },
+        "jeep": { "title": "Jeep Wrangler Sahara", "text": "Ride pillion with a driver-guide in an open-top Jeep." }
+      }
+    },
+    "video": {
+      "eyebrow": "Watch the loop",
+      "title": "One of the best locations to travel in Vietnam",
+      "play": "Play the Ha Giang Loop video",
+      "alt": "Video preview — riders on the Ha Giang Loop"
+    },
+    "gallery": {
+      "eyebrow": "Gallery",
+      "title1": "Moments from the",
+      "titleAccent": "loop",
+      "description": "Professional photos and videos are included on every tour — captured by our media team so you can stay in the moment.",
+      "alts": {
+        "pass": "Riders descending a misty pass",
+        "village": "Village street in Ha Giang",
+        "golden": "Mountain valley in golden light",
+        "thamMa": "The famous Tham Ma pass switchbacks",
+        "travellers": "Travellers on the loop",
+        "sunset": "Karst mountains at sunset"
+      }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title1": "Questions,",
+      "titleAccent": "answered",
+      "description": "Everything travellers usually ask before riding the loop.",
+      "messageUs": "Still curious? Message us on Zalo",
+      "items": {
+        "solo": {
+          "q": "I am a solo traveler — can I join the group?",
+          "a": "Absolutely. These are individual, couple, or group tours based on your preference. Even as a solo traveler you receive the full tour experience. We also have group tours running every day with around 10 people."
+        },
+        "luggage": {
+          "q": "Can I bring my suitcase or big backpack?",
+          "a": "As we travel on motorbikes, storage is limited — small backpacks and easy-to-carry bags are recommended. You can leave big backpacks at {brand} Hostel with free storage and CCTV 24/7."
+        },
+        "automatic": {
+          "q": "Do you have scooter / automatic bikes?",
+          "a": "The scooter or automatic bike is not suitable for mountain roads with lots of up-and-down. You need gears to slow safely on the descents. We offer a short training session with the semi-automatic — it's easy to learn and you'll be a professional after our training."
+        },
+        "licence": {
+          "q": "Can I ride a motorbike without a licence?",
+          "a": "For self-riding you need an International Driving Permit 1968 (stamp A or A1) plus your national licence (stamp A or A1). Need help? Choose the Easy Rider option and ride pillion behind an expert guide — no licence needed."
+        },
+        "card": {
+          "q": "Can I make the payment by card?",
+          "a": "Yes! We accept payment by cash and card when you pay at our office, or you can make the payment through the website (card payment fee 4% applies online)."
+        },
+        "office": {
+          "q": "Does {brand} have an office in Hanoi?",
+          "a": "Yes! {brand}'s office is at No.22 Phat Loc Street, Hoan Kiem, Hanoi. In Ha Giang we have two hostels: No.134C Ly Tu Trong Street (Minh Khai) and {brand} Hostel 2 at Hoa Bac / Km11, Vi Xuyen."
+        }
+      }
+    },
+    "blogPreview": {
+      "eyebrow": "Stories from the road",
+      "title1": "Notes from the",
+      "titleAccent": "highlands",
+      "viewAll": "View all stories",
+      "readStory": "Read story",
+      "featured": "Featured",
+      "minRead": "{minutes} min read"
+    },
+    "finalCta": {
+      "eyebrow": "Ready to go",
+      "title1": "Book your Ha Giang Loop tour",
+      "titleAccent": "today",
+      "title2": "and experience the adventure of a lifetime",
+      "text": "Whatever the season, the loop is waiting. Group tours run daily — tell us when you want to ride and we'll handle the rest.",
+      "bookYourRide": "Book your ride",
+      "talkToGuide": "Talk to a guide"
+    }
+  },
+  "tourDetail": {
+    "hero": {
+      "home": "Home",
+      "tours": "Tours",
+      "reviews": "({count} reviews)",
+      "duration": "Duration",
+      "groupSize": "Group size",
+      "smallGroup": "Small group",
+      "from": "From",
+      "bookThisTour": "Book this tour",
+      "seeItinerary": "See the itinerary",
+      "durationFormat": "{days}D {nights}N"
+    },
+    "overview": {
+      "eyebrow": "Overview",
+      "title1": "The journey in",
+      "titleAccent": "words",
+      "whyRideWithUs": "Why ride with us:",
+      "whyRideText": "Small groups, local guides born in the mountains, and every detail — meals, homestays, petrol, tickets — handled for you.",
+      "facts": {
+        "duration": "Duration",
+        "destination": "Destination",
+        "difficulty": "Difficulty",
+        "groupSize": "Group size",
+        "vehicle": "Vehicle",
+        "suitableFor": "Suitable for"
+      },
+      "durationValue": "{days} days / {nights} nights"
+    },
+    "highlights": {
+      "eyebrow": "Highlights",
+      "title1": "What makes this",
+      "titleAccent": "unforgettable",
+      "description": "The moments you'll be telling your friends about long after the ride home.",
+      "experience": "Experience {number}"
+    },
+    "itinerary": {
+      "eyebrow": "The itinerary",
+      "title1": "{days} days of",
+      "titleAccent": "slow",
+      "title2": "wonder",
+      "description": "Paced so every viewpoint has time to land — day by day, village by village.",
+      "day": "Day {number}",
+      "km": "{km} km"
+    },
+    "pricing": {
+      "eyebrow": "Pricing",
+      "title1": "Simple, honest",
+      "titleAccent": "pricing",
+      "description": "Pick your riding style. Every package includes the full experience — no hidden costs at the end of the road.",
+      "mostPopular": "Most popular",
+      "perGroup": "per group",
+      "perPerson": "per person",
+      "chooseThisOption": "Choose this option",
+      "included": "What's",
+      "includedAccent": "included",
+      "goodToKnow": "Good to",
+      "goodToKnowAccent": "know",
+      "optionalExtras": "Optional extras"
+    },
+    "bookingCard": {
+      "from": "From",
+      "freeCancellation": "Free cancellation",
+      "ridingOption": "Riding option",
+      "startDate": "Start date",
+      "guests": "Guests",
+      "removeGuest": "Remove a guest",
+      "addGuest": "Add a guest",
+      "optionalExtras": "Optional extras",
+      "estimatedTotal": "Estimated total",
+      "finalPriceNote": "Final price confirmed by our team. Card payment fee 4% applies when paying online.",
+      "bookThisTour": "Book this tour",
+      "instantBooking": "Instant booking · VNPay or Zalo contact",
+      "rider": "rider",
+      "riders": "riders",
+      "perGroup": "per group",
+      "perPerson": "per person"
+    },
+    "gallery": {
+      "eyebrow": "Gallery",
+      "title1": "Scenes from the",
+      "titleAccent": "road",
+      "description": "Professional photos captured by our media team on every tour.",
+      "openPhoto": "Open photo: {alt}",
+      "closePhoto": "Close photo",
+      "previousPhoto": "Previous photo",
+      "nextPhoto": "Next photo",
+      "caption": "{alt} · {index} / {total}"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title1": "Questions,",
+      "titleAccent": "answered",
+      "description": "The things travellers usually ask before riding the loop. Still curious? Message us on Zalo — we answer 8am to 10pm (GMT+7)."
+    },
+    "related": {
+      "eyebrow": "Keep exploring",
+      "title1": "Tours like this",
+      "titleAccent": "one",
+      "description": "More ways to ride the wild north — same guides, same mountains, different rhythm.",
+      "viewAll": "View all tours"
+    },
+    "mobileBar": {
+      "from": "From",
+      "perPerson": "/ person",
+      "bookNow": "Book now"
+    }
+  },
+  "checkout": {
+    "page": {
+      "eyebrow": "Checkout",
+      "title1": "Book your",
+      "titleAccent": "adventure",
+      "metaTitle": "Book {title}",
+      "metaDescription": "Book your {title} in Ha Giang — instant online booking with VNPay or contact via Zalo.",
+      "description": "Choose your option, pick a date, and tell us who's riding. Pay securely online with VNPay, or contact us via Zalo and we'll confirm your booking."
+    },
+    "form": {
+      "from": "From",
+      "ridingOption": "Riding option",
+      "startDate": "Start date",
+      "guests": "Guests",
+      "removeGuest": "Remove a guest",
+      "addGuest": "Add a guest",
+      "optionalExtras": "Optional extras",
+      "yourInformation": "Your information",
+      "fullName": "Full name *",
+      "phone": "Phone *",
+      "email": "Email (optional)",
+      "zaloNumber": "Zalo number (optional)",
+      "nationality": "Nationality (optional)",
+      "note": "Note (optional)",
+      "howToPay": "How would you like to pay?",
+      "payNowVnpay": "Pay now with VNPay",
+      "payNowVnpaySub": "Online card / bank transfer",
+      "contactZalo": "Contact via Zalo",
+      "contactZaloSub": "Confirm with our team first",
+      "extras": "Extras",
+      "estimatedTotal": "Estimated total",
+      "priceNote": "Final price confirmed on the server. VNPay online payment includes a 4% card fee.",
+      "creatingBooking": "Creating booking…",
+      "bookPayNow": "Book & pay now",
+      "bookViaZalo": "Book via Zalo",
+      "freeCancellation": "Free cancellation · No payment needed now for Zalo bookings",
+      "backToTour": "Back to tour details",
+      "discount": "Discount",
+      "total": "Total",
+      "viewBooking": "View booking",
+      "tryPaymentAgain": "Try payment again",
+      "zaloOpened": "We've opened Zalo with your booking details. Our team will confirm within a few hours. Keep your booking code — you can check status any time.",
+      "booking": "Booking {code}",
+      "rider": "rider",
+      "riders": "riders",
+      "perPerson": "/ person",
+      "errorGeneric": "Something went wrong. Please try again.",
+      "errorNetwork": "Network error — please try again.",
+      "errorGateway": "Booking created but the payment gateway could not be reached. Use your booking code to pay later.",
+      "zaloMessage": {
+        "greeting": "Hello Jasmine Tours! I'd like to book a tour:",
+        "code": "- Booking code: {code}",
+        "tour": "- Tour: {title} ({variant})",
+        "date": "- Departure date: {date}",
+        "guests": "- Guests: {count}",
+        "name": "- Guest name: {name}",
+        "total": "- Total: {total}",
+        "confirm": "Please confirm for me. Thank you!"
+      }
+    }
+  },
+  "booking": {
+    "page": {
+      "title": "Booking {code}",
+      "booking": "Booking",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "pendingConfirmation": "Pending confirmation",
+      "tour": "Tour",
+      "departure": "Departure",
+      "guest": "guest",
+      "guests": "guests",
+      "customer": "Customer",
+      "discount": "Discount",
+      "vat": "VAT",
+      "cardFee": "Card fee",
+      "total": "Total",
+      "payment": "Payment",
+      "paid": "Paid",
+      "paymentFailed": "Payment failed",
+      "refunded": "Refunded",
+      "paymentPending": "Payment pending",
+      "nextSteps": "Next steps",
+      "nextStepsPaid": "Thank you! Your booking is confirmed. We'll contact you on the provided phone number before departure.",
+      "nextStepsPending": "Your booking is pending. Pay online with VNPay, or contact us via Zalo — our team confirms within a few hours.",
+      "contactZalo": "Contact via Zalo",
+      "payNow": "Pay now",
+      "payStarting": "Starting payment…",
+      "payError": "Could not start payment. Please try again.",
+      "payNetworkError": "Network error — please try again.",
+      "zaloMessage": {
+        "greeting": "Hello Jasmine Tours! I have a question about my booking:",
+        "code": "- Booking code: {code}",
+        "tour": "- Tour: {title} ({variant})",
+        "date": "- Departure date: {date}",
+        "guests": "- Guests: {count}",
+        "name": "- Guest name: {name}",
+        "total": "- Total: {total}"
+      }
+    },
+    "success": {
+      "title": "Booking confirmed",
+      "h1": "Thank you! Your booking is",
+      "h1Accent": "confirmed",
+      "confirmedWith": "Booking {code} for {title} ({variant}) on {date} is confirmed. We'll be in touch on your phone before departure.",
+      "noBooking": "Your payment was received and your booking is confirmed. Check your email for details.",
+      "viewDetails": "View booking details",
+      "contactZalo": "Contact us on Zalo",
+      "zaloPaid": "Hello Jasmine Tours! I have successfully paid for booking {code}.",
+      "zaloGeneric": "Hello Jasmine Tours! I just completed my tour payment."
+    },
+    "failed": {
+      "title": "Payment not completed",
+      "h1": "Payment not",
+      "h1Accent": "completed",
+      "reasonInvalidSignature": "The payment response could not be verified. Your card was not charged.",
+      "reasonNotFound": "We couldn't find this booking. It may have expired.",
+      "reasonCancelled": "You cancelled the payment before it completed.",
+      "reasonDefault": "The payment did not complete. Your card was not charged.",
+      "yourCode": "Your booking code is {code}. You can retry payment from your booking page.",
+      "retryPayment": "Retry payment",
+      "browseTours": "Browse tours",
+      "contactZalo": "Contact via Zalo",
+      "zaloFailed": "Hello Jasmine Tours! Payment for booking {code} did not complete, I need help.",
+      "zaloGeneric": "Hello Jasmine Tours! I need payment support."
+    }
+  },
+  "blogs": {
+    "index": {
+      "title": "Travel Stories & Guides",
+      "description": "Guides, stories and practical advice from the Ha Giang Loop — seasons, packing, passes, villages and more from the {brand} team.",
+      "eyebrow": "Stories from the road",
+      "h1": "Notes from the",
+      "h1Accent": "highlands",
+      "intro": "Seasons, packing lists, the passes that stop you cold, and the villages that keep you. Everything we know about riding the Ha Giang Loop."
+    },
+    "detail": {
+      "title": "Article not found",
+      "allStories": "← All stories",
+      "minRead": "{minutes} min read",
+      "keepReading": "Keep",
+      "keepReadingAccent": "reading",
+      "inspired": "Inspired? The loop is",
+      "inspiredAccent": "waiting",
+      "ctaText": "Group tours run daily with ~10 riders. Book now or ask us anything on Zalo.",
+      "bookATour": "Book a tour",
+      "chatOnZalo": "Chat on Zalo"
+    }
+  },
+  "admin": {
+    "shell": {
+      "adminConsole": "Admin console",
+      "openSidebar": "Mở sidebar",
+      "collapseSidebar": "Thu gọn sidebar",
+      "signOut": "Sign out",
+      "adminTitle": "{brand} Admin"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "tours": "Tours",
+      "departures": "Departures",
+      "bookings": "Bookings",
+      "payments": "Payments",
+      "blogs": "Blogs",
+      "promotions": "Promotions",
+      "destinations": "Destinations",
+      "reviews": "Reviews",
+      "media": "Media",
+      "settings": "Settings"
+    },
+    "dashboard": {
+      "overview": "Overview",
+      "greeting": "Xin chào,",
+      "subtitle": "Quản lý tours, bookings và nội dung từ một nơi duy nhất.",
+      "viewSite": "Xem trang công khai",
+      "cardTours": "Tours",
+      "hintTours": "Published & draft",
+      "cardBlogs": "Blogs",
+      "hintBlogs": "Stories on the site",
+      "cardBookings": "Bookings",
+      "hintBookings": "All time",
+      "cardDepartures": "Departures",
+      "hintDepartures": "Upcoming dates",
+      "cardPaid": "Paid amount",
+      "hintPaid": "VNPay + manual",
+      "cardRevenue": "Confirmed revenue",
+      "hintRevenue": "Confirmed bookings",
+      "quickActions": "Hành động nhanh",
+      "quickActionsSub": "Các thao tác thường dùng",
+      "newTour": "Tour mới",
+      "newBlog": "Bài viết mới",
+      "newBooking": "Tạo booking",
+      "manageDepartures": "Quản lý departures"
+    },
+    "login": {
+      "cardDescription": "Đăng nhập để quản lý website",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "emailPlaceholder": "admin@example.com",
+      "passwordPlaceholder": "••••••••",
+      "submit": "Đăng nhập",
+      "hint": "Chỉ quản trị viên mới có quyền truy cập."
+    },
+    "common": {
+      "back": "Quay lại",
+      "filter": "Lọc",
+      "clearFilters": "Xoá bộ lọc",
+      "add": "Thêm",
+      "saving": "Đang lưu…",
+      "saveChanges": "Lưu thay đổi",
+      "cancel": "Huỷ",
+      "noImg": "No img",
+      "copy": "Copy URL",
+      "copied": "Đã copy!"
+    },
+    "tours": {
+      "title": "Tours",
+      "count": "{count} tours trên hệ thống",
+      "countOne": "1 tour trên hệ thống",
+      "newTour": "Tour mới",
+      "searchPlaceholder": "Tìm theo tên, slug, điểm đến…",
+      "status": "Trạng thái",
+      "allStatuses": "Tất cả trạng thái",
+      "published": "Published",
+      "draft": "Draft",
+      "archived": "Archived",
+      "colTour": "Tour",
+      "colDestination": "Điểm đến",
+      "colDuration": "Thời lượng",
+      "colPrice": "Giá từ",
+      "colStatus": "Trạng thái",
+      "colActions": "Thao tác",
+      "empty": "Chưa có tour nào",
+      "emptyDesc": "Tạo tour đầu tiên để bắt đầu bán hàng.",
+      "createTour": "Tạo tour",
+      "preview": "Xem trước",
+      "edit": "Chỉnh sửa",
+      "duplicate": "Nhân bản"
+    }
+  }
+}

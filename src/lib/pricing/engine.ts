@@ -130,8 +130,13 @@ export function isPromoApplicable(promo: PromoCode, subtotal: Money): boolean {
   return true;
 }
 
-export function formatVnd(amount: Money): string {
-  return new Intl.NumberFormat("vi-VN", {
+/**
+ * Format an integer VND amount for display.
+ * Uses the `vi-VN` locale for grouping separators (dots) and the `₫` symbol
+ * for both languages — that is the currency format Vietnamese businesses use.
+ */
+export function formatVnd(amount: Money, locale: string = "vi-VN"): string {
+  return new Intl.NumberFormat(locale, {
     style: "currency",
     currency: "VND",
     maximumFractionDigits: 0,

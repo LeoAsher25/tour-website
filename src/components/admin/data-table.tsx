@@ -1,4 +1,7 @@
+"use client";
+
 import { Search, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Input } from "@/components/ui/input";
 import { SelectNative } from "@/components/ui/select-native";
@@ -79,25 +82,27 @@ export function FilterSelect({
 }
 
 export function FilterSubmit() {
+  const t = useTranslations("admin.common");
   return (
     <button
       type="submit"
       className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background px-5 text-sm font-medium text-foreground transition-colors hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
     >
-      Lọc
+      {t("filter")}
     </button>
   );
 }
 
 /** "Clear filters" link shown when a filter is active. */
 export function ClearFilters({ href }: { href: string }) {
+  const t = useTranslations("admin.common");
   return (
     <a
       href={href}
       className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-accent"
     >
       <X className="h-3.5 w-3.5" />
-      Xoá bộ lọc
+      {t("clearFilters")}
     </a>
   );
 }

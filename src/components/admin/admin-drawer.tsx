@@ -1,10 +1,11 @@
 "use client";
 
 import { useId, useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Dialog } from "@base-ui/react/dialog";
 import { LogOut, Menu, X } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 import { Button } from "@/components/ui/button";
 import { SidebarNav } from "@/components/admin/sidebar-nav";
@@ -20,6 +21,7 @@ export function AdminDrawer({ admin, onSignOut }: AdminDrawerProps) {
   const [open, setOpen] = useState(false);
   const titleId = useId();
   const reduce = useReducedMotion();
+  const t = useTranslations("admin.shell");
 
   return (
     <div className="flex items-center gap-2 lg:hidden">
@@ -75,7 +77,7 @@ export function AdminDrawer({ admin, onSignOut }: AdminDrawerProps) {
                             {siteConfig.brand.shortName}
                           </p>
                           <p className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-                            Admin console
+                            {t("adminConsole")}
                           </p>
                         </div>
                       </Link>
@@ -119,7 +121,7 @@ export function AdminDrawer({ admin, onSignOut }: AdminDrawerProps) {
                             size="sm"
                             className="w-full justify-start gap-2 text-muted-foreground hover:text-destructive">
                             <LogOut className="h-4 w-4" />
-                            Sign out
+                            {t("signOut")}
                           </Button>
                         </form>
                       </div>

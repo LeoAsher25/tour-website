@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Check, Minus } from "lucide-react";
 
 import { Container } from "@/components/container";
@@ -6,19 +7,21 @@ import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { formatVnd } from "@/lib/pricing";
 import type { Tour } from "@/types/domain";
 
-export function TourPricing({ tour }: { tour: Tour }) {
+export async function TourPricing({ tour }: { tour: Tour }) {
+  const t = await getTranslations("tourDetail.pricing");
+
   return (
     <section id="pricing" className="scroll-mt-24 bg-surface py-20 lg:py-28">
       <Container>
         <SectionHeader
-          eyebrow="Pricing"
+          eyebrow={t("eyebrow")}
           title={
             <>
-              Simple, honest{" "}
-              <span className="accent-word">pricing</span>
+              {t("title1")}{" "}
+              <span className="accent-word">{t("titleAccent")}</span>
             </>
           }
-          description="Pick your riding style. Every package includes the full experience — no hidden costs at the end of the road."
+          description={t("description")}
           align="center"
         />
 
@@ -35,7 +38,7 @@ export function TourPricing({ tour }: { tour: Tour }) {
               >
                 {i === 0 && (
                   <span className="absolute -top-3 left-7 rounded-full bg-primary px-3.5 py-1 text-[0.6rem] font-medium uppercase tracking-[0.16em] text-primary-foreground">
-                    Most popular
+                    {t("mostPopular")}
                   </span>
                 )}
                 <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
@@ -52,8 +55,8 @@ export function TourPricing({ tour }: { tour: Tour }) {
                   </p>
                   <p className="mt-1 text-xs font-light text-muted-foreground">
                     {variant.priceType === "per_group"
-                      ? "per group"
-                      : "per person"}
+                      ? t("perGroup")
+                      : t("perPerson")}
                   </p>
                 </div>
                 <div className="mt-auto pt-6">
@@ -65,7 +68,7 @@ export function TourPricing({ tour }: { tour: Tour }) {
                         : "border border-border bg-background text-foreground hover:border-accent hover:text-accent"
                     }`}
                   >
-                    Choose this option
+                    {t("chooseThisOption")}
                   </a>
                 </div>
               </div>
@@ -77,7 +80,8 @@ export function TourPricing({ tour }: { tour: Tour }) {
         <div className="mt-16 grid gap-6 lg:grid-cols-2">
           <div className="rounded-3xl border border-border bg-card p-7 shadow-sm sm:p-9">
             <h3 className="font-serif text-2xl text-foreground">
-              What&rsquo;s <span className="accent-word">included</span>
+              {t("included")}{" "}
+              <span className="accent-word">{t("includedAccent")}</span>
             </h3>
             <ul className="mt-6 space-y-3.5">
               {tour.included.map((item) => (
@@ -95,7 +99,8 @@ export function TourPricing({ tour }: { tour: Tour }) {
 
           <div className="rounded-3xl border border-border bg-card p-7 shadow-sm sm:p-9">
             <h3 className="font-serif text-2xl text-foreground">
-              Good to <span className="accent-word">know</span>
+              {t("goodToKnow")}{" "}
+              <span className="accent-word">{t("goodToKnowAccent")}</span>
             </h3>
             <ul className="mt-6 space-y-3.5">
               {tour.excluded.map((item) => (
@@ -112,7 +117,7 @@ export function TourPricing({ tour }: { tour: Tour }) {
             {tour.addOns.length > 0 && (
               <div className="mt-7 border-t border-border pt-6">
                 <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  Optional extras
+                  {t("optionalExtras")}
                 </p>
                 <ul className="mt-4 space-y-3">
                   {tour.addOns.map((addOn) => (

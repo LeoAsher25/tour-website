@@ -23,6 +23,7 @@ export function buildOpenGraph(overrides: {
   images?: string[];
   publishedTime?: string;
   authors?: string[];
+  locale?: string;
 }): NonNullable<Metadata["openGraph"]> {
   return {
     title: overrides.title,
@@ -30,7 +31,7 @@ export function buildOpenGraph(overrides: {
     type: overrides.type ?? "website",
     url: overrides.url,
     siteName: siteConfig.brand.fullName,
-    locale: "en_US",
+    locale: overrides.locale === "vi" ? "vi_VN" : "en_US",
     images: overrides.images?.length
       ? overrides.images.map((url) => ({ url }))
       : [{ url: defaultOgImage }],

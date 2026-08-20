@@ -1,6 +1,7 @@
 "use client";
 
 import { Accordion } from "@base-ui/react/accordion";
+import { useTranslations } from "next-intl";
 import { Plus } from "lucide-react";
 
 import { Container } from "@/components/container";
@@ -9,6 +10,7 @@ import { SectionHeader } from "@/components/section-header";
 import type { Tour } from "@/types/domain";
 
 export function TourFaq({ tour }: { tour: Tour }) {
+  const t = useTranslations("tourDetail.faq");
   if (tour.faqs.length === 0) return null;
 
   return (
@@ -17,14 +19,14 @@ export function TourFaq({ tour }: { tour: Tour }) {
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div>
             <SectionHeader
-              eyebrow="FAQ"
+              eyebrow={t("eyebrow")}
               title={
                 <>
-                  Questions,{" "}
-                  <span className="accent-word">answered</span>
+                  {t("title1")}{" "}
+                  <span className="accent-word">{t("titleAccent")}</span>
                 </>
               }
-              description="The things travellers usually ask before riding the loop. Still curious? Message us on Zalo — we answer 8am to 10pm (GMT+7)."
+              description={t("description")}
             />
           </div>
 

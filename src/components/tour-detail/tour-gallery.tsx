@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
@@ -51,6 +52,7 @@ function buildGallery(tour: Tour) {
 /** Masonry-style gallery with a simple lightbox. */
 export function TourGallery({ tour }: { tour: Tour }) {
   const reduce = useReducedMotion();
+  const t = useTranslations("tourDetail.gallery");
   const [open, setOpen] = useState<number | null>(null);
   const images = buildGallery(tour);
 
@@ -80,14 +82,14 @@ export function TourGallery({ tour }: { tour: Tour }) {
     <section id="gallery" className="scroll-mt-24 bg-background py-20 lg:py-28">
       <Container>
         <SectionHeader
-          eyebrow="Gallery"
+          eyebrow={t("eyebrow")}
           title={
             <>
-              Scenes from the{" "}
-              <span className="accent-word">road</span>
+              {t("title1")}{" "}
+              <span className="accent-word">{t("titleAccent")}</span>
             </>
           }
-          description="Professional photos captured by our media team on every tour."
+          description={t("description")}
           align="center"
         />
 
@@ -100,7 +102,7 @@ export function TourGallery({ tour }: { tour: Tour }) {
               <button
                 type="button"
                 onClick={() => setOpen(i)}
-                aria-label={`Open photo: ${image.alt}`}
+                aria-label={t("openPhoto", { alt: image.alt })}
                 className="group relative block h-full w-full overflow-hidden rounded-2xl border border-border text-left"
               >
                 <Image
@@ -132,7 +134,7 @@ export function TourGallery({ tour }: { tour: Tour }) {
           >
             <button
               type="button"
-              aria-label="Close photo"
+              aria-label={t("closePhoto")}
               onClick={() => setOpen(null)}
               className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-dark-text/30 text-dark-text transition-colors hover:border-accent hover:text-accent"
             >
@@ -141,7 +143,7 @@ export function TourGallery({ tour }: { tour: Tour }) {
 
             <button
               type="button"
-              aria-label="Previous photo"
+              aria-label={t("previousPhoto")}
               onClick={(e) => {
                 e.stopPropagation();
                 go(-1);
@@ -152,7 +154,7 @@ export function TourGallery({ tour }: { tour: Tour }) {
             </button>
             <button
               type="button"
-              aria-label="Next photo"
+              aria-label={t("nextPhoto")}
               onClick={(e) => {
                 e.stopPropagation();
                 go(1);
@@ -178,7 +180,7 @@ export function TourGallery({ tour }: { tour: Tour }) {
                 className="rounded-2xl object-contain"
               />
               <figcaption className="absolute inset-x-0 -bottom-10 text-center text-sm font-light text-dark-muted">
-                {images[open].alt} · {open + 1} / {images.length}
+                {t("caption", { alt: images[open].alt, index: open + 1, total: images.length })}
               </figcaption>
             </motion.figure>
           </motion.div>

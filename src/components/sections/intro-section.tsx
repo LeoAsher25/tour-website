@@ -1,31 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowRight, Camera, Compass, Home } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-
+import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/container";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-
-const features = [
-  {
-    icon: Compass,
-    title: "Follow the guide",
-    text: "Small groups, max 12 riders, led by local guides who know every bend of the loop.",
-  },
-  {
-    icon: Home,
-    title: "Sleep with locals",
-    text: "Homestays with H'mong and Tay families — shared dinners, real mornings.",
-  },
-  {
-    icon: Camera,
-    title: "Media team included",
-    text: "Professional photos and videos of your trip, captured by our media crew.",
-  },
-];
 
 const copyGroup: Variants = {
   hidden: {},
@@ -67,6 +49,13 @@ const featureItem: Variants = {
 
 export function IntroSection() {
   const reduce = useReducedMotion();
+  const t = useTranslations("home.intro");
+
+  const features = [
+    { icon: Compass, title: t("features.guide.title"), text: t("features.guide.text") },
+    { icon: Home, title: t("features.locals.title"), text: t("features.locals.text") },
+    { icon: Camera, title: t("features.media.title"), text: t("features.media.text") },
+  ];
 
   return (
     <section className="relative overflow-hidden py-24 lg:py-32">
@@ -81,7 +70,7 @@ export function IntroSection() {
             <div className="overflow-hidden rounded-[2rem] border border-border shadow-lg bg-black">
               <Image
                 src="/images/intro/1.webp"
-                alt="Riders on the Ha Giang Loop with mountains behind"
+                alt={t("imgAlt1")}
                 width={880}
                 height={1100}
                 className="h-[560px] w-full object-cover"
@@ -91,7 +80,7 @@ export function IntroSection() {
             <div className="absolute -bottom-8 -right-4 hidden w-48 overflow-hidden rounded-3xl border-4 border-background shadow-xl sm:block lg:-right-8 bg-black">
               <Image
                 src="/images/intro/2.webp"
-                alt="Terraced rice fields in Ha Giang"
+                alt={t("imgAlt2")}
                 width={480}
                 height={600}
                 className="h-56 w-full object-cover"
@@ -99,7 +88,7 @@ export function IntroSection() {
             </div>
 
             <div className="absolute -top-5 -left-3 hidden rounded-full bg-accent px-5 py-2.5 text-xs font-medium uppercase tracking-[0.18em] text-accent-foreground shadow-lg md:block">
-              12,000+ riders
+              {t("badge")}
             </div>
           </motion.div>
 
@@ -117,25 +106,20 @@ export function IntroSection() {
               <motion.div variants={copyItem}>
                 <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-accent">
                   <span className="h-px w-8 bg-accent/60" />
-                  Welcome to the Loop
+                  {t("eyebrow")}
                 </p>
 
                 <h2 className="mt-5 font-serif text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">
-                  One of the best places
+                  {t("title1")}
                   <br />
-                  to travel in <span className="accent-word">Vietnam</span>
+                  {t("title2")} <span className="accent-word">{t("titleAccent")}</span>
                 </h2>
               </motion.div>
 
               <motion.p
                 variants={copyItem}
                 className="mt-7 max-w-xl text-base font-light leading-8 text-muted-foreground sm:text-lg">
-                With a total distance of 500 kilometres, the Ha Giang Loop is no
-                short task. Winding roads snake through dramatic limestone
-                mountains, past cascading waterfalls and through charming hill
-                tribe villages. The stunning views and exhilarating journey will
-                be the highlight of your Vietnam trip — and perhaps the best few
-                days of your travels.
+                {t("text")}
               </motion.p>
             </motion.div>
 
@@ -169,7 +153,7 @@ export function IntroSection() {
                 <Link
                   href="/#tours"
                   className="group mt-11 inline-flex items-center gap-3 text-sm font-medium text-accent transition-colors hover:text-accent-hover">
-                  Explore the tours
+                  {t("exploreTours")}
                   <span className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/30 bg-accent-tint transition-all duration-300 group-hover:translate-x-1 group-hover:bg-accent group-hover:text-accent-foreground">
                     <ArrowRight className="h-4 w-4" />
                   </span>

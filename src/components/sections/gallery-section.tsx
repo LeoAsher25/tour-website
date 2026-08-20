@@ -1,54 +1,57 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 import { Container } from "@/components/container";
 import { SectionHeader } from "@/components/section-header";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 
-const gallery = [
-  {
-    src: "/images/gallery/layer-20_1678645520.png.webp",
-    alt: "Riders descending a misty pass",
-    className: "md:col-span-2 md:row-span-2",
-  },
-  {
-    src: "/images/gallery/layer-7631_1678682722.jpg.webp",
-    alt: "Village street in Ha Giang",
-    className: "",
-  },
-  {
-    src: "/images/gallery/unnamed_1763885473.jpg.webp",
-    alt: "Mountain valley in golden light",
-    className: "",
-  },
-  {
-    src: "/images/gallery/doc-tham-ma-2_1678682709.png.webp",
-    alt: "The famous Tham Ma pass switchbacks",
-    className: "md:row-span-2",
-  },
-  {
-    src: "/images/gallery/460983428_1085247160276912_7741909890966607091_n_1763890090.jpg.webp",
-    alt: "Travellers on the loop",
-    className: "",
-  },
-  {
-    src: "/images/gallery/layer-151_1678682754.png.webp",
-    alt: "Karst mountains at sunset",
-    className: "md:col-span-2",
-  },
-];
+export async function GallerySection() {
+  const t = await getTranslations("home.gallery");
 
-export function GallerySection() {
+  const gallery = [
+    {
+      src: "/images/gallery/layer-20_1678645520.png.webp",
+      alt: t("alts.pass"),
+      className: "md:col-span-2 md:row-span-2",
+    },
+    {
+      src: "/images/gallery/layer-7631_1678682722.jpg.webp",
+      alt: t("alts.village"),
+      className: "",
+    },
+    {
+      src: "/images/gallery/unnamed_1763885473.jpg.webp",
+      alt: t("alts.golden"),
+      className: "",
+    },
+    {
+      src: "/images/gallery/doc-tham-ma-2_1678682709.png.webp",
+      alt: t("alts.thamMa"),
+      className: "md:row-span-2",
+    },
+    {
+      src: "/images/gallery/460983428_1085247160276912_7741909890966607091_n_1763890090.jpg.webp",
+      alt: t("alts.travellers"),
+      className: "",
+    },
+    {
+      src: "/images/gallery/layer-151_1678682754.png.webp",
+      alt: t("alts.sunset"),
+      className: "md:col-span-2",
+    },
+  ];
+
   return (
     <section id="gallery" className="scroll-mt-24 bg-surface py-24 lg:py-32">
       <Container>
         <SectionHeader
-          eyebrow="Gallery"
+          eyebrow={t("eyebrow")}
           title={
             <>
-              Moments from the <span className="accent-word">loop</span>
+              {t("title1")} <span className="accent-word">{t("titleAccent")}</span>
             </>
           }
-          description="Professional photos and videos are included on every tour — captured by our media team so you can stay in the moment."
+          description={t("description")}
           align="center"
         />
 

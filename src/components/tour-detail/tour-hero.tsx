@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
   ArrowDown,
@@ -12,6 +12,7 @@ import {
   Users,
 } from "lucide-react";
 import { formatVnd } from "@/lib/pricing";
+import { Link } from "@/i18n/navigation";
 import type { Tour } from "@/types/domain";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -38,6 +39,7 @@ const line: Variants = {
 
 export function TourHero({ tour }: { tour: Tour }) {
   const reduce = useReducedMotion();
+  const t = useTranslations("tourDetail.hero");
 
   return (
     <section className="relative flex min-h-[88svh] items-end overflow-hidden bg-dark-bg">
@@ -84,13 +86,13 @@ export function TourHero({ tour }: { tour: Tour }) {
             variants={item}
             className="flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.22em] text-dark-muted">
             <Link href="/" className="transition-colors hover:text-accent">
-              Home
+              {t("home")}
             </Link>
             <span className="text-dark-text/40">/</span>
             <Link
               href="/#tours"
               className="transition-colors hover:text-accent">
-              Tours
+              {t("tours")}
             </Link>
             <span
               className="hidden h-px w-8 bg-accent sm:block"
@@ -117,7 +119,7 @@ export function TourHero({ tour }: { tour: Tour }) {
               <Star className="h-4 w-4 fill-accent text-accent" />
               <span className="font-medium">{tour.rating}</span>
               <span className="text-dark-muted">
-                ({tour.reviewCount.toLocaleString()} reviews)
+                ({t("reviews", { count: tour.reviewCount.toLocaleString() })})
               </span>
             </span>
             <span className="rounded-full border border-dark-text/25 bg-dark-bg/40 px-3.5 py-1.5 text-xs font-medium uppercase tracking-[0.16em] text-dark-text backdrop-blur-sm">
@@ -135,10 +137,10 @@ export function TourHero({ tour }: { tour: Tour }) {
               </span>
               <div>
                 <p className="text-[0.65rem] uppercase tracking-[0.18em] text-dark-muted">
-                  Duration
+                  {t("duration")}
                 </p>
                 <p className="mt-0.5 font-serif text-lg">
-                  {tour.durationDays}D {tour.durationNights}N
+                  {t("durationFormat", { days: tour.durationDays, nights: tour.durationNights })}
                 </p>
               </div>
             </div>
@@ -148,10 +150,10 @@ export function TourHero({ tour }: { tour: Tour }) {
               </span>
               <div>
                 <p className="text-[0.65rem] uppercase tracking-[0.18em] text-dark-muted">
-                  Group size
+                  {t("groupSize")}
                 </p>
                 <p className="mt-0.5 font-serif text-lg">
-                  {tour.groupSize ?? "Small group"}
+                  {tour.groupSize ?? t("smallGroup")}
                 </p>
               </div>
             </div>
@@ -161,7 +163,7 @@ export function TourHero({ tour }: { tour: Tour }) {
               </span>
               <div>
                 <p className="text-[0.65rem] uppercase tracking-[0.18em] text-dark-muted">
-                  From
+                  {t("from")}
                 </p>
                 <p className="mt-0.5 font-serif text-lg text-accent-tint">
                   {formatVnd(tour.fromPrice)}
@@ -184,13 +186,13 @@ export function TourHero({ tour }: { tour: Tour }) {
             <a
               href="#booking"
               className="group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-medium text-accent-foreground shadow-xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-2xl">
-              Book this tour
+              {t("bookThisTour")}
               <ArrowDown className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5" />
             </a>
             <a
               href="#itinerary"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-dark-text/40 bg-dark-bg/30 px-8 py-4 text-sm font-medium text-dark-text backdrop-blur-sm transition-all duration-200 hover:border-accent hover:text-accent">
-              See the itinerary
+              {t("seeItinerary")}
             </a>
           </motion.div>
         </motion.div>

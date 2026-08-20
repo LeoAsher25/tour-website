@@ -1,16 +1,21 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { AtSign, Mail, MessageCircle } from "lucide-react";
 import { siteConfig, getZaloLink, getPhoneLink } from "@/config/site";
-
-const exploreLinks = [
-  { label: "Motorbike tours", href: "/#tours" },
-  { label: "Jeep & SUV tours", href: "/#tours" },
-  { label: "Itinerary", href: "/#itinerary" },
-  { label: "Services", href: "/#services" },
-  { label: "Travel blog", href: "/blogs" },
-];
+import { Link } from "@/i18n/navigation";
+import InstagramIcon from "./icons/InstagramIcon";
 
 export function SiteFooter() {
+  const t = useTranslations("site");
+  const tf = useTranslations("site.footer");
+
+  const exploreLinks = [
+    { label: tf("exploreLinks.motorbikeTours"), href: "/#tours" },
+    { label: tf("exploreLinks.jeepSuvTours"), href: "/#tours" },
+    { label: tf("exploreLinks.itinerary"), href: "/#itinerary" },
+    { label: tf("exploreLinks.services"), href: "/#services" },
+    { label: tf("exploreLinks.travelBlog"), href: "/blogs" },
+  ];
+
   return (
     <footer className="bg-dark-bg text-dark-text">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_0.7fr_0.7fr_1fr] lg:px-8">
@@ -19,31 +24,31 @@ export function SiteFooter() {
             {siteConfig.brand.businessName}
           </p>
           <h3 className="mt-4 font-serif text-3xl leading-tight">
-            {siteConfig.taglines.heroSubtitle}
+            {t("taglines.heroSubtitle")}
           </h3>
           <p className="mt-5 max-w-md text-sm font-light leading-7 text-dark-muted">
-            {siteConfig.taglines.description}
+            {t("taglines.description")}
           </p>
           <div className="mt-6 flex items-center gap-3">
             <a
               href={siteConfig.social.instagram}
               target="_blank"
               rel="noreferrer"
-              aria-label={`${siteConfig.brand.businessName} on Instagram`}
+              aria-label={`${siteConfig.brand.businessName} ${tf("onInstagram")}`}
               className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-dark-text/20 transition-colors hover:border-accent hover:text-accent">
-              <AtSign className="h-4 w-4" />
+              <InstagramIcon className="h-4 w-4" />
             </a>
             <a
               href={getZaloLink()}
               target="_blank"
               rel="noreferrer"
-              aria-label={`${siteConfig.brand.businessName} on Zalo`}
+              aria-label={`${siteConfig.brand.businessName} ${tf("onZalo")}`}
               className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-dark-text/20 transition-colors hover:border-accent hover:text-accent">
               <MessageCircle className="h-4 w-4" />
             </a>
             <a
               href={`mailto:${siteConfig.contact.email}`}
-              aria-label={`Email ${siteConfig.brand.businessName}`}
+              aria-label={`${siteConfig.brand.businessName} ${tf("emailUs")}`}
               className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-dark-text/20 transition-colors hover:border-accent hover:text-accent">
               <Mail className="h-4 w-4" />
             </a>
@@ -52,7 +57,7 @@ export function SiteFooter() {
 
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-dark-muted">
-            Explore
+            {tf("explore")}
           </p>
           <ul className="mt-5 space-y-3 text-sm font-light text-dark-text/80">
             {exploreLinks.map((link) => (
@@ -69,10 +74,10 @@ export function SiteFooter() {
 
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-dark-muted">
-            Contact
+            {tf("contact")}
           </p>
           <ul className="mt-5 space-y-3 text-sm font-light text-dark-text/80">
-            <li>Hotline Zalo</li>
+            <li>{tf("hotlineZalo")}</li>
             <li>
               <a
                 href={getPhoneLink()}
@@ -92,20 +97,20 @@ export function SiteFooter() {
 
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-dark-muted">
-            Locations
+            {tf("locations")}
           </p>
           <ul className="mt-5 space-y-4 text-sm font-light leading-6 text-dark-text/80">
             <li>
-              <span className="block text-dark-muted">Ha Noi Office</span>
+              <span className="block text-dark-muted">{tf("haNoiOffice")}</span>
               No.22 Phat Loc St, Hoan Kiem, Ha Noi
             </li>
             <li>
               <span className="block text-dark-muted">Ha Giang — Hostel 1</span>
-              No.134C Ly Tu Trong St, Group 17, Minh Khai, Ha Giang
+              {tf("haGiangHostel1")}
             </li>
             <li>
               <span className="block text-dark-muted">Ha Giang — Hostel 2</span>
-              Hoa Bac / Km11, Vi Xuyen, Ha Giang
+              {tf("haGiangHostel2")}
             </li>
           </ul>
         </div>

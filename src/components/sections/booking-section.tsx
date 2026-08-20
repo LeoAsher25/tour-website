@@ -1,8 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowRight, CalendarDays, Minus, Plus, Users } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 import { Container } from "@/components/container";
 import { Reveal } from "@/components/motion/reveal";
@@ -12,6 +13,7 @@ import { siteConfig } from "@/config/site";
 import type { HomepageTourSectionData } from "@/types/domain";
 
 export function BookingSection({ data }: { data: HomepageTourSectionData }) {
+  const t = useTranslations("home.booking");
   const tours = data.booking;
   const tourOptions = useMemo(
     () =>
@@ -51,20 +53,21 @@ export function BookingSection({ data }: { data: HomepageTourSectionData }) {
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div className="lg:sticky lg:top-28">
             <SectionHeader
-              eyebrow="Book your ride"
+              eyebrow={t("eyebrow")}
               title={
                 <>
-                  Ready for the <span className="accent-word">adventure</span>?
+                  {t("title1")} <span className="accent-word">{t("titleAccent")}</span>
+                  {t("question")}
                 </>
               }
-              description="Tell us which tour, how many riders, and when you want to go. Our team confirms your booking within a few hours."
+              description={t("description")}
             />
             <div className="mt-9 space-y-5">
               {[
-                `Free dorm bed in ${siteConfig.brand.location} the night before departure`,
-                "Private room upgrade available (+400,000 VND / 2 people / night)",
-                "2 people on 1 bike — free upgrade to a bigger motorbike",
-                "Pay by cash or card at our office, or online",
+                t("points.freeDorm", { location: siteConfig.brand.location }),
+                t("points.privateRoom"),
+                t("points.twoPerBike"),
+                t("points.payOptions"),
               ].map((point, i) => (
                 <Reveal key={point} delay={0.1 + i * 0.07}>
                   <div className="group flex items-start gap-4">
@@ -87,7 +90,7 @@ export function BookingSection({ data }: { data: HomepageTourSectionData }) {
                   <label
                     htmlFor="tour"
                     className="mb-2.5 block text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                    Choose your tour
+                    {t("chooseTour")}
                   </label>
                   <select
                     id="tour"
@@ -114,7 +117,7 @@ export function BookingSection({ data }: { data: HomepageTourSectionData }) {
                     <label
                       htmlFor="variant"
                       className="mb-2.5 block text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                      Riding option
+                      {t("ridingOption")}
                     </label>
                     <div className="grid gap-2.5 sm:grid-cols-3">
                       {selected.variants.map((v) => (
@@ -147,7 +150,7 @@ export function BookingSection({ data }: { data: HomepageTourSectionData }) {
                       htmlFor="date"
                       className="mb-2.5 flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
                       <CalendarDays className="h-3.5 w-3.5" />
-                      Start date
+                      {t("startDate")}
                     </label>
                     <input
                       id="date"
@@ -162,12 +165,12 @@ export function BookingSection({ data }: { data: HomepageTourSectionData }) {
                       htmlFor="guests"
                       className="mb-2.5 flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
                       <Users className="h-3.5 w-3.5" />
-                      Guests
+                      {t("guests")}
                     </label>
                     <div className="flex items-center justify-between rounded-xl border border-border bg-background px-3 py-2">
                       <button
                         type="button"
-                        aria-label="Remove a guest"
+                        aria-label={t("removeGuest")}
                         onClick={() => setGuests((g) => Math.max(1, g - 1))}
                         className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground active:scale-90">
                         <Minus className="h-4 w-4" />
@@ -177,7 +180,7 @@ export function BookingSection({ data }: { data: HomepageTourSectionData }) {
                       </span>
                       <button
                         type="button"
-                        aria-label="Add a guest"
+                        aria-label={t("addGuest")}
                         onClick={() => setGuests((g) => Math.min(12, g + 1))}
                         className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground active:scale-90">
                         <Plus className="h-4 w-4" />
@@ -191,32 +194,31 @@ export function BookingSection({ data }: { data: HomepageTourSectionData }) {
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">
                       {selectedVariant?.name} × {guests}{" "}
-                      {guests === 1 ? "rider" : "riders"}
+                      {guests === 1 ? t("rider") : t("riders")}
                     </span>
                     <span className="text-foreground">
                       {selectedVariant?.priceType === "per_group"
-                        ? "Group price"
+                        ? t("groupPrice")
                         : formatVnd(selectedVariant?.basePrice ?? 0)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between border-t border-border pt-3">
                     <span className="text-sm font-medium text-foreground">
-                      Estimated total
+                      {t("estimatedTotal")}
                     </span>
                     <span className="font-serif text-2xl text-accent-hover">
                       {formatVnd(subtotal)}
                     </span>
                   </div>
                   <p className="text-xs font-light text-muted-foreground">
-                    Final price confirmed by our team. Card payment fee 4%
-                    applies when paying online.
+                    {t("finalPriceNote")}
                   </p>
                 </div>
 
                 <Link
                   href={`/checkout/${selected?.slug}?variant=${selectedVariant?.id ?? ""}`}
                   className="group flex h-13 w-full items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-sm font-medium text-accent-foreground shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-xl">
-                  Book this tour
+                  {t("bookThisTour")}
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </div>
