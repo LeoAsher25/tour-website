@@ -62,11 +62,12 @@ export interface CreatePaymentUrlInput {
 }
 
 function formatDate(date: Date): string {
-  // yyyyMMddHHmmss — VNPay sandbox currently validates in UTC.
+  // VNPay requires GMT+7 (docs: "Time zone GMT+7"), format yyyyMMddHHmmss.
+  const tz = new Date(date.getTime() + 7 * 60 * 60 * 1000);
   const p = (n: number) => String(n).padStart(2, "0");
   return (
-    `${date.getUTCFullYear()}${p(date.getUTCMonth() + 1)}${p(date.getUTCDate())}` +
-    `${p(date.getUTCHours())}${p(date.getUTCMinutes())}${p(date.getUTCSeconds())}`
+    `${tz.getUTCFullYear()}${p(tz.getUTCMonth() + 1)}${p(tz.getUTCDate())}` +
+    `${p(tz.getUTCHours())}${p(tz.getUTCMinutes())}${p(tz.getUTCSeconds())}`
   );
 }
 
