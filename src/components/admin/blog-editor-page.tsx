@@ -13,12 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SelectNative } from "@/components/ui/select-native";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function BlogEditorPage({ post }: { post: BlogPost | null }) {
   const router = useRouter();
@@ -29,16 +24,16 @@ export function BlogEditorPage({ post }: { post: BlogPost | null }) {
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [coverImageKey, setCoverImageKey] = useState(post?.coverImageKey ?? "");
   const [contentJson, setContentJson] = useState<TiptapDoc | null>(
-    post?.contentJson ?? null
+    post?.contentJson ?? null,
   );
   const [status, setStatus] = useState<"draft" | "published" | "archived">(
-    post?.status ?? "draft"
+    post?.status ?? "draft",
   );
   const [featured, setFeatured] = useState(post?.featured ?? false);
   const [tags, setTags] = useState(post?.tags.join(", ") ?? "");
   const [seoTitle, setSeoTitle] = useState(post?.seoTitle ?? "");
   const [seoDescription, setSeoDescription] = useState(
-    post?.seoDescription ?? ""
+    post?.seoDescription ?? "",
   );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -83,7 +78,10 @@ export function BlogEditorPage({ post }: { post: BlogPost | null }) {
       contentJson: contentJson ?? { type: "doc", content: [] },
       status,
       featured,
-      tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
+      tags: tags
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean),
       seoTitle,
       seoDescription,
     };
@@ -102,7 +100,7 @@ export function BlogEditorPage({ post }: { post: BlogPost | null }) {
           method: isEdit ? "PUT" : "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(parsed.data),
-        }
+        },
       );
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -127,157 +125,174 @@ export function BlogEditorPage({ post }: { post: BlogPost | null }) {
         </p>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-serif text-xl">Post</CardTitle>
-        </CardHeader>
-        <CardContent className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-2 sm:col-span-2">
-            <Label>Title *</Label>
-            <Input
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                if (!isEdit && !slug) {
-                  setSlug(
-                    e.target.value
-                      .toLowerCase()
-                      .replace(/[^a-z0-9]+/g, "-")
-                      .replace(/(^-|-$)/g, "")
-                  );
-                }
-              }}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Slug *</Label>
-            <Input
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
-              required
-              pattern="[a-z0-9-]+"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Tags (comma separated)</Label>
-            <Input
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              placeholder="planning, seasons"
-            />
-          </div>
-          <div className="space-y-2 sm:col-span-2">
-            <Label>Excerpt</Label>
-            <Textarea
-              value={excerpt}
-              onChange={(e) => setExcerpt(e.target.value)}
-              rows={2}
-            />
-          </div>
-
-          {/* Cover image */}
-          <div className="space-y-2 sm:col-span-2">
-            <Label>Cover image</Label>
-            <div className="flex items-center gap-3">
-              {coverImageKey ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={coverUrl(coverImageKey)}
-                  alt="Cover"
-                  className="h-20 w-32 rounded-lg object-cover"
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
+        {/* Left column: Post + SEO */}
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-serif text-xl">Post</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label>Title *</Label>
+                <Input
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                    if (!isEdit && !slug) {
+                      setSlug(
+                        e.target.value
+                          .toLowerCase()
+                          .replace(/[^a-z0-9]+/g, "-")
+                          .replace(/(^-|-$)/g, ""),
+                      );
+                    }
+                  }}
+                  required
                 />
-              ) : (
-                <div className="flex h-20 w-32 items-center justify-center rounded-lg border border-dashed border-border text-xs text-muted-foreground">
-                  No cover
+              </div>
+              <div className="space-y-2">
+                <Label>Slug *</Label>
+                <Input
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  required
+                  pattern="[a-z0-9-]+"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Tags (comma separated)</Label>
+                <Input
+                  value={tags}
+                  onChange={(e) => setTags(e.target.value)}
+                  placeholder="planning, seasons"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Excerpt</Label>
+                <Textarea
+                  value={excerpt}
+                  onChange={(e) => setExcerpt(e.target.value)}
+                  rows={3}
+                />
+              </div>
+
+              {/* Cover image — wide preview */}
+              <div className="space-y-2">
+                <Label>Cover image</Label>
+                <div className="overflow-hidden rounded-xl border border-border">
+                  {coverImageKey ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={coverUrl(coverImageKey)}
+                      alt="Cover"
+                      className="aspect-[16/9] w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex aspect-[16/9] w-full flex-col items-center justify-center gap-2 border border-dashed border-border bg-muted/30 text-xs text-muted-foreground">
+                      <Upload className="h-6 w-6 opacity-50" />
+                      No cover image
+                    </div>
+                  )}
                 </div>
-              )}
-              <label className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-full border border-border bg-background px-5 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent">
-                <Upload className="h-4 w-4" />
-                Upload
-                <input
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                  className="hidden"
-                  onChange={handleCoverUpload}
+                <div className="flex items-center gap-2">
+                  <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-full border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent">
+                    <Upload className="h-4 w-4" />
+                    {coverImageKey ? "Change" : "Upload"}
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                      className="hidden"
+                      onChange={handleCoverUpload}
+                    />
+                  </label>
+                  {coverImageKey && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setCoverImageKey("")}>
+                      Remove
+                    </Button>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 pt-1">
+                <div className="space-y-2">
+                  <Label>Status</Label>
+                  <SelectNative
+                    value={status}
+                    onChange={(e) =>
+                      setStatus(
+                        e.target.value as "draft" | "published" | "archived",
+                      )
+                    }>
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                    <option value="archived">Archived</option>
+                  </SelectNative>
+                </div>
+                <div className="flex items-center gap-2 pt-6">
+                  <Checkbox
+                    checked={featured}
+                    onCheckedChange={(v) => setFeatured(Boolean(v))}
+                    id="featured"
+                  />
+                  <Label htmlFor="featured">Featured</Label>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-serif text-xl">SEO</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label>SEO title</Label>
+                <Input
+                  value={seoTitle}
+                  onChange={(e) => setSeoTitle(e.target.value)}
+                  placeholder={title || "Defaults to the post title"}
                 />
-              </label>
-              {coverImageKey && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setCoverImageKey("")}
-                >
-                  Remove
-                </Button>
-              )}
-            </div>
-          </div>
+              </div>
+              <div className="space-y-2">
+                <Label>SEO description</Label>
+                <Textarea
+                  value={seoDescription}
+                  onChange={(e) => setSeoDescription(e.target.value)}
+                  rows={3}
+                  placeholder="Defaults to the excerpt"
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-          <div className="space-y-2">
-            <Label>Status</Label>
-            <SelectNative
-              value={status}
-              onChange={(e) =>
-                setStatus(e.target.value as "draft" | "published" | "archived")
-              }
-            >
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
-              <option value="archived">Archived</option>
-            </SelectNative>
-          </div>
-          <div className="flex items-center gap-2 pt-6">
-            <Checkbox
-              checked={featured}
-              onCheckedChange={(v) => setFeatured(Boolean(v))}
-              id="featured"
-            />
-            <Label htmlFor="featured">Featured</Label>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-serif text-xl">Content</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <BlogEditor
-            value={contentJson}
-            onChange={setContentJson}
-            onUploadImage={handleUploadImage}
-          />
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-serif text-xl">SEO</CardTitle>
-        </CardHeader>
-        <CardContent className="grid gap-4">
-          <div className="space-y-2">
-            <Label>SEO title</Label>
-            <Input value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} />
-          </div>
-          <div className="space-y-2">
-            <Label>SEO description</Label>
-            <Textarea
-              value={seoDescription}
-              onChange={(e) => setSeoDescription(e.target.value)}
-              rows={2}
-            />
-          </div>
-        </CardContent>
-      </Card>
+        {/* Right column: Content */}
+        <div className="xl:sticky xl:top-4 xl:self-start">
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-serif text-xl">Content</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <BlogEditor
+                value={contentJson}
+                onChange={setContentJson}
+                onUploadImage={handleUploadImage}
+              />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
 
       <div className="flex items-center justify-end gap-3">
         <Button
           type="button"
           variant="outline"
-          onClick={() => router.push("/admin/blogs")}
-        >
+          onClick={() => router.push("/admin/blogs")}>
           Cancel
         </Button>
         <Button type="submit" disabled={saving}>

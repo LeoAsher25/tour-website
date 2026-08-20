@@ -28,12 +28,22 @@ export function renderTiptap(doc: TiptapDoc, opts: TiptapRenderOptions = {}) {
     }
 
     switch (node.type) {
-      case "paragraph":
-        return <p key={key}>{renderChildren(node.content)}</p>;
+      case "paragraph": {
+        const align = String(node.attrs?.textAlign ?? "");
+        const className = align ? `text-${align}` : undefined;
+        return <p key={key} className={className}>{renderChildren(node.content)}</p>;
+      }
       case "heading": {
         const level = Number(node.attrs?.level ?? 2);
-        const Tag = (["h2", "h3", "h4", "h5"][level - 2] ?? "h2") as "h2" | "h3" | "h4" | "h5";
-        return <Tag key={key}>{renderChildren(node.content)}</Tag>;
+        const Tag = (["h1", "h2", "h3", "h4", "h5"][level - 1] ?? "h2") as
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5";
+        const align = String(node.attrs?.textAlign ?? "");
+        const className = align ? `text-${align}` : undefined;
+        return <Tag key={key} className={className}>{renderChildren(node.content)}</Tag>;
       }
       case "bulletList":
         return <ul key={key}>{renderChildren(node.content)}</ul>;
@@ -43,6 +53,12 @@ export function renderTiptap(doc: TiptapDoc, opts: TiptapRenderOptions = {}) {
         return <li key={key}>{renderChildren(node.content)}</li>;
       case "blockquote":
         return <blockquote key={key}>{renderChildren(node.content)}</blockquote>;
+      case "codeBlock":
+        return (
+          <pre key={key}>
+            <code>{renderChildren(node.content)}</code>
+          </pre>
+        );
       case "horizontalRule":
         return <hr key={key} />;
       case "image": {
@@ -100,6 +116,18 @@ export function renderTiptap(doc: TiptapDoc, opts: TiptapRenderOptions = {}) {
           break;
         case "strike":
           el = <s key={key}>{el}</s>;
+          break;
+        case "code":
+          el = <code key={key}>{el}</code>;
+          break;
+        case "highlight":
+          el = <mark key={key}>{el}</mark>;
+          break;
+        case "superscript":
+          el = <sup key={key}>{el}</sup>;
+          break;
+        case "subscript":
+          el = <sub key={key}>{el}</sub>;
           break;
         case "link":
           el = (

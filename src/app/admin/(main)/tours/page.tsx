@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
 import { Copy, Eye, Pencil, Plus } from "lucide-react";
 
 import { requireAdmin } from "@/lib/admin/auth";
 import { TourAdminRepository } from "@/lib/admin/tours";
+import { duplicateTour } from "@/lib/admin/tour-actions";
 import { formatVnd } from "@/lib/pricing";
 import {
   Table,
@@ -182,12 +182,9 @@ export default async function AdminToursPage({
                         <Pencil className="h-4 w-4" />
                       </ActionLink>
                       <form
-                        action={async () => {
-                          "use server";
-                          await repo.duplicate(tour.id);
-                          revalidatePath("/admin/tours");
-                        }}
+                        action={duplicateTour}
                       >
+                        <input type="hidden" name="id" value={tour.id} />
                         <button
                           type="submit"
                           title="Nhân bản"

@@ -1,7 +1,8 @@
 import { Plus, Trash2 } from "lucide-react";
 
 import { requireAdmin } from "@/lib/admin/auth";
-import { ReviewAdminRepository, reviewInputSchema } from "@/lib/admin/content";
+import { ReviewAdminRepository } from "@/lib/admin/content";
+import { deleteReview, saveReview } from "@/lib/admin/content-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,11 +45,9 @@ export default async function AdminReviewsPage() {
                 )}
               </CardTitle>
               <form
-                action={async () => {
-                  "use server";
-                  await repo.delete(r.id);
-                }}
+                action={deleteReview}
               >
+                <input type="hidden" name="id" value={r.id} />
                 <Button type="submit" variant="ghost" size="icon">
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -56,21 +55,10 @@ export default async function AdminReviewsPage() {
             </CardHeader>
             <CardContent>
               <form
-                action={async (formData: FormData) => {
-                  "use server";
-                  const parsed = reviewInputSchema.safeParse({
-                    name: formData.get("name"),
-                    rating: formData.get("rating"),
-                    trip: formData.get("trip") || undefined,
-                    quote: formData.get("quote"),
-                    date: formData.get("date") || undefined,
-                    published: formData.get("published") === "on",
-                  });
-                  if (!parsed.success) return;
-                  await repo.update(r.id, parsed.data);
-                }}
+                action={saveReview}
                 className="space-y-3"
               >
+                <input type="hidden" name="id" value={r.id} />
                 <div className="grid grid-cols-3 gap-3">
                   <div className="space-y-1.5">
                     <Label>Name</Label>
@@ -125,19 +113,7 @@ export default async function AdminReviewsPage() {
           </CardHeader>
           <CardContent>
             <form
-              action={async (formData: FormData) => {
-                "use server";
-                const parsed = reviewInputSchema.safeParse({
-                  name: formData.get("name"),
-                  rating: formData.get("rating"),
-                  trip: formData.get("trip") || undefined,
-                  quote: formData.get("quote"),
-                  date: formData.get("date") || undefined,
-                  published: formData.get("published") === "on",
-                });
-                if (!parsed.success) return;
-                await repo.create(parsed.data);
-              }}
+              action={saveReview}
               className="space-y-3"
             >
               <div className="grid grid-cols-3 gap-3">

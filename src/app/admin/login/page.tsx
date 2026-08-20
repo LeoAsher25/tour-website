@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { z } from "zod";
 import { Lock, Mail } from "lucide-react";
 
-import { getCurrentAdmin, signIn } from "@/lib/admin/auth";
+import { getCurrentAdmin } from "@/lib/admin/auth";
+import { loginAction } from "@/lib/admin/login-action";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,11 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { siteConfig } from "@/config/site";
-
-const loginSchema = z.object({
-  email: z.string().email("Email không hợp lệ"),
-  password: z.string().min(8, "Mật khẩu tối thiểu 8 ký tự"),
-});
 
 export default async function AdminLoginPage({
   searchParams,
@@ -70,31 +65,10 @@ function LoginForm({
 }) {
   return (
     <form
-      action={async (formData: FormData) => {
-        "use server";
-        const parsed = loginSchema.safeParse({
-          email: formData.get("email"),
-          password: formData.get("password"),
-        });
-        if (!parsed.success) {
-          redirect(
-            `/admin/login?error=${encodeURIComponent(
-              parsed.error.issues[0]?.message ?? "Dữ liệu không hợp lệ",
-            )}`,
-          );
-        }
-        const result = await signIn(parsed.data.email, parsed.data.password);
-        if (result.error) {
-          redirect(
-            `/admin/login?error=${encodeURIComponent(
-              JSON.stringify(result.error),
-            )}`,
-          );
-        }
-        redirect(next && next.startsWith("/admin") ? next : "/admin");
-      }}
+      action={loginAction}
       className="space-y-4"
     >
+      {next && <input type="hidden" name="next" value={next} />}
       {serverError && (
         <div
           role="alert"

@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 
 import { requireAdmin } from "@/lib/admin/auth";
-import { PromoAdminRepository, promoInputSchema } from "@/lib/admin/content";
+import { PromoAdminRepository } from "@/lib/admin/content";
+import { deletePromo, savePromo } from "@/lib/admin/content-actions";
 import { formatVnd } from "@/lib/pricing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,26 +50,10 @@ export default async function AdminPromotionsPage({
           </CardHeader>
           <CardContent>
             <form
-              action={async (formData: FormData) => {
-                "use server";
-                const parsed = promoInputSchema.safeParse({
-                  code: formData.get("code"),
-                  discountType: formData.get("discountType"),
-                  discountValue: formData.get("discountValue"),
-                  minSubtotal: formData.get("minSubtotal") || null,
-                  maxRedemptions: formData.get("maxRedemptions") || null,
-                  expiresAt: formData.get("expiresAt") || null,
-                  active: formData.get("active") === "on",
-                });
-                if (!parsed.success) return;
-                if (editing) {
-                  await repo.update(editing.id, parsed.data);
-                } else {
-                  await repo.create(parsed.data);
-                }
-              }}
+              action={savePromo}
               className="space-y-4"
             >
+              {editing && <input type="hidden" name="id" value={editing.id} />}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Code</Label>
@@ -191,11 +176,9 @@ export default async function AdminPromotionsPage({
                     Edit
                   </a>
                   <form
-                    action={async () => {
-                      "use server";
-                      await repo.delete(p.id);
-                    }}
+                    action={deletePromo}
                   >
+                    <input type="hidden" name="id" value={p.id} />
                     <Button type="submit" variant="ghost" size="sm">
                       Delete
                     </Button>

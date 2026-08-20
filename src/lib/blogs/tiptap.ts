@@ -76,7 +76,11 @@ export function textFromTiptap(doc: TiptapDoc | null): string {
   const parts: string[] = [];
   const walk = (nodes: TiptapNode[]) => {
     for (const node of nodes) {
-      if (node.type === "paragraph" || node.type === "heading") {
+      if (
+        node.type === "paragraph" ||
+        node.type === "heading" ||
+        node.type === "codeBlock"
+      ) {
         parts.push(collectText(node));
       } else if (node.content) {
         walk(node.content);

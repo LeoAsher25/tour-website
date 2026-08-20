@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/admin/auth";
-import { SettingsAdminRepository, settingsInputSchema } from "@/lib/admin/content";
+import { SettingsAdminRepository } from "@/lib/admin/content";
+import { saveSettings } from "@/lib/admin/content-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,23 +34,7 @@ export default async function AdminSettingsPage() {
         </CardHeader>
         <CardContent>
           <form
-            action={async (formData: FormData) => {
-              "use server";
-              const parsed = settingsInputSchema.safeParse({
-                depositPercent: formData.get("depositPercent"),
-                vatPercent: formData.get("vatPercent"),
-                cardFeePercent: formData.get("cardFeePercent"),
-                supportPhone: formData.get("supportPhone") || undefined,
-                supportZalo: formData.get("supportZalo") || undefined,
-                supportEmail: formData.get("supportEmail") || undefined,
-                companyName: formData.get("companyName") || undefined,
-                companyAddress: formData.get("companyAddress") || undefined,
-                companyTaxId: formData.get("companyTaxId") || undefined,
-                companyWebsite: formData.get("companyWebsite") || undefined,
-              });
-              if (!parsed.success) return;
-              await repo.update(parsed.data);
-            }}
+            action={saveSettings}
             className="space-y-6"
           >
             <div className="grid gap-4 sm:grid-cols-3">

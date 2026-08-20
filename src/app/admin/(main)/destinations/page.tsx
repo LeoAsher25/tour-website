@@ -1,7 +1,11 @@
 import { Plus, Trash2 } from "lucide-react";
 
 import { requireAdmin } from "@/lib/admin/auth";
-import { DestinationAdminRepository, destinationInputSchema } from "@/lib/admin/content";
+import { DestinationAdminRepository } from "@/lib/admin/content";
+import {
+  deleteDestination,
+  saveDestination,
+} from "@/lib/admin/content-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,11 +39,9 @@ export default async function AdminDestinationsPage() {
             <CardHeader className="flex-row items-center justify-between space-y-0">
               <CardTitle className="font-serif text-lg">{d.name}</CardTitle>
               <form
-                action={async () => {
-                  "use server";
-                  await repo.delete(d.id);
-                }}
+                action={deleteDestination}
               >
+                <input type="hidden" name="id" value={d.id} />
                 <Button type="submit" variant="ghost" size="icon">
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -47,19 +49,10 @@ export default async function AdminDestinationsPage() {
             </CardHeader>
             <CardContent>
               <form
-                action={async (formData: FormData) => {
-                  "use server";
-                  const parsed = destinationInputSchema.safeParse({
-                    slug: formData.get("slug"),
-                    name: formData.get("name"),
-                    tagline: formData.get("tagline") || undefined,
-                    description: formData.get("description") || undefined,
-                  });
-                  if (!parsed.success) return;
-                  await repo.update(d.id, parsed.data);
-                }}
+                action={saveDestination}
                 className="space-y-3"
               >
+                <input type="hidden" name="id" value={d.id} />
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
                     <Label>Name</Label>
@@ -99,17 +92,7 @@ export default async function AdminDestinationsPage() {
           </CardHeader>
           <CardContent>
             <form
-              action={async (formData: FormData) => {
-                "use server";
-                const parsed = destinationInputSchema.safeParse({
-                  slug: formData.get("slug"),
-                  name: formData.get("name"),
-                  tagline: formData.get("tagline") || undefined,
-                  description: formData.get("description") || undefined,
-                });
-                if (!parsed.success) return;
-                await repo.create(parsed.data);
-              }}
+              action={saveDestination}
               className="space-y-3"
             >
               <div className="grid grid-cols-2 gap-3">
