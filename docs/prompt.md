@@ -1,4 +1,4 @@
-Bạn là **Senior Full-stack Developer + Product Designer**. Hãy xây dựng một website bán tour lấy cảm hứng về **nghiệp vụ và booking flow** từ `https://jasminehagiang.com/`, nhưng **không clone visual, nội dung, hình ảnh hoặc thương hiệu**.
+Bạn là **Senior Full-stack Developer + Product Designer**. Hãy xây dựng một website bán tour lấy cảm hứng về **nghiệp vụ và booking flow** từ `https://tour-website-kohl.vercel.app/`, nhưng **không clone visual, nội dung, hình ảnh hoặc thương hiệu**.
 
 ## Stack
 

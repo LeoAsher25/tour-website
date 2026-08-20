@@ -11,6 +11,7 @@ import { getBlogPostBySlug, getLatestBlogPosts } from "@/lib/repository";
 import { renderTiptap } from "@/lib/blogs/render-tiptap";
 import { formatBlogDate } from "@/components/blog-card";
 import { getZaloLink } from "@/config/site";
+import { buildOpenGraph, buildTwitterCard, siteUrl } from "@/lib/seo/og";
 
 interface BlogDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -23,15 +24,25 @@ export async function generateMetadata({
   const post = await getBlogPostBySlug(slug);
   if (!post) return { title: "Article not found" };
 
+  const ogImage = post.coverImage;
   return {
     title: post.title,
     description: post.excerpt,
-    openGraph: {
+    alternates: { canonical: `/blogs/${post.slug}` },
+    openGraph: buildOpenGraph({
       title: post.title,
       description: post.excerpt,
       type: "article",
-      images: [{ url: post.coverImage }],
-    },
+      url: `${siteUrl}/blogs/${post.slug}`,
+      images: ogImage ? [ogImage] : [],
+      publishedTime: post.publishedAt,
+      authors: post.author ? [post.author] : [],
+    }),
+    twitter: buildTwitterCard({
+      title: post.title,
+      description: post.excerpt,
+      images: ogImage ? [ogImage] : [],
+    }),
   };
 }
 

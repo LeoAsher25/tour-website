@@ -14,6 +14,7 @@ import { TourFaq } from "@/components/tour-detail/tour-faq";
 import { RelatedTours } from "@/components/tour-detail/related-tours";
 import { MobileBookingBar } from "@/components/tour-detail/mobile-booking-bar";
 import { getPublishedTours, getTourBySlug } from "@/lib/repository";
+import { buildOpenGraph, buildTwitterCard, siteUrl } from "@/lib/seo/og";
 
 interface TourDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -26,16 +27,22 @@ export async function generateMetadata({
   const tour = await getTourBySlug(slug);
   if (!tour) return { title: "Tour not found" };
 
+  const ogImage = tour.heroImage;
   return {
     title: tour.seoTitle ?? tour.title,
     description: tour.seoDescription ?? tour.description,
     alternates: { canonical: `/tours/${tour.slug}` },
-    openGraph: {
+    openGraph: buildOpenGraph({
       title: tour.title,
       description: tour.description,
-      type: "website",
-      images: [{ url: tour.heroImage }],
-    },
+      url: `${siteUrl}/tours/${tour.slug}`,
+      images: ogImage ? [ogImage] : [],
+    }),
+    twitter: buildTwitterCard({
+      title: tour.title,
+      description: tour.description,
+      images: ogImage ? [ogImage] : [],
+    }),
   };
 }
 

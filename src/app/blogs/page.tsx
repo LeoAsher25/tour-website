@@ -7,11 +7,23 @@ import { SiteFooter } from "@/components/footer";
 import { SiteHeader } from "@/components/site-header";
 import { getBlogPosts } from "@/lib/repository";
 import { siteConfig } from "@/config/site";
+import { buildOpenGraph, buildTwitterCard, siteUrl } from "@/lib/seo/og";
 
 export const metadata: Metadata = {
   title: "Travel Stories & Guides",
   description:
     `Guides, stories and practical advice from the Ha Giang Loop — seasons, packing, passes, villages and more from the ${siteConfig.brand.businessName} team.`,
+  openGraph: buildOpenGraph({
+    title: "Travel Stories & Guides",
+    description:
+      `Guides, stories and practical advice from the Ha Giang Loop — seasons, packing, passes, villages and more from the ${siteConfig.brand.businessName} team.`,
+    url: `${siteUrl}/blogs`,
+  }),
+  twitter: buildTwitterCard({
+    title: "Travel Stories & Guides",
+    description:
+      `Guides, stories and practical advice from the Ha Giang Loop — seasons, packing, passes, villages and more from the ${siteConfig.brand.businessName} team.`,
+  }),
 };
 
 export default async function BlogsPage() {

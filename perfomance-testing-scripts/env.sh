@@ -11,7 +11,7 @@
 # Vercel (đã verify live 2026-08-18)
 export BASE_URL="https://tour-website-kohl.vercel.app"
 # Local dev: http://localhost:3000
-# Production (khi có domain): https://jasminehagiang.com
+# Production (khi có domain): https://tour-website-kohl.vercel.app
 
 # --- Tour / Variant (đã verify trong DB) ------------------------------
 export TOUR_ID="tour-1"

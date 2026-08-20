@@ -3,6 +3,7 @@ import { Fraunces, Inter } from "next/font/google";
 import { RouteScrollReset } from "@/components/route-scroll-reset";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { siteConfig } from "@/config/site";
+import { buildOpenGraph, buildTwitterCard, siteUrl } from "@/lib/seo/og";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -18,8 +19,6 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -27,12 +26,15 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.brand.fullName}`,
   },
   description: siteConfig.seo.description,
-  openGraph: {
-    type: "website",
-    siteName: siteConfig.brand.fullName,
-    locale: "en_US",
-  },
-  twitter: { card: "summary_large_image" },
+  openGraph: buildOpenGraph({
+    title: siteConfig.seo.title,
+    description: siteConfig.seo.description,
+    url: siteUrl,
+  }),
+  twitter: buildTwitterCard({
+    title: siteConfig.seo.title,
+    description: siteConfig.seo.description,
+  }),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
